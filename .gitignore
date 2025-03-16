@@ -1,0 +1,63 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production build files
+dist
+build
+.next
+out
+
+# Prisma
+*.db
+*.db-journal
+.env
+.env.*
+!.env.example
+
+# Misc
+.DS_Store
+*.pem
+.vercel
+.turbo
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local env files
+.env*.local
+.env
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IDE - IntelliJ
+.idea
+*.iml
+*.iws
+.idea-compl
+*.ipr
+
+# Logs
+logs
+*.log
+
+# Cache directories
+.npm
+.eslintcache
+.prettiercache
+.vercel 

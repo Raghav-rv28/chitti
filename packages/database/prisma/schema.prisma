@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Analytics {
+  id             String   @id
+  userId         String
+  totalViews     Int
+  subscribers    Int
+  engagementRate Float
+  timestamp      DateTime @default(now())
+  User           User     @relation(fields: [userId], references: [id])
+}
+
+model Chat {
+  id         String     @id
+  userId     String
+  chatType   String
+  message    String
+  timestamp  DateTime   @default(now())
+  liveChatId String
+  viewerId   String?
+  username   String
+  StreamChat StreamChat @relation(fields: [liveChatId], references: [id])
+  User       User       @relation(fields: [userId], references: [id])
+  Viewer     Viewer?    @relation(fields: [viewerId], references: [id])
+}
+
+model CustomCommand {
+  id                String   @id @default(uuid())
+  userId            String
+  trigger           String   @unique
+  response          String
+  createdAt         DateTime @default(now())
+  cooldown          Int
+  requiredUserLevel Role
+  User              User     @relation(fields: [userId], references: [id])
+}
+
+model StreamChat {
+  id             String    @id
+  userId         String
+  title          String?
+  streamUrl      String?
+  startTime      DateTime
+  endTime        DateTime?
+  duration       Int?
+  totalDonations Float?
+  totalViews     Int?
+  Chat           Chat[]
+  User           User      @relation(fields: [userId], references: [id])
+  Viewer         Viewer[]
+}
+
+model User {
+  id            String          @id
+  email         String?         @unique
+  createdAt     DateTime        @default(now())
+  settings      Json?
+  username      String?         @unique
+  Analytics     Analytics[]
+  Chat          Chat[]
+  CustomCommand CustomCommand[]
+  StreamChat    StreamChat[]
+  UserSecurity  UserSecurity?
+  Viewer        Viewer[]
+}
+
+model UserSecurity {
+  userId       String    @id @unique
+  accessToken  String?
+  refreshToken String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime?
+  expiresAt    DateTime?
+  User         User      @relation(fields: [userId], references: [id])
+}
+
+model Viewer {
+  id            String     @id
+  userChannelId String
+  username      String
+  hoursWatched  Float?
+  points        Int        @default(0)
+  createdAt     DateTime   @default(now())
+  streakDays    Int        @default(0)
+  streamChatId  String
+  totalMessages Int        @default(0)
+  Chat          Chat[]
+  StreamChat    StreamChat @relation(fields: [streamChatId], references: [id])
+  User          User       @relation(fields: [userChannelId], references: [id])
+}
+
+enum Role {
+  moderation
+  owner
+  viewer
+}

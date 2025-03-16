@@ -1,0 +1,35 @@
+{
+  "name": "@repo/server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
+    "start": "node -r esbuild-register ./src/index.ts",
+    "test": "jest --detectOpenHandles"
+  },
+  "dependencies": {
+    "@repo/database": "workspace:*",
+    "@google-cloud/text-to-speech": "^5.8.1",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "googleapis": "^146.0.0",
+    "ws": "^8.18.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.17",
+    "@types/ws": "^8.5.10",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+} 
