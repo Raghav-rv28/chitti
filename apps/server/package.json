@@ -12,11 +12,13 @@
     "test": "jest --detectOpenHandles"
   },
   "dependencies": {
-    "@repo/database": "workspace:*",
     "@google-cloud/text-to-speech": "^5.8.1",
+    "@repo/database": "workspace:*",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
+    "esbuild-register": "^3.6.0",
     "express": "^4.21.2",
+    "google-auth-library": "^9.15.1",
     "googleapis": "^146.0.0",
     "ws": "^8.18.1",
     "zod": "^3.24.2"
@@ -32,4 +34,4 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
-} 
+}

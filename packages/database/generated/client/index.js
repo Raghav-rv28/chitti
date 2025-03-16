@@ -212,7 +212,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/raghav/code/chikki-two/packages/database/generated/client",
+      "value": "/home/raghav/code/monorepos/chikki-two/packages/database/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -226,7 +226,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/raghav/code/chikki-two/packages/database/prisma/schema.prisma",
+    "sourceFilePath": "/home/raghav/code/monorepos/chikki-two/packages/database/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

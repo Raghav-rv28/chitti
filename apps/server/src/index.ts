@@ -2,12 +2,13 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { prisma } from '@repo/database';
 import { userRouter } from './routes/users';
+import { youtubeRouter } from './routes/youtube';
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
@@ -28,7 +29,7 @@ app.get('/health', (req: Request, res: Response) => {
 
 // Routes
 app.use('/api/users', userRouter);
-
+app.use('/youtube', youtubeRouter);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
