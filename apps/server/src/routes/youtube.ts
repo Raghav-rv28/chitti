@@ -8,6 +8,7 @@ import { randomHex } from "../providers/youtube/auth";
 import { createOAuth2Client } from "../config/auth";
 import { google } from "googleapis";
 import { onboardUser } from "../helper/onboarding";
+import { addStreamer, findActiveChat, interval } from "../helper/chat-polling";
 //
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = join(dirname(__filename), "..");
@@ -79,6 +80,18 @@ router.get("/callback", async (req: Request, res: Response) => {
     console.error("Error retrieving tokens:", error);
     res.status(500).send("Authentication failed.");
   }
+});
+
+router.get("/start-stream/:channelId", async (req: Request, res: Response) => {
+  const { channelId } = req.params;
+  const liveChatId = await findActiveChat(channelId);
+  if (liveChatId !== null) {
+    await addStreamer(channelId, liveChatId);
+    interval.ref();
+  } else {
+    res.sendStatus(500);
+  }
+  res.sendStatus(200);
 });
 
 ///**

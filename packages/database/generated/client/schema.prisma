@@ -19,7 +19,7 @@ model Analytics {
 }
 
 model Chat {
-  id         String     @id
+  id         String     @id @default(uuid())
   userId     String
   chatType   String
   message    String

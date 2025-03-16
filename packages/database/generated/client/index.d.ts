@@ -10412,7 +10412,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateInput = {
-    id: string
+    id?: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -10423,7 +10423,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateInput = {
-    id: string
+    id?: string
     userId: string
     chatType: string
     message: string
@@ -10456,7 +10456,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyInput = {
-    id: string
+    id?: string
     userId: string
     chatType: string
     message: string
@@ -12640,7 +12640,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateWithoutStreamChatInput = {
-    id: string
+    id?: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -12650,7 +12650,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateWithoutStreamChatInput = {
-    id: string
+    id?: string
     userId: string
     chatType: string
     message: string
@@ -12859,7 +12859,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateWithoutUserInput = {
-    id: string
+    id?: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -12869,7 +12869,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateWithoutUserInput = {
-    id: string
+    id?: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -13223,7 +13223,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateWithoutViewerInput = {
-    id: string
+    id?: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -13233,7 +13233,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateWithoutViewerInput = {
-    id: string
+    id?: string
     userId: string
     chatType: string
     message: string
@@ -13405,7 +13405,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyStreamChatInput = {
-    id: string
+    id?: string
     userId: string
     chatType: string
     message: string
@@ -13499,7 +13499,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyUserInput = {
-    id: string
+    id?: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -13693,7 +13693,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyViewerInput = {
-    id: string
+    id?: string
     userId: string
     chatType: string
     message: string
