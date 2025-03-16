@@ -29,7 +29,7 @@ app.get("/health", (req: Request, res: Response) => {
 
 // Routes
 app.use("/api/users", userRouter);
-app.use("/", youtubeRouter);
+app.use("/youtube", youtubeRouter);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

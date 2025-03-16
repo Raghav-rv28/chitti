@@ -82,11 +82,11 @@ router.get("/callback", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/start-stream/:channelId", async (req: Request, res: Response) => {
-  const { channelId } = req.params;
-  const liveChatId = await findActiveChat(channelId);
+router.get("/start-stream/", async (req: Request, res: Response) => {
+  const { channelId } = req.query;
+  const liveChatId = await findActiveChat(channelId as string);
   if (liveChatId !== null) {
-    await addStreamer(channelId, liveChatId);
+    await addStreamer(channelId as string, liveChatId);
     interval.ref();
   } else {
     res.sendStatus(500);

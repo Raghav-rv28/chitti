@@ -7,9 +7,17 @@ import { TopCommands } from "@/components/custom/top-commands";
 import { UsersList } from "@/components/custom/users-list";
 import { Component } from "@/components/custom/chart";
 import { DialogDemo } from "@/components/custom/test";
+import { getUserInfo } from "@/actions/queries";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default function DashboardPage() {
-  const user = await;
+export default async function DashboardPage() {
+  const userClerk = await currentUser();
+  let user;
+  const email = userClerk?.emailAddresses[0].emailAddress;
+  if (email) {
+    user = await getUserInfo(email);
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -18,15 +26,18 @@ export default function DashboardPage() {
             Good Afternoon, raghav rudhra
           </h2>
           <div className="flex items-center space-x-2">
-            <Button>
-              <a href="http://localhost:3000/start-stream">Start Stream</a>
-            </Button>
+            <Link
+              href={`http://localhost:3000/start-stream?channelId=${user?.id}`}
+            >
+              <Button>Start Stream</Button>
+            </Link>
             <DialogDemo />
           </div>
         </div>
         <div className="text-muted-foreground">
           Here&apos;s a quick 7-day overview of your channel.
         </div>
+        <p>{email}</p>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
