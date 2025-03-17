@@ -39,6 +39,11 @@ export type StreamChat = $Result.DefaultSelection<Prisma.$StreamChatPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Moderation
+ * 
+ */
+export type Moderation = $Result.DefaultSelection<Prisma.$ModerationPayload>
+/**
  * Model UserSecurity
  * 
  */
@@ -241,6 +246,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.moderation`: Exposes CRUD operations for the **Moderation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Moderations
+    * const moderations = await prisma.moderation.findMany()
+    * ```
+    */
+  get moderation(): Prisma.ModerationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.userSecurity`: Exposes CRUD operations for the **UserSecurity** model.
@@ -706,6 +721,7 @@ export namespace Prisma {
     CustomCommand: 'CustomCommand',
     StreamChat: 'StreamChat',
     User: 'User',
+    Moderation: 'Moderation',
     UserSecurity: 'UserSecurity',
     Viewer: 'Viewer'
   };
@@ -726,7 +742,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "analytics" | "chat" | "customCommand" | "streamChat" | "user" | "userSecurity" | "viewer"
+      modelProps: "analytics" | "chat" | "customCommand" | "streamChat" | "user" | "moderation" | "userSecurity" | "viewer"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1100,6 +1116,80 @@ export namespace Prisma {
           }
         }
       }
+      Moderation: {
+        payload: Prisma.$ModerationPayload<ExtArgs>
+        fields: Prisma.ModerationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ModerationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ModerationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>
+          }
+          findFirst: {
+            args: Prisma.ModerationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ModerationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>
+          }
+          findMany: {
+            args: Prisma.ModerationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>[]
+          }
+          create: {
+            args: Prisma.ModerationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>
+          }
+          createMany: {
+            args: Prisma.ModerationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ModerationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>[]
+          }
+          delete: {
+            args: Prisma.ModerationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>
+          }
+          update: {
+            args: Prisma.ModerationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ModerationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ModerationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ModerationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ModerationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModerationPayload>
+          }
+          aggregate: {
+            args: Prisma.ModerationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateModeration>
+          }
+          groupBy: {
+            args: Prisma.ModerationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ModerationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ModerationCountArgs<ExtArgs>
+            result: $Utils.Optional<ModerationCountAggregateOutputType> | number
+          }
+        }
+      }
       UserSecurity: {
         payload: Prisma.$UserSecurityPayload<ExtArgs>
         fields: Prisma.UserSecurityFieldRefs
@@ -1337,6 +1427,7 @@ export namespace Prisma {
     customCommand?: CustomCommandOmit
     streamChat?: StreamChatOmit
     user?: UserOmit
+    moderation?: ModerationOmit
     userSecurity?: UserSecurityOmit
     viewer?: ViewerOmit
   }
@@ -1478,6 +1569,7 @@ export namespace Prisma {
     CustomCommand: number
     StreamChat: number
     Viewer: number
+    Moderation: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1486,6 +1578,7 @@ export namespace Prisma {
     CustomCommand?: boolean | UserCountOutputTypeCountCustomCommandArgs
     StreamChat?: boolean | UserCountOutputTypeCountStreamChatArgs
     Viewer?: boolean | UserCountOutputTypeCountViewerArgs
+    Moderation?: boolean | UserCountOutputTypeCountModerationArgs
   }
 
   // Custom InputTypes
@@ -1532,6 +1625,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountViewerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ViewerWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountModerationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModerationWhereInput
   }
 
 
@@ -6309,6 +6409,7 @@ export namespace Prisma {
     StreamChat?: boolean | User$StreamChatArgs<ExtArgs>
     UserSecurity?: boolean | User$UserSecurityArgs<ExtArgs>
     Viewer?: boolean | User$ViewerArgs<ExtArgs>
+    Moderation?: boolean | User$ModerationArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6344,6 +6445,7 @@ export namespace Prisma {
     StreamChat?: boolean | User$StreamChatArgs<ExtArgs>
     UserSecurity?: boolean | User$UserSecurityArgs<ExtArgs>
     Viewer?: boolean | User$ViewerArgs<ExtArgs>
+    Moderation?: boolean | User$ModerationArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -6358,6 +6460,7 @@ export namespace Prisma {
       StreamChat: Prisma.$StreamChatPayload<ExtArgs>[]
       UserSecurity: Prisma.$UserSecurityPayload<ExtArgs> | null
       Viewer: Prisma.$ViewerPayload<ExtArgs>[]
+      Moderation: Prisma.$ModerationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6765,6 +6868,7 @@ export namespace Prisma {
     StreamChat<T extends User$StreamChatArgs<ExtArgs> = {}>(args?: Subset<T, User$StreamChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     UserSecurity<T extends User$UserSecurityArgs<ExtArgs> = {}>(args?: Subset<T, User$UserSecurityArgs<ExtArgs>>): Prisma__UserSecurityClient<$Result.GetResult<Prisma.$UserSecurityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Viewer<T extends User$ViewerArgs<ExtArgs> = {}>(args?: Subset<T, User$ViewerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ViewerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Moderation<T extends User$ModerationArgs<ExtArgs> = {}>(args?: Subset<T, User$ModerationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7326,6 +7430,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.Moderation
+   */
+  export type User$ModerationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    where?: ModerationWhereInput
+    orderBy?: ModerationOrderByWithRelationInput | ModerationOrderByWithRelationInput[]
+    cursor?: ModerationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModerationScalarFieldEnum | ModerationScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7341,6 +7469,1061 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Moderation
+   */
+
+  export type AggregateModeration = {
+    _count: ModerationCountAggregateOutputType | null
+    _min: ModerationMinAggregateOutputType | null
+    _max: ModerationMaxAggregateOutputType | null
+  }
+
+  export type ModerationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+  }
+
+  export type ModerationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+  }
+
+  export type ModerationCountAggregateOutputType = {
+    id: number
+    userId: number
+    general: number
+    spamConfig: number
+    links: number
+    blacklist: number
+    _all: number
+  }
+
+
+  export type ModerationMinAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type ModerationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type ModerationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    general?: true
+    spamConfig?: true
+    links?: true
+    blacklist?: true
+    _all?: true
+  }
+
+  export type ModerationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Moderation to aggregate.
+     */
+    where?: ModerationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Moderations to fetch.
+     */
+    orderBy?: ModerationOrderByWithRelationInput | ModerationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ModerationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Moderations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Moderations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Moderations
+    **/
+    _count?: true | ModerationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ModerationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ModerationMaxAggregateInputType
+  }
+
+  export type GetModerationAggregateType<T extends ModerationAggregateArgs> = {
+        [P in keyof T & keyof AggregateModeration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateModeration[P]>
+      : GetScalarType<T[P], AggregateModeration[P]>
+  }
+
+
+
+
+  export type ModerationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModerationWhereInput
+    orderBy?: ModerationOrderByWithAggregationInput | ModerationOrderByWithAggregationInput[]
+    by: ModerationScalarFieldEnum[] | ModerationScalarFieldEnum
+    having?: ModerationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ModerationCountAggregateInputType | true
+    _min?: ModerationMinAggregateInputType
+    _max?: ModerationMaxAggregateInputType
+  }
+
+  export type ModerationGroupByOutputType = {
+    id: string
+    userId: string
+    general: JsonValue | null
+    spamConfig: JsonValue | null
+    links: JsonValue | null
+    blacklist: JsonValue | null
+    _count: ModerationCountAggregateOutputType | null
+    _min: ModerationMinAggregateOutputType | null
+    _max: ModerationMaxAggregateOutputType | null
+  }
+
+  type GetModerationGroupByPayload<T extends ModerationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ModerationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ModerationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ModerationGroupByOutputType[P]>
+            : GetScalarType<T[P], ModerationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ModerationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    general?: boolean
+    spamConfig?: boolean
+    links?: boolean
+    blacklist?: boolean
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["moderation"]>
+
+  export type ModerationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    general?: boolean
+    spamConfig?: boolean
+    links?: boolean
+    blacklist?: boolean
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["moderation"]>
+
+  export type ModerationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    general?: boolean
+    spamConfig?: boolean
+    links?: boolean
+    blacklist?: boolean
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["moderation"]>
+
+  export type ModerationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    general?: boolean
+    spamConfig?: boolean
+    links?: boolean
+    blacklist?: boolean
+  }
+
+  export type ModerationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "general" | "spamConfig" | "links" | "blacklist", ExtArgs["result"]["moderation"]>
+  export type ModerationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ModerationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ModerationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ModerationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Moderation"
+    objects: {
+      User: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      general: Prisma.JsonValue | null
+      spamConfig: Prisma.JsonValue | null
+      links: Prisma.JsonValue | null
+      blacklist: Prisma.JsonValue | null
+    }, ExtArgs["result"]["moderation"]>
+    composites: {}
+  }
+
+  type ModerationGetPayload<S extends boolean | null | undefined | ModerationDefaultArgs> = $Result.GetResult<Prisma.$ModerationPayload, S>
+
+  type ModerationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ModerationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ModerationCountAggregateInputType | true
+    }
+
+  export interface ModerationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Moderation'], meta: { name: 'Moderation' } }
+    /**
+     * Find zero or one Moderation that matches the filter.
+     * @param {ModerationFindUniqueArgs} args - Arguments to find a Moderation
+     * @example
+     * // Get one Moderation
+     * const moderation = await prisma.moderation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ModerationFindUniqueArgs>(args: SelectSubset<T, ModerationFindUniqueArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Moderation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ModerationFindUniqueOrThrowArgs} args - Arguments to find a Moderation
+     * @example
+     * // Get one Moderation
+     * const moderation = await prisma.moderation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ModerationFindUniqueOrThrowArgs>(args: SelectSubset<T, ModerationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Moderation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationFindFirstArgs} args - Arguments to find a Moderation
+     * @example
+     * // Get one Moderation
+     * const moderation = await prisma.moderation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ModerationFindFirstArgs>(args?: SelectSubset<T, ModerationFindFirstArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Moderation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationFindFirstOrThrowArgs} args - Arguments to find a Moderation
+     * @example
+     * // Get one Moderation
+     * const moderation = await prisma.moderation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ModerationFindFirstOrThrowArgs>(args?: SelectSubset<T, ModerationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Moderations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Moderations
+     * const moderations = await prisma.moderation.findMany()
+     * 
+     * // Get first 10 Moderations
+     * const moderations = await prisma.moderation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const moderationWithIdOnly = await prisma.moderation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ModerationFindManyArgs>(args?: SelectSubset<T, ModerationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Moderation.
+     * @param {ModerationCreateArgs} args - Arguments to create a Moderation.
+     * @example
+     * // Create one Moderation
+     * const Moderation = await prisma.moderation.create({
+     *   data: {
+     *     // ... data to create a Moderation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ModerationCreateArgs>(args: SelectSubset<T, ModerationCreateArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Moderations.
+     * @param {ModerationCreateManyArgs} args - Arguments to create many Moderations.
+     * @example
+     * // Create many Moderations
+     * const moderation = await prisma.moderation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ModerationCreateManyArgs>(args?: SelectSubset<T, ModerationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Moderations and returns the data saved in the database.
+     * @param {ModerationCreateManyAndReturnArgs} args - Arguments to create many Moderations.
+     * @example
+     * // Create many Moderations
+     * const moderation = await prisma.moderation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Moderations and only return the `id`
+     * const moderationWithIdOnly = await prisma.moderation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ModerationCreateManyAndReturnArgs>(args?: SelectSubset<T, ModerationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Moderation.
+     * @param {ModerationDeleteArgs} args - Arguments to delete one Moderation.
+     * @example
+     * // Delete one Moderation
+     * const Moderation = await prisma.moderation.delete({
+     *   where: {
+     *     // ... filter to delete one Moderation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ModerationDeleteArgs>(args: SelectSubset<T, ModerationDeleteArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Moderation.
+     * @param {ModerationUpdateArgs} args - Arguments to update one Moderation.
+     * @example
+     * // Update one Moderation
+     * const moderation = await prisma.moderation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ModerationUpdateArgs>(args: SelectSubset<T, ModerationUpdateArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Moderations.
+     * @param {ModerationDeleteManyArgs} args - Arguments to filter Moderations to delete.
+     * @example
+     * // Delete a few Moderations
+     * const { count } = await prisma.moderation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ModerationDeleteManyArgs>(args?: SelectSubset<T, ModerationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Moderations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Moderations
+     * const moderation = await prisma.moderation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ModerationUpdateManyArgs>(args: SelectSubset<T, ModerationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Moderations and returns the data updated in the database.
+     * @param {ModerationUpdateManyAndReturnArgs} args - Arguments to update many Moderations.
+     * @example
+     * // Update many Moderations
+     * const moderation = await prisma.moderation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Moderations and only return the `id`
+     * const moderationWithIdOnly = await prisma.moderation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ModerationUpdateManyAndReturnArgs>(args: SelectSubset<T, ModerationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Moderation.
+     * @param {ModerationUpsertArgs} args - Arguments to update or create a Moderation.
+     * @example
+     * // Update or create a Moderation
+     * const moderation = await prisma.moderation.upsert({
+     *   create: {
+     *     // ... data to create a Moderation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Moderation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ModerationUpsertArgs>(args: SelectSubset<T, ModerationUpsertArgs<ExtArgs>>): Prisma__ModerationClient<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Moderations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationCountArgs} args - Arguments to filter Moderations to count.
+     * @example
+     * // Count the number of Moderations
+     * const count = await prisma.moderation.count({
+     *   where: {
+     *     // ... the filter for the Moderations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ModerationCountArgs>(
+      args?: Subset<T, ModerationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ModerationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Moderation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ModerationAggregateArgs>(args: Subset<T, ModerationAggregateArgs>): Prisma.PrismaPromise<GetModerationAggregateType<T>>
+
+    /**
+     * Group by Moderation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModerationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ModerationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ModerationGroupByArgs['orderBy'] }
+        : { orderBy?: ModerationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ModerationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetModerationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Moderation model
+   */
+  readonly fields: ModerationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Moderation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ModerationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Moderation model
+   */ 
+  interface ModerationFieldRefs {
+    readonly id: FieldRef<"Moderation", 'String'>
+    readonly userId: FieldRef<"Moderation", 'String'>
+    readonly general: FieldRef<"Moderation", 'Json'>
+    readonly spamConfig: FieldRef<"Moderation", 'Json'>
+    readonly links: FieldRef<"Moderation", 'Json'>
+    readonly blacklist: FieldRef<"Moderation", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Moderation findUnique
+   */
+  export type ModerationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * Filter, which Moderation to fetch.
+     */
+    where: ModerationWhereUniqueInput
+  }
+
+  /**
+   * Moderation findUniqueOrThrow
+   */
+  export type ModerationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * Filter, which Moderation to fetch.
+     */
+    where: ModerationWhereUniqueInput
+  }
+
+  /**
+   * Moderation findFirst
+   */
+  export type ModerationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * Filter, which Moderation to fetch.
+     */
+    where?: ModerationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Moderations to fetch.
+     */
+    orderBy?: ModerationOrderByWithRelationInput | ModerationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Moderations.
+     */
+    cursor?: ModerationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Moderations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Moderations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Moderations.
+     */
+    distinct?: ModerationScalarFieldEnum | ModerationScalarFieldEnum[]
+  }
+
+  /**
+   * Moderation findFirstOrThrow
+   */
+  export type ModerationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * Filter, which Moderation to fetch.
+     */
+    where?: ModerationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Moderations to fetch.
+     */
+    orderBy?: ModerationOrderByWithRelationInput | ModerationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Moderations.
+     */
+    cursor?: ModerationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Moderations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Moderations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Moderations.
+     */
+    distinct?: ModerationScalarFieldEnum | ModerationScalarFieldEnum[]
+  }
+
+  /**
+   * Moderation findMany
+   */
+  export type ModerationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * Filter, which Moderations to fetch.
+     */
+    where?: ModerationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Moderations to fetch.
+     */
+    orderBy?: ModerationOrderByWithRelationInput | ModerationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Moderations.
+     */
+    cursor?: ModerationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Moderations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Moderations.
+     */
+    skip?: number
+    distinct?: ModerationScalarFieldEnum | ModerationScalarFieldEnum[]
+  }
+
+  /**
+   * Moderation create
+   */
+  export type ModerationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Moderation.
+     */
+    data: XOR<ModerationCreateInput, ModerationUncheckedCreateInput>
+  }
+
+  /**
+   * Moderation createMany
+   */
+  export type ModerationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Moderations.
+     */
+    data: ModerationCreateManyInput | ModerationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Moderation createManyAndReturn
+   */
+  export type ModerationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Moderations.
+     */
+    data: ModerationCreateManyInput | ModerationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Moderation update
+   */
+  export type ModerationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Moderation.
+     */
+    data: XOR<ModerationUpdateInput, ModerationUncheckedUpdateInput>
+    /**
+     * Choose, which Moderation to update.
+     */
+    where: ModerationWhereUniqueInput
+  }
+
+  /**
+   * Moderation updateMany
+   */
+  export type ModerationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Moderations.
+     */
+    data: XOR<ModerationUpdateManyMutationInput, ModerationUncheckedUpdateManyInput>
+    /**
+     * Filter which Moderations to update
+     */
+    where?: ModerationWhereInput
+    /**
+     * Limit how many Moderations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Moderation updateManyAndReturn
+   */
+  export type ModerationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * The data used to update Moderations.
+     */
+    data: XOR<ModerationUpdateManyMutationInput, ModerationUncheckedUpdateManyInput>
+    /**
+     * Filter which Moderations to update
+     */
+    where?: ModerationWhereInput
+    /**
+     * Limit how many Moderations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Moderation upsert
+   */
+  export type ModerationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Moderation to update in case it exists.
+     */
+    where: ModerationWhereUniqueInput
+    /**
+     * In case the Moderation found by the `where` argument doesn't exist, create a new Moderation with this data.
+     */
+    create: XOR<ModerationCreateInput, ModerationUncheckedCreateInput>
+    /**
+     * In case the Moderation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ModerationUpdateInput, ModerationUncheckedUpdateInput>
+  }
+
+  /**
+   * Moderation delete
+   */
+  export type ModerationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
+    /**
+     * Filter which Moderation to delete.
+     */
+    where: ModerationWhereUniqueInput
+  }
+
+  /**
+   * Moderation deleteMany
+   */
+  export type ModerationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Moderations to delete
+     */
+    where?: ModerationWhereInput
+    /**
+     * Limit how many Moderations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Moderation without action
+   */
+  export type ModerationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Moderation
+     */
+    select?: ModerationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Moderation
+     */
+    omit?: ModerationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModerationInclude<ExtArgs> | null
   }
 
 
@@ -9688,6 +10871,18 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const ModerationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    general: 'general',
+    spamConfig: 'spamConfig',
+    links: 'links',
+    blacklist: 'blacklist'
+  };
+
+  export type ModerationScalarFieldEnum = (typeof ModerationScalarFieldEnum)[keyof typeof ModerationScalarFieldEnum]
+
+
   export const UserSecurityScalarFieldEnum: {
     userId: 'userId',
     accessToken: 'accessToken',
@@ -10151,6 +11346,7 @@ export namespace Prisma {
     StreamChat?: StreamChatListRelationFilter
     UserSecurity?: XOR<UserSecurityNullableScalarRelationFilter, UserSecurityWhereInput> | null
     Viewer?: ViewerListRelationFilter
+    Moderation?: ModerationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10165,6 +11361,7 @@ export namespace Prisma {
     StreamChat?: StreamChatOrderByRelationAggregateInput
     UserSecurity?: UserSecurityOrderByWithRelationInput
     Viewer?: ViewerOrderByRelationAggregateInput
+    Moderation?: ModerationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10182,6 +11379,7 @@ export namespace Prisma {
     StreamChat?: StreamChatListRelationFilter
     UserSecurity?: XOR<UserSecurityNullableScalarRelationFilter, UserSecurityWhereInput> | null
     Viewer?: ViewerListRelationFilter
+    Moderation?: ModerationListRelationFilter
   }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -10204,6 +11402,66 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     settings?: JsonNullableWithAggregatesFilter<"User">
     username?: StringNullableWithAggregatesFilter<"User"> | string | null
+  }
+
+  export type ModerationWhereInput = {
+    AND?: ModerationWhereInput | ModerationWhereInput[]
+    OR?: ModerationWhereInput[]
+    NOT?: ModerationWhereInput | ModerationWhereInput[]
+    id?: StringFilter<"Moderation"> | string
+    userId?: StringFilter<"Moderation"> | string
+    general?: JsonNullableFilter<"Moderation">
+    spamConfig?: JsonNullableFilter<"Moderation">
+    links?: JsonNullableFilter<"Moderation">
+    blacklist?: JsonNullableFilter<"Moderation">
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ModerationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    general?: SortOrderInput | SortOrder
+    spamConfig?: SortOrderInput | SortOrder
+    links?: SortOrderInput | SortOrder
+    blacklist?: SortOrderInput | SortOrder
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type ModerationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ModerationWhereInput | ModerationWhereInput[]
+    OR?: ModerationWhereInput[]
+    NOT?: ModerationWhereInput | ModerationWhereInput[]
+    userId?: StringFilter<"Moderation"> | string
+    general?: JsonNullableFilter<"Moderation">
+    spamConfig?: JsonNullableFilter<"Moderation">
+    links?: JsonNullableFilter<"Moderation">
+    blacklist?: JsonNullableFilter<"Moderation">
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ModerationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    general?: SortOrderInput | SortOrder
+    spamConfig?: SortOrderInput | SortOrder
+    links?: SortOrderInput | SortOrder
+    blacklist?: SortOrderInput | SortOrder
+    _count?: ModerationCountOrderByAggregateInput
+    _max?: ModerationMaxOrderByAggregateInput
+    _min?: ModerationMinOrderByAggregateInput
+  }
+
+  export type ModerationScalarWhereWithAggregatesInput = {
+    AND?: ModerationScalarWhereWithAggregatesInput | ModerationScalarWhereWithAggregatesInput[]
+    OR?: ModerationScalarWhereWithAggregatesInput[]
+    NOT?: ModerationScalarWhereWithAggregatesInput | ModerationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Moderation"> | string
+    userId?: StringWithAggregatesFilter<"Moderation"> | string
+    general?: JsonNullableWithAggregatesFilter<"Moderation">
+    spamConfig?: JsonNullableWithAggregatesFilter<"Moderation">
+    links?: JsonNullableWithAggregatesFilter<"Moderation">
+    blacklist?: JsonNullableWithAggregatesFilter<"Moderation">
   }
 
   export type UserSecurityWhereInput = {
@@ -10301,6 +11559,7 @@ export namespace Prisma {
 
   export type ViewerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userChannelId_streamChatId?: ViewerUserChannelIdStreamChatIdCompoundUniqueInput
     AND?: ViewerWhereInput | ViewerWhereInput[]
     OR?: ViewerWhereInput[]
     NOT?: ViewerWhereInput | ViewerWhereInput[]
@@ -10315,7 +11574,7 @@ export namespace Prisma {
     Chat?: ChatListRelationFilter
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "userChannelId_streamChatId">
 
   export type ViewerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10657,6 +11916,7 @@ export namespace Prisma {
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10671,6 +11931,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10685,6 +11946,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10699,6 +11961,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10723,6 +11986,68 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ModerationCreateInput = {
+    id?: string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+    User: UserCreateNestedOneWithoutModerationInput
+  }
+
+  export type ModerationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+    User?: UserUpdateOneRequiredWithoutModerationNestedInput
+  }
+
+  export type ModerationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationCreateManyInput = {
+    id?: string
+    userId: string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserSecurityCreateInput = {
@@ -11358,6 +12683,12 @@ export namespace Prisma {
     isNot?: UserSecurityWhereInput | null
   }
 
+  export type ModerationListRelationFilter = {
+    every?: ModerationWhereInput
+    some?: ModerationWhereInput
+    none?: ModerationWhereInput
+  }
+
   export type AnalyticsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -11367,6 +12698,10 @@ export namespace Prisma {
   }
 
   export type StreamChatOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ModerationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11418,6 +12753,25 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type ModerationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    general?: SortOrder
+    spamConfig?: SortOrder
+    links?: SortOrder
+    blacklist?: SortOrder
+  }
+
+  export type ModerationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ModerationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
   export type UserSecurityCountOrderByAggregateInput = {
     userId?: SortOrder
     accessToken?: SortOrder
@@ -11443,6 +12797,11 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     expiresAt?: SortOrder
+  }
+
+  export type ViewerUserChannelIdStreamChatIdCompoundUniqueInput = {
+    userChannelId: string
+    streamChatId: string
   }
 
   export type ViewerCountOrderByAggregateInput = {
@@ -11758,6 +13117,13 @@ export namespace Prisma {
     connect?: ViewerWhereUniqueInput | ViewerWhereUniqueInput[]
   }
 
+  export type ModerationCreateNestedManyWithoutUserInput = {
+    create?: XOR<ModerationCreateWithoutUserInput, ModerationUncheckedCreateWithoutUserInput> | ModerationCreateWithoutUserInput[] | ModerationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ModerationCreateOrConnectWithoutUserInput | ModerationCreateOrConnectWithoutUserInput[]
+    createMany?: ModerationCreateManyUserInputEnvelope
+    connect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+  }
+
   export type AnalyticsUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput> | AnalyticsCreateWithoutUserInput[] | AnalyticsUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AnalyticsCreateOrConnectWithoutUserInput | AnalyticsCreateOrConnectWithoutUserInput[]
@@ -11797,6 +13163,13 @@ export namespace Prisma {
     connectOrCreate?: ViewerCreateOrConnectWithoutUserInput | ViewerCreateOrConnectWithoutUserInput[]
     createMany?: ViewerCreateManyUserInputEnvelope
     connect?: ViewerWhereUniqueInput | ViewerWhereUniqueInput[]
+  }
+
+  export type ModerationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ModerationCreateWithoutUserInput, ModerationUncheckedCreateWithoutUserInput> | ModerationCreateWithoutUserInput[] | ModerationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ModerationCreateOrConnectWithoutUserInput | ModerationCreateOrConnectWithoutUserInput[]
+    createMany?: ModerationCreateManyUserInputEnvelope
+    connect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
   }
 
   export type AnalyticsUpdateManyWithoutUserNestedInput = {
@@ -11879,6 +13252,20 @@ export namespace Prisma {
     deleteMany?: ViewerScalarWhereInput | ViewerScalarWhereInput[]
   }
 
+  export type ModerationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ModerationCreateWithoutUserInput, ModerationUncheckedCreateWithoutUserInput> | ModerationCreateWithoutUserInput[] | ModerationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ModerationCreateOrConnectWithoutUserInput | ModerationCreateOrConnectWithoutUserInput[]
+    upsert?: ModerationUpsertWithWhereUniqueWithoutUserInput | ModerationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ModerationCreateManyUserInputEnvelope
+    set?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    disconnect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    delete?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    connect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    update?: ModerationUpdateWithWhereUniqueWithoutUserInput | ModerationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ModerationUpdateManyWithWhereWithoutUserInput | ModerationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ModerationScalarWhereInput | ModerationScalarWhereInput[]
+  }
+
   export type AnalyticsUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput> | AnalyticsCreateWithoutUserInput[] | AnalyticsUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AnalyticsCreateOrConnectWithoutUserInput | AnalyticsCreateOrConnectWithoutUserInput[]
@@ -11957,6 +13344,34 @@ export namespace Prisma {
     update?: ViewerUpdateWithWhereUniqueWithoutUserInput | ViewerUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ViewerUpdateManyWithWhereWithoutUserInput | ViewerUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ViewerScalarWhereInput | ViewerScalarWhereInput[]
+  }
+
+  export type ModerationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ModerationCreateWithoutUserInput, ModerationUncheckedCreateWithoutUserInput> | ModerationCreateWithoutUserInput[] | ModerationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ModerationCreateOrConnectWithoutUserInput | ModerationCreateOrConnectWithoutUserInput[]
+    upsert?: ModerationUpsertWithWhereUniqueWithoutUserInput | ModerationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ModerationCreateManyUserInputEnvelope
+    set?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    disconnect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    delete?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    connect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
+    update?: ModerationUpdateWithWhereUniqueWithoutUserInput | ModerationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ModerationUpdateManyWithWhereWithoutUserInput | ModerationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ModerationScalarWhereInput | ModerationScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutModerationInput = {
+    create?: XOR<UserCreateWithoutModerationInput, UserUncheckedCreateWithoutModerationInput>
+    connectOrCreate?: UserCreateOrConnectWithoutModerationInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutModerationNestedInput = {
+    create?: XOR<UserCreateWithoutModerationInput, UserUncheckedCreateWithoutModerationInput>
+    connectOrCreate?: UserCreateOrConnectWithoutModerationInput
+    upsert?: UserUpsertWithoutModerationInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutModerationInput, UserUpdateWithoutModerationInput>, UserUncheckedUpdateWithoutModerationInput>
   }
 
   export type UserCreateNestedOneWithoutUserSecurityInput = {
@@ -12314,6 +13729,7 @@ export namespace Prisma {
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAnalyticsInput = {
@@ -12327,6 +13743,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAnalyticsInput = {
@@ -12356,6 +13773,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAnalyticsInput = {
@@ -12369,6 +13787,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StreamChatCreateWithoutChatInput = {
@@ -12413,6 +13832,7 @@ export namespace Prisma {
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChatInput = {
@@ -12426,6 +13846,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChatInput = {
@@ -12521,6 +13942,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatInput = {
@@ -12534,6 +13956,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ViewerUpsertWithoutChatInput = {
@@ -12582,6 +14005,7 @@ export namespace Prisma {
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomCommandInput = {
@@ -12595,6 +14019,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomCommandInput = {
@@ -12624,6 +14049,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomCommandInput = {
@@ -12637,6 +14063,7 @@ export namespace Prisma {
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChatCreateWithoutStreamChatInput = {
@@ -12680,6 +14107,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStreamChatInput = {
@@ -12693,6 +14121,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStreamChatInput = {
@@ -12786,6 +14215,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStreamChatInput = {
@@ -12799,6 +14229,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ViewerUpsertWithWhereUniqueWithoutStreamChatInput = {
@@ -13007,6 +14438,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ModerationCreateWithoutUserInput = {
+    id?: string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationUncheckedCreateWithoutUserInput = {
+    id?: string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationCreateOrConnectWithoutUserInput = {
+    where: ModerationWhereUniqueInput
+    create: XOR<ModerationCreateWithoutUserInput, ModerationUncheckedCreateWithoutUserInput>
+  }
+
+  export type ModerationCreateManyUserInputEnvelope = {
+    data: ModerationCreateManyUserInput | ModerationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AnalyticsUpsertWithWhereUniqueWithoutUserInput = {
     where: AnalyticsWhereUniqueInput
     update: XOR<AnalyticsUpdateWithoutUserInput, AnalyticsUncheckedUpdateWithoutUserInput>
@@ -13154,6 +14611,106 @@ export namespace Prisma {
     data: XOR<ViewerUpdateManyMutationInput, ViewerUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type ModerationUpsertWithWhereUniqueWithoutUserInput = {
+    where: ModerationWhereUniqueInput
+    update: XOR<ModerationUpdateWithoutUserInput, ModerationUncheckedUpdateWithoutUserInput>
+    create: XOR<ModerationCreateWithoutUserInput, ModerationUncheckedCreateWithoutUserInput>
+  }
+
+  export type ModerationUpdateWithWhereUniqueWithoutUserInput = {
+    where: ModerationWhereUniqueInput
+    data: XOR<ModerationUpdateWithoutUserInput, ModerationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ModerationUpdateManyWithWhereWithoutUserInput = {
+    where: ModerationScalarWhereInput
+    data: XOR<ModerationUpdateManyMutationInput, ModerationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ModerationScalarWhereInput = {
+    AND?: ModerationScalarWhereInput | ModerationScalarWhereInput[]
+    OR?: ModerationScalarWhereInput[]
+    NOT?: ModerationScalarWhereInput | ModerationScalarWhereInput[]
+    id?: StringFilter<"Moderation"> | string
+    userId?: StringFilter<"Moderation"> | string
+    general?: JsonNullableFilter<"Moderation">
+    spamConfig?: JsonNullableFilter<"Moderation">
+    links?: JsonNullableFilter<"Moderation">
+    blacklist?: JsonNullableFilter<"Moderation">
+  }
+
+  export type UserCreateWithoutModerationInput = {
+    id: string
+    email?: string | null
+    createdAt?: Date | string
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    username?: string | null
+    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
+    Chat?: ChatCreateNestedManyWithoutUserInput
+    CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
+    StreamChat?: StreamChatCreateNestedManyWithoutUserInput
+    UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
+    Viewer?: ViewerCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutModerationInput = {
+    id: string
+    email?: string | null
+    createdAt?: Date | string
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    username?: string | null
+    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
+    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
+    StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
+    UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
+    Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutModerationInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutModerationInput, UserUncheckedCreateWithoutModerationInput>
+  }
+
+  export type UserUpsertWithoutModerationInput = {
+    update: XOR<UserUpdateWithoutModerationInput, UserUncheckedUpdateWithoutModerationInput>
+    create: XOR<UserCreateWithoutModerationInput, UserUncheckedCreateWithoutModerationInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutModerationInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutModerationInput, UserUncheckedUpdateWithoutModerationInput>
+  }
+
+  export type UserUpdateWithoutModerationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
+    Chat?: ChatUpdateManyWithoutUserNestedInput
+    CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
+    StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
+    UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
+    Viewer?: ViewerUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutModerationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
+    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
+    StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
+    UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
+    Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutUserSecurityInput = {
     id: string
     email?: string | null
@@ -13165,6 +14722,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserSecurityInput = {
@@ -13178,6 +14736,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserSecurityInput = {
@@ -13207,6 +14766,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserSecurityInput = {
@@ -13220,6 +14780,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChatCreateWithoutViewerInput = {
@@ -13294,6 +14855,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
+    Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutViewerInput = {
@@ -13307,6 +14869,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
+    Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutViewerInput = {
@@ -13389,6 +14952,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
+    Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutViewerInput = {
@@ -13402,6 +14966,7 @@ export namespace Prisma {
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
+    Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChatCreateManyStreamChatInput = {
@@ -13537,6 +15102,14 @@ export namespace Prisma {
     streakDays?: number
     streamChatId: string
     totalMessages?: number
+  }
+
+  export type ModerationCreateManyUserInput = {
+    id?: string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type AnalyticsUpdateWithoutUserInput = {
@@ -13690,6 +15263,30 @@ export namespace Prisma {
     streakDays?: IntFieldUpdateOperationsInput | number
     streamChatId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ModerationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ModerationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    general?: NullableJsonNullValueInput | InputJsonValue
+    spamConfig?: NullableJsonNullValueInput | InputJsonValue
+    links?: NullableJsonNullValueInput | InputJsonValue
+    blacklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ChatCreateManyViewerInput = {

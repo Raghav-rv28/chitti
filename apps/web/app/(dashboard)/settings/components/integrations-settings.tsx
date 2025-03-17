@@ -15,7 +15,7 @@ import {
 import { SettingsTabs } from "./settings-tabs";
 import { Badge } from "@/components/ui/badge";
 import { notFound, useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 
 const integrationsTabs = [
   { value: "services", label: "Services", href: "/settings/integrations" },
@@ -50,10 +50,11 @@ export function IntegrationsSettings() {
   );
   const router = useRouter();
   const { isSignedIn, user } = useUser();
+  console.log(isSignedIn, user);
   const email = user?.emailAddresses[0].emailAddress;
   const handleToggleConnection = (providerId: string) => {
     if (providerId === "youtube" && email !== undefined) {
-      router.push(`http://localhost:3000/auth/?email=${email}`);
+      router.push(`http://localhost:3000/youtube/auth/?email=${email}`);
 
       setConnectedProviders((prev) => ({
         ...prev,
@@ -62,7 +63,7 @@ export function IntegrationsSettings() {
     }
   };
 
-  if (!isSignedIn) return notFound();
+  if (!isSignedIn) return <RedirectToSignIn />;
   return (
     <div className="space-y-6">
       <SettingsTabs tabs={integrationsTabs} />

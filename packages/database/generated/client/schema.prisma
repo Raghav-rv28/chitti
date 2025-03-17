@@ -70,6 +70,17 @@ model User {
   StreamChat    StreamChat[]
   UserSecurity  UserSecurity?
   Viewer        Viewer[]
+  Moderation    Moderation[]
+}
+
+model Moderation {
+  id         String @id @default(uuid())
+  userId     String
+  general    Json?
+  spamConfig Json?
+  links      Json?
+  blacklist  Json?
+  User       User   @relation(fields: [userId], references: [id])
 }
 
 model UserSecurity {
@@ -95,6 +106,8 @@ model Viewer {
   Chat          Chat[]
   StreamChat    StreamChat @relation(fields: [streamChatId], references: [id])
   User          User       @relation(fields: [userChannelId], references: [id])
+
+  @@unique([userChannelId, streamChatId])
 }
 
 enum Role {

@@ -82,6 +82,8 @@ export const saveStream = async (
 };
 
 //TODO: add zod validation here
+// authorId: channelId
+// userId: viewerId
 export const saveChatMessages = async (
   authorId: string,
   message: string,
@@ -97,10 +99,10 @@ export const saveChatMessages = async (
       update: {},
     }),
     prisma.viewer.upsert({
-      where: { userChannelId: userId, id: authorId, streamChatId: liveChatId },
+      where: { id: userId },
       create: {
-        id: authorId,
-        userChannelId: userId,
+        id: userId,
+        userChannelId: authorId,
         username,
         streamChatId: liveChatId,
         totalMessages: 1,
@@ -116,8 +118,8 @@ export const saveChatMessages = async (
     }),
     prisma.chat.create({
       data: {
-        userId,
-        viewerId: authorId,
+        userId: authorId,
+      viewerId: userId,
         message,
         liveChatId,
         username,

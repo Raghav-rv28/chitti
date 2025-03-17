@@ -167,6 +167,15 @@ exports.Prisma.UserScalarFieldEnum = {
   username: 'username'
 };
 
+exports.Prisma.ModerationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  general: 'general',
+  spamConfig: 'spamConfig',
+  links: 'links',
+  blacklist: 'blacklist'
+};
+
 exports.Prisma.UserSecurityScalarFieldEnum = {
   userId: 'userId',
   accessToken: 'accessToken',
@@ -225,6 +234,7 @@ exports.Prisma.ModelName = {
   CustomCommand: 'CustomCommand',
   StreamChat: 'StreamChat',
   User: 'User',
+  Moderation: 'Moderation',
   UserSecurity: 'UserSecurity',
   Viewer: 'Viewer'
 };
