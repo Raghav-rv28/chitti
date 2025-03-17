@@ -14,12 +14,12 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Pencil, Trash2, Search } from "lucide-react";
 import { CommandEditor } from "./command-editor";
-import { Command } from "../types";
+import { Command, CommandReturned } from "../types";
 
 interface CommandListProps {
-  commands: Command[];
+  commands: CommandReturned[];
   isDefault?: boolean;
-  onUpdateCommand: (command: Command) => void;
+  onUpdateCommand: (command: CommandReturned) => void;
   onToggleCommand: (id: string, enabled: boolean) => void;
   onDeleteCommand?: (id: string) => void;
 }
@@ -32,12 +32,14 @@ export function CommandList({
   onDeleteCommand,
 }: CommandListProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [editingCommand, setEditingCommand] = useState<Command | null>(null);
+  const [editingCommand, setEditingCommand] = useState<CommandReturned | null>(
+    null,
+  );
 
   const filteredCommands = commands.filter(
     (command) =>
-      command.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      command.description.toLowerCase().includes(searchQuery.toLowerCase()),
+      command.trigger.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      command.response.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -77,17 +79,18 @@ export function CommandList({
                 <TableRow key={command.id}>
                   <TableCell>
                     <Switch
-                      checked={command.enabled}
+                      //TODO: ADD NEW COLUMN FIELD ENABLED
+                      checked={false}
                       onCheckedChange={(checked) =>
                         onToggleCommand(command.id, checked)
                       }
                     />
                   </TableCell>
-                  <TableCell className="font-medium">{command.name}</TableCell>
-                  <TableCell className="max-w-md">
-                    {command.description}
+                  <TableCell className="font-medium">
+                    {command.trigger}
                   </TableCell>
-                  <TableCell>{command.userLevel}</TableCell>
+                  <TableCell className="max-w-md">{command.response}</TableCell>
+                  <TableCell>{command.requiredUserLevel}</TableCell>
                   <TableCell>
                     <div className="flex justify-end space-x-1">
                       <Button

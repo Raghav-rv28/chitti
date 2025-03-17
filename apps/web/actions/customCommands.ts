@@ -1,20 +1,22 @@
 "use server";
 
+import { CommandReturned } from "@/app/(dashboard)/commands/types";
 import { prisma } from "@repo/database";
 
 export const createCustomCommand = async (
   userId: string,
-  trigger: string,
-  response: string,
+  command: CommandReturned,
 ) => {
-  if (!trigger.startsWith("!")) {
+  if (!command.trigger.startsWith("!")) {
     throw new Error("Commands must start with '!'");
   }
   return await prisma.customCommand.create({
     data: {
       userId,
-      trigger: trigger.toLowerCase(),
-      response,
+      trigger: command.trigger.toLowerCase(),
+      response: command.response,
+      requiredUserLevel: command.requiredUserLevel,
+      cooldown: command.cooldown,
     },
   });
 };
@@ -72,4 +74,29 @@ export const updateCustomCommand = async (
   });
 
   return "Command updated successfully.";
+};
+
+export const saveNewCommand = async (command: CommandReturned, userId: string) => {
+  return await prisma.customCommand.create({
+    data: {
+      trigger: command.trigger,
+      response: command.response,
+      requiredUserLevel: command.requiredUserLevel,
+      userId,
+      cooldown: command.cooldown || 0,
+    },
+  });
+};
+
+export const updateCommand = async (updatedCommand: CommandReturned) => {
+  return await prisma.customCommand.update({
+    where: { id: updatedCommand.id },
+    data: updatedCommand,
+  });
+};
+
+export const deleteCommand = async (id: string) => {
+  return await prisma.customCommand.delete({
+    where: { id },
+  });
 };

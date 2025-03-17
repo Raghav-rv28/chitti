@@ -10,6 +10,7 @@ import type React from "react";
 import "../globals.css";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 // import { currentUser } from "@clerk/nextjs/server";
 // import { getUserInfo } from "@/actions/queries";
 // import { redirect } from "next/navigation";
@@ -75,6 +76,7 @@ export default async function DashboardLayout({
                 <main>{children}</main>
               </SidebarInset>
             </SidebarProvider>
+            <Toaster richColors position="top-right" />
           </ThemeProvider>
         </body>
       </html>

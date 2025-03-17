@@ -3,14 +3,15 @@ export interface Command {
   enabled: boolean;
   name: string;
   description: string;
-  userLevel: "Everyone" | "Moderator" | "Owner";
+  userLevel: "viewer" | "moderator" | "owner";
   cooldown: number;
 }
 export interface CommandReturned {
   id: string;
   userId: string;
+  enabled?: boolean;
   cooldown?: number;
-  requiredUserLevel?: string;
+  requiredUserLevel: any;
   trigger: string;
   response: string;
   createdAt: Date;

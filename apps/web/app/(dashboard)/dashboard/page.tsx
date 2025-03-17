@@ -27,9 +27,9 @@ export default async function DashboardPage() {
           </h2>
           <div className="flex items-center space-x-2">
             <Link
-              href={`http://localhost:3000/start-stream?channelId=${user?.id}`}
+              href={`http://localhost:3000/youtube/start-stream?channelId=${user?.id}`}
             >
-              <Button>Start Stream</Button>
+              <Button>Start Monitoring</Button>
             </Link>
             <DialogDemo />
           </div>

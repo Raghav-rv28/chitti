@@ -17,14 +17,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Command } from "../types";
+import type { Command, CommandReturned } from "../types";
 
 interface CommandEditorProps {
-  command: Command | null;
+  command: CommandReturned | null;
   isOpen: boolean;
   isDefault?: boolean;
   onClose: () => void;
-  onSave: (command: Command) => void;
+  onSave: (command: CommandReturned) => void;
 }
 
 export function CommandEditor({
@@ -34,7 +34,9 @@ export function CommandEditor({
   onClose,
   onSave,
 }: CommandEditorProps) {
-  const [editedCommand, setEditedCommand] = useState<Command | null>(null);
+  const [editedCommand, setEditedCommand] = useState<CommandReturned | null>(
+    null,
+  );
 
   // Reset form when command changes or dialog opens
   useEffect(() => {
@@ -51,7 +53,10 @@ export function CommandEditor({
     onClose();
   };
 
-  const updateField = (field: keyof Command, value: number | string) => {
+  const updateField = (
+    field: keyof CommandReturned,
+    value: number | string,
+  ) => {
     if (editedCommand) {
       setEditedCommand({
         ...editedCommand,
@@ -72,39 +77,39 @@ export function CommandEditor({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="trigger">Trigger</Label>
             <Input
-              id="name"
-              value={editedCommand.name}
-              onChange={(e) => updateField("name", e.target.value)}
+              id="trigger"
+              value={editedCommand.trigger}
+              onChange={(e) => updateField("trigger", e.target.value)}
               readOnly={isDefault}
               className={isDefault ? "opacity-70" : ""}
             />
           </div>
           <p>Is this working?</p>
           <div className="grid gap-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="response">Response</Label>
             <Input
-              id="description"
-              value={editedCommand.description}
-              onChange={(e) => updateField("description", e.target.value)}
+              id="response"
+              value={editedCommand.response}
+              onChange={(e) => updateField("response", e.target.value)}
               placeholder="What does this command do?"
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="userLevel">Required User-Level</Label>
+            <Label htmlFor="requiredUserLevel">Required User-Level</Label>
             <Select
-              value={editedCommand.userLevel}
-              onValueChange={(value) => updateField("userLevel", value)}
+              value={editedCommand.requiredUserLevel}
+              onValueChange={(value) => updateField("requiredUserLevel", value)}
             >
               <SelectTrigger id="userLevel">
                 <SelectValue placeholder="Select user level" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Everyone">Everyone</SelectItem>
-                <SelectItem value="Moderator">Moderator</SelectItem>
-                <SelectItem value="Owner">Owner</SelectItem>
+                <SelectItem value="viewer">Viewer</SelectItem>
+                <SelectItem value="moderator">Moderator</SelectItem>
+                <SelectItem value="owner">Owner</SelectItem>
               </SelectContent>
             </Select>
           </div>

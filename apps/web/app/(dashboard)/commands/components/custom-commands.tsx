@@ -5,50 +5,41 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { CommandList } from "./command-list";
 import { CommandEditor } from "./command-editor";
-import type { Command, CommandReturned } from "../types";
-
-// Sample custom commands
-const customCommandsData: Command[] = [
-  {
-    id: "custom-1",
-    enabled: true,
-    name: "!discord",
-    description: "Displays a link to join our Discord server",
-    userLevel: "Everyone",
-    cooldown: 30,
-  },
-  {
-    id: "custom-2",
-    enabled: true,
-    name: "!socials",
-    description: "Shows links to all social media profiles",
-    userLevel: "Everyone",
-    cooldown: 30,
-  },
-];
+import type { CommandReturned } from "../types";
+import {
+  saveNewCommand,
+  updateCommand,
+  deleteCommand,
+} from "@/actions/customCommands";
+import { toast } from "sonner";
 
 // New command template
-const newCommandTemplate: Command = {
+const newCommandTemplate: CommandReturned = {
+  userId: "",
+  createdAt: new Date(),
   id: "",
   enabled: true,
-  name: "!",
-  description: "",
-  userLevel: "Everyone",
+  trigger: "!",
+  response: "",
+  requiredUserLevel: "Everyone",
   cooldown: 30,
 };
 
 export default function CustomCommands({
+  userId = "",
   commands,
 }: {
   commands: CommandReturned[];
+  userId: string;
 }) {
   const [customCommands, setCustomCommands] =
-    useState<Command[]>(customCommandsData);
+    useState<CommandReturned[]>(commands);
   const [isCreating, setIsCreating] = useState(false);
-  const [newCommand, setNewCommand] = useState<Command>({
+  const [newCommand, setNewCommand] = useState<CommandReturned>({
     ...newCommandTemplate,
     id: `custom-${Date.now()}`,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleCreateCommand = () => {
     setNewCommand({
@@ -58,17 +49,35 @@ export default function CustomCommands({
     setIsCreating(true);
   };
 
-  const handleSaveNewCommand = (command: Command) => {
-    setCustomCommands([...customCommands, command]);
-    setIsCreating(false);
+  const handleSaveNewCommand = async (command: CommandReturned) => {
+    setLoading(true);
+    try {
+      const savedCommand = await saveNewCommand(command, userId);
+      setCustomCommands([...customCommands, savedCommand]);
+      toast("Command saved successfully.");
+    } catch (error) {
+      toast("Failed to save command.");
+    } finally {
+      setLoading(false);
+      setIsCreating(false);
+    }
   };
 
-  const handleUpdateCommand = (updatedCommand: Command) => {
-    setCustomCommands(
-      customCommands.map((command) =>
-        command.id === updatedCommand.id ? updatedCommand : command,
-      ),
-    );
+  const handleUpdateCommand = async (updatedCommand: CommandReturned) => {
+    setLoading(true);
+    try {
+      const savedCommand = await updateCommand(updatedCommand);
+      setCustomCommands(
+        customCommands.map((command) =>
+          command.id === savedCommand.id ? savedCommand : command,
+        ),
+      );
+      toast("Command updated successfully.");
+    } catch (error) {
+      toast("Failed to update command.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleToggleCommand = (id: string, enabled: boolean) => {
@@ -79,15 +88,24 @@ export default function CustomCommands({
     );
   };
 
-  const handleDeleteCommand = (id: string) => {
-    setCustomCommands(customCommands.filter((command) => command.id !== id));
+  const handleDeleteCommand = async (id: string) => {
+    setLoading(true);
+    try {
+      await deleteCommand(id);
+      setCustomCommands(customCommands.filter((command) => command.id !== id));
+      toast("Command deleted successfully.");
+    } catch (error) {
+      toast("Failed to delete command.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="py-4 space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-medium">Custom Commands</h2>
-        <Button onClick={handleCreateCommand} size="sm">
+        <Button onClick={handleCreateCommand} size="sm" disabled={loading}>
           <Plus className="h-4 w-4 mr-2" />
           Add Command
         </Button>
@@ -105,6 +123,7 @@ export default function CustomCommands({
         isOpen={isCreating}
         onClose={() => setIsCreating(false)}
         onSave={handleSaveNewCommand}
+        loading={loading}
       />
     </div>
   );

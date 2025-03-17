@@ -87,7 +87,7 @@ const data = {
     },
     {
       name: "Streams",
-      url: "#",
+      url: "/streams",
       icon: Youtube,
     },
   ],
