@@ -9,6 +9,7 @@ import { createOAuth2Client } from "../config/auth";
 import { google } from "googleapis";
 import { onboardUser } from "../helper/onboarding";
 import { addStreamer, findActiveChat, interval } from "../helper/chat-polling";
+import { CustomRequest } from "../config/types";
 //
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = join(dirname(__filename), "..");
@@ -97,12 +98,12 @@ router.get("/start-stream/", async (req: Request, res: Response) => {
 ///**
 // * OBS Overlay Page
 // */
-//router.get("/overlay/:channelId", (req: CustomRequest, res: Response) => {
-//  const { channelId } = req.params;
-//  const filePath = path.join(__dirname, "public", "index.html");
-//  let html = fs.readFileSync(filePath, "utf-8");
-//  html = html.replace("{{channelId}}", channelId);
-//  res.send(html);
-//});
+router.get("/overlay/:channelId", (req: CustomRequest, res: Response) => {
+  const { channelId } = req.params;
+  const filePath = path.join(__dirname, "public", "index.html");
+  let html = fs.readFileSync(filePath, "utf-8");
+  html = html.replace("{{channelId}}", channelId);
+  res.send(html);
+});
 
 export const youtubeRouter = router;

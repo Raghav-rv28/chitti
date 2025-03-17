@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Voting App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      #question {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+      }
+      .vote-button {
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .vote-button:hover {
+        background-color: #e0e0e0;
+      }
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      #voting-section {
+        display: grid;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="question"></div>
+    <div id="voting-section"></div>
+    <div id="result"></div>
+
+    <script>
+      // DOM Elements
+      const questionEl = document.getElementById("question");
+      const votingSection = document.getElementById("voting-section");
+      const resultDiv = document.getElementById("result");
+      let sessionId = "";
+      // Function to parse URL parameters
+      function getVotingDetailsFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const question = urlParams.get("question");
+        sessionId = urlParams.get("session");
+        const options = urlParams.get("options")
+          ? urlParams.get("options").split(",")
+          : [];
+
+        if (!question || options.length === 0) {
+          resultDiv.textContent =
+            "Invalid URL parameters. Please provide a question and options.";
+          return null;
+        }
+
+        return { question, options, sessionId };
+      }
+
+      // Dynamically create vote buttons
+      function createVoteButtons(options) {
+        votingSection.style.gridTemplateColumns =
+          options.length > 2 ? "repeat(3, 1fr)" : "1fr";
+
+        options.forEach((option, index) => {
+          const button = document.createElement("button");
+          button.textContent = option.trim(); // Remove any extra whitespace
+          button.className = "vote-button";
+          button.id = `option-${index}`;
+
+          button.addEventListener("click", () => handleVote(option));
+          votingSection.appendChild(button);
+        });
+      }
+
+      // Handle voting logic
+      async function handleVote(selectedOption) {
+        if (localStorage.getItem("hasVoted") === "true") {
+          resultDiv.textContent = "You have already voted!";
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `localhost:3000/voting/session/${sessionId}/vote`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                option: selectedOption,
+                timestamp: Date.now(),
+              }),
+            },
+          );
+
+          const result = await response.json();
+
+          if (result.success) {
+            localStorage.setItem("hasVoted", "true");
+            votingSection.innerHTML = "";
+            resultDiv.textContent = "Vote recorded successfully!";
+          }
+        } catch (error) {
+          console.log(error);
+          resultDiv.textContent = "Voting failed. Please try again.";
+        }
+      }
+
+      // Initialize the voting app
+      function initVotingApp() {
+        const votingDetails = getVotingDetailsFromURL();
+
+        if (votingDetails) {
+          questionEl.textContent = votingDetails.question;
+          createVoteButtons(votingDetails.options);
+        }
+      }
+
+      // Start the app
+      initVotingApp();
+    </script>
+  </body>
+</html>

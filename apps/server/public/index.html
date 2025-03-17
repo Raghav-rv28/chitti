@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stream Alerts</title>
+    <style>
+      body {
+        text-align: center;
+        background: transparent;
+        overflow: hidden;
+      }
+      #alert {
+        display: none;
+        font-size: 32px;
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="alert"></div>
+    <img id="alert-gif" style="display: none; width: 300px" />
+    <script>
+      // TODO: PULL USER INFORMATION
+      const channelId = "{{channelId}}";
+      const ws = new WebSocket(`ws://localhost:8080/?channelId=${channelId}`);
+      //TODO:  modify to handle different events
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        showAlert(data.alertData.username, data.alertData.amount);
+      };
+
+      function showAlert(user, amount) {
+        const alertDiv = document.getElementById("alert");
+        const alertSound = new Audio(
+          "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/Zombie.mp3",
+        );
+        const alertGif = document.getElementById("alert-gif");
+        alertDiv.innerHTML = `${user} donated $${amount}! 🎉`;
+        alertDiv.style.display = "block";
+        alertGif.src =
+          "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3l0d2E3c2Jxams0YnQwM3Vld2xsOG02MGU3MmxsOGY1M2lsamJ1diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/X7s4uckfyihGJDrSpo/giphy.gif";
+        alertGif.style.display = "block";
+        alertSound.play();
+        setTimeout(() => {
+          alertGif.style.display = "none";
+          alertDiv.style.display = "none";
+        }, 5000);
+      }
+
+      ws.onerror = (err) => console.error("WebSocket Error:", err);
+    </script>
+  </body>
+</html>
