@@ -66,7 +66,7 @@ export function IntegrationsSettings() {
   if (!isSignedIn) return <RedirectToSignIn />;
   return (
     <div className="space-y-6">
-      <SettingsTabs tabs={integrationsTabs} />
+      {/* <SettingsTabs tabs={integrationsTabs} /> */}
 
       <div className="grid gap-6">
         {providers.map((provider) => (

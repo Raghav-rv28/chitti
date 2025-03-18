@@ -19,6 +19,7 @@ import {
 import { Calendar, Clock, MessageSquare, Users } from "lucide-react";
 import { ChatTable } from "./chat-table";
 import { Chat, StreamChat } from "@repo/database";
+import { Button } from "@/components/ui/button";
 
 interface StreamSelectorProps {
   streams: StreamChat[];
@@ -41,20 +42,22 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
   // Fetch chat messages when selectedStreamId changes
   useEffect(() => {
     if (!selectedStreamId) return;
-    
+
     const fetchChatMessages = async () => {
       setLoading(true);
       try {
         // Use the newly created API route
-        const response = await fetch(`/api/chats?liveChatId=${selectedStreamId}`);
+        const response = await fetch(
+          `/api/chats?liveChatId=${selectedStreamId}`,
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch chat messages');
+          throw new Error("Failed to fetch chat messages");
         }
         const data = await response.json();
         // Add type assertion to ensure data is treated as an array of Chat objects
         setChatMessages(data as Chat[]);
       } catch (error) {
-        console.error('Error fetching chat messages:', error);
+        console.error("Error fetching chat messages:", error);
         setChatMessages([]);
       } finally {
         setLoading(false);
@@ -67,7 +70,7 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
   const selectedStream = streams.find(
     (stream) => stream.id === selectedStreamId,
   );
-  
+
   // Replace streamChats[selectedStreamId] with chatMessages
   const currentChats = chatMessages;
 
@@ -82,19 +85,62 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Select value={selectedStreamId} onValueChange={handleStreamChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a stream" />
-              </SelectTrigger>
-              <SelectContent>
-                {streams.map((stream) => (
-                  <SelectItem key={stream.id} value={stream.id}>
-                    {stream.title ||
-                      `Stream on ${format(new Date(stream.startTime), "MMM dd, yyyy")}`}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <Select
+                value={selectedStreamId}
+                onValueChange={handleStreamChange}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a stream" />
+                </SelectTrigger>
+                <SelectContent>
+                  {streams.map((stream) => (
+                    <SelectItem key={stream.id} value={stream.id}>
+                      {stream.title ||
+                        `Stream on ${format(new Date(stream.startTime), "MMM dd, yyyy")}`}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {selectedStream && (
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row justify-gap w-full gap-2">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">
+                      {format(
+                        new Date(selectedStream.startTime),
+                        "MMMM dd, yyyy",
+                      )}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">
+                      {format(new Date(selectedStream.startTime), "h:mm a")} -
+                      {selectedStream.endTime
+                        ? format(new Date(selectedStream.endTime), " h:mm a")
+                        : " Ongoing"}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">
+                      {currentChats.length} messages
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">
+                      {selectedStream.totalViews || 0} total views
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -108,35 +154,29 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    {format(
-                      new Date(selectedStream.startTime),
-                      "MMMM dd, yyyy",
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    {format(new Date(selectedStream.startTime), "h:mm a")} -
-                    {selectedStream.endTime
-                      ? format(new Date(selectedStream.endTime), " h:mm a")
-                      : " Ongoing"}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    {currentChats.length} messages
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    {selectedStream.totalViews || 0} total views
-                  </span>
+                <div>Description: {selectedStream.description}</div>
+                <div>
+                  <Button
+                    onClick={async () => {
+                      console.log("selectedStream", selectedStream.userId,selectedStream.id);
+                      fetch(
+                        `http://localhost:3000/youtube/update-stream-description`,
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            channelId: selectedStream.userId,
+                            liveChatId: selectedStream.id,
+                            description: "test",
+                          }),
+                        },
+                      );
+                    }}
+                  >
+                    Update Description
+                  </Button>
                 </div>
               </div>
             </CardContent>

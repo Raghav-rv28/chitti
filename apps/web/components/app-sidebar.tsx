@@ -52,24 +52,8 @@ const data = {
       icon: Settings,
       items: [
         {
-          title: "Profile",
-          url: "/settings/profile",
-        },
-        {
-          title: "Security",
-          url: "/settings/security",
-        },
-        {
           title: "Integrations",
           url: "/settings/integrations",
-        },
-        {
-          title: "Api",
-          url: "/settings/api",
-        },
-        {
-          title: "Help",
-          url: "/settings/help",
         },
       ],
     },

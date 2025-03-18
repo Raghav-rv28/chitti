@@ -68,16 +68,24 @@ export const updateTokens = async (
   ]);
 };
 
+export const getStream = async (liveChatId: string) => {
+  return await prisma.streamChat.findUnique({ where: { id: liveChatId } });
+};
+
 export const saveStream = async (
   userId: string,
   liveChatId: string,
   startTime: Date,
   title: string,
+  contentDetails: {
+    monitorStream: any;
+  },
+  description?: string,
 ) => {
   return await prisma.streamChat.upsert({
     where: { id: liveChatId },
-    update: {},
-    create: { id: liveChatId, userId, startTime, title },
+    update: { description, contentDetails, title },
+    create: { id: liveChatId, userId, startTime, title, contentDetails },
   });
 };
 

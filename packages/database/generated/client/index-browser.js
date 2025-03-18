@@ -154,6 +154,8 @@ exports.Prisma.StreamChatScalarFieldEnum = {
   userId: 'userId',
   title: 'title',
   streamUrl: 'streamUrl',
+  contentDetails: 'contentDetails',
+  description: 'description',
   startTime: 'startTime',
   endTime: 'endTime',
   duration: 'duration',
@@ -202,6 +204,10 @@ exports.Prisma.ViewerScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.NullableJsonNullValueInput = {

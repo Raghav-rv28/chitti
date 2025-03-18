@@ -37,10 +37,10 @@ model CustomCommand {
   userId            String
   trigger           String   @unique
   response          String
-  description       String   @default("some descripton")
+  description       String   @default("some description")
   enabled           Boolean  @default(true)
   createdAt         DateTime @default(now())
-  cooldown          Int
+  cooldown          Int      @default(0)
   requiredUserLevel Role
   User              User     @relation(fields: [userId], references: [id])
 }
@@ -50,11 +50,13 @@ model StreamChat {
   userId         String
   title          String?
   streamUrl      String?
+  contentDetails Json      @default("{}")
+  description    String    @default("")
   startTime      DateTime
   endTime        DateTime?
   duration       Int?
-  totalDonations Float?
-  totalViews     Int?
+  totalDonations Float?    @default(0)
+  totalViews     Int?      @default(0)
   Chat           Chat[]
   User           User      @relation(fields: [userId], references: [id])
   Viewer         Viewer[]

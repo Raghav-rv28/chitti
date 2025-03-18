@@ -5088,6 +5088,7 @@ export namespace Prisma {
     userId: string | null
     title: string | null
     streamUrl: string | null
+    description: string | null
     startTime: Date | null
     endTime: Date | null
     duration: number | null
@@ -5100,6 +5101,7 @@ export namespace Prisma {
     userId: string | null
     title: string | null
     streamUrl: string | null
+    description: string | null
     startTime: Date | null
     endTime: Date | null
     duration: number | null
@@ -5112,6 +5114,8 @@ export namespace Prisma {
     userId: number
     title: number
     streamUrl: number
+    contentDetails: number
+    description: number
     startTime: number
     endTime: number
     duration: number
@@ -5138,6 +5142,7 @@ export namespace Prisma {
     userId?: true
     title?: true
     streamUrl?: true
+    description?: true
     startTime?: true
     endTime?: true
     duration?: true
@@ -5150,6 +5155,7 @@ export namespace Prisma {
     userId?: true
     title?: true
     streamUrl?: true
+    description?: true
     startTime?: true
     endTime?: true
     duration?: true
@@ -5162,6 +5168,8 @@ export namespace Prisma {
     userId?: true
     title?: true
     streamUrl?: true
+    contentDetails?: true
+    description?: true
     startTime?: true
     endTime?: true
     duration?: true
@@ -5261,6 +5269,8 @@ export namespace Prisma {
     userId: string
     title: string | null
     streamUrl: string | null
+    contentDetails: JsonValue
+    description: string
     startTime: Date
     endTime: Date | null
     duration: number | null
@@ -5292,6 +5302,8 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    contentDetails?: boolean
+    description?: boolean
     startTime?: boolean
     endTime?: boolean
     duration?: boolean
@@ -5308,6 +5320,8 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    contentDetails?: boolean
+    description?: boolean
     startTime?: boolean
     endTime?: boolean
     duration?: boolean
@@ -5321,6 +5335,8 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    contentDetails?: boolean
+    description?: boolean
     startTime?: boolean
     endTime?: boolean
     duration?: boolean
@@ -5334,6 +5350,8 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    contentDetails?: boolean
+    description?: boolean
     startTime?: boolean
     endTime?: boolean
     duration?: boolean
@@ -5341,7 +5359,7 @@ export namespace Prisma {
     totalViews?: boolean
   }
 
-  export type StreamChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "streamUrl" | "startTime" | "endTime" | "duration" | "totalDonations" | "totalViews", ExtArgs["result"]["streamChat"]>
+  export type StreamChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "streamUrl" | "contentDetails" | "description" | "startTime" | "endTime" | "duration" | "totalDonations" | "totalViews", ExtArgs["result"]["streamChat"]>
   export type StreamChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | StreamChat$ChatArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
@@ -5367,6 +5385,8 @@ export namespace Prisma {
       userId: string
       title: string | null
       streamUrl: string | null
+      contentDetails: Prisma.JsonValue
+      description: string
       startTime: Date
       endTime: Date | null
       duration: number | null
@@ -5802,6 +5822,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"StreamChat", 'String'>
     readonly title: FieldRef<"StreamChat", 'String'>
     readonly streamUrl: FieldRef<"StreamChat", 'String'>
+    readonly contentDetails: FieldRef<"StreamChat", 'Json'>
+    readonly description: FieldRef<"StreamChat", 'String'>
     readonly startTime: FieldRef<"StreamChat", 'DateTime'>
     readonly endTime: FieldRef<"StreamChat", 'DateTime'>
     readonly duration: FieldRef<"StreamChat", 'Int'>
@@ -10878,6 +10900,8 @@ export namespace Prisma {
     userId: 'userId',
     title: 'title',
     streamUrl: 'streamUrl',
+    contentDetails: 'contentDetails',
+    description: 'description',
     startTime: 'startTime',
     endTime: 'endTime',
     duration: 'duration',
@@ -10944,6 +10968,13 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const NullableJsonNullValueInput: {
@@ -11301,6 +11332,8 @@ export namespace Prisma {
     userId?: StringFilter<"StreamChat"> | string
     title?: StringNullableFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableFilter<"StreamChat"> | string | null
+    contentDetails?: JsonFilter<"StreamChat">
+    description?: StringFilter<"StreamChat"> | string
     startTime?: DateTimeFilter<"StreamChat"> | Date | string
     endTime?: DateTimeNullableFilter<"StreamChat"> | Date | string | null
     duration?: IntNullableFilter<"StreamChat"> | number | null
@@ -11316,6 +11349,8 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrderInput | SortOrder
     streamUrl?: SortOrderInput | SortOrder
+    contentDetails?: SortOrder
+    description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrderInput | SortOrder
     duration?: SortOrderInput | SortOrder
@@ -11334,6 +11369,8 @@ export namespace Prisma {
     userId?: StringFilter<"StreamChat"> | string
     title?: StringNullableFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableFilter<"StreamChat"> | string | null
+    contentDetails?: JsonFilter<"StreamChat">
+    description?: StringFilter<"StreamChat"> | string
     startTime?: DateTimeFilter<"StreamChat"> | Date | string
     endTime?: DateTimeNullableFilter<"StreamChat"> | Date | string | null
     duration?: IntNullableFilter<"StreamChat"> | number | null
@@ -11349,6 +11386,8 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrderInput | SortOrder
     streamUrl?: SortOrderInput | SortOrder
+    contentDetails?: SortOrder
+    description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrderInput | SortOrder
     duration?: SortOrderInput | SortOrder
@@ -11369,6 +11408,8 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"StreamChat"> | string
     title?: StringNullableWithAggregatesFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableWithAggregatesFilter<"StreamChat"> | string | null
+    contentDetails?: JsonWithAggregatesFilter<"StreamChat">
+    description?: StringWithAggregatesFilter<"StreamChat"> | string
     startTime?: DateTimeWithAggregatesFilter<"StreamChat"> | Date | string
     endTime?: DateTimeNullableWithAggregatesFilter<"StreamChat"> | Date | string | null
     duration?: IntNullableWithAggregatesFilter<"StreamChat"> | number | null
@@ -11796,7 +11837,7 @@ export namespace Prisma {
     description?: string
     enabled?: boolean
     createdAt?: Date | string
-    cooldown: number
+    cooldown?: number
     requiredUserLevel: $Enums.Role
     User: UserCreateNestedOneWithoutCustomCommandInput
   }
@@ -11809,7 +11850,7 @@ export namespace Prisma {
     description?: string
     enabled?: boolean
     createdAt?: Date | string
-    cooldown: number
+    cooldown?: number
     requiredUserLevel: $Enums.Role
   }
 
@@ -11845,7 +11886,7 @@ export namespace Prisma {
     description?: string
     enabled?: boolean
     createdAt?: Date | string
-    cooldown: number
+    cooldown?: number
     requiredUserLevel: $Enums.Role
   }
 
@@ -11876,6 +11917,8 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -11891,6 +11934,8 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -11904,6 +11949,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11919,6 +11966,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11933,6 +11982,8 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -11944,6 +11995,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11956,6 +12009,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12567,6 +12622,29 @@ export namespace Prisma {
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
@@ -12626,6 +12704,8 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrder
     streamUrl?: SortOrder
+    contentDetails?: SortOrder
+    description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     duration?: SortOrder
@@ -12644,6 +12724,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrder
     streamUrl?: SortOrder
+    description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     duration?: SortOrder
@@ -12656,6 +12737,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrder
     streamUrl?: SortOrder
+    description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     duration?: SortOrder
@@ -12667,6 +12749,32 @@ export namespace Prisma {
     duration?: SortOrder
     totalDonations?: SortOrder
     totalViews?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13744,6 +13852,29 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
+  export type NestedJsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
@@ -13890,6 +14021,8 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -13904,6 +14037,8 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -13994,6 +14129,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -14008,6 +14145,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -14422,7 +14561,7 @@ export namespace Prisma {
     description?: string
     enabled?: boolean
     createdAt?: Date | string
-    cooldown: number
+    cooldown?: number
     requiredUserLevel: $Enums.Role
   }
 
@@ -14433,7 +14572,7 @@ export namespace Prisma {
     description?: string
     enabled?: boolean
     createdAt?: Date | string
-    cooldown: number
+    cooldown?: number
     requiredUserLevel: $Enums.Role
   }
 
@@ -14451,6 +14590,8 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -14464,6 +14605,8 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -14663,6 +14806,8 @@ export namespace Prisma {
     userId?: StringFilter<"StreamChat"> | string
     title?: StringNullableFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableFilter<"StreamChat"> | string | null
+    contentDetails?: JsonFilter<"StreamChat">
+    description?: StringFilter<"StreamChat"> | string
     startTime?: DateTimeFilter<"StreamChat"> | Date | string
     endTime?: DateTimeNullableFilter<"StreamChat"> | Date | string | null
     duration?: IntNullableFilter<"StreamChat"> | number | null
@@ -14919,6 +15064,8 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -14933,6 +15080,8 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -15010,6 +15159,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15024,6 +15175,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15182,7 +15335,7 @@ export namespace Prisma {
     description?: string
     enabled?: boolean
     createdAt?: Date | string
-    cooldown: number
+    cooldown?: number
     requiredUserLevel: $Enums.Role
   }
 
@@ -15190,6 +15343,8 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
     startTime: Date | string
     endTime?: Date | string | null
     duration?: number | null
@@ -15307,6 +15462,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15320,6 +15477,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15333,6 +15492,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     duration?: NullableIntFieldUpdateOperationsInput | number | null

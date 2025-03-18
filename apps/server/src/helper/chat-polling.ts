@@ -137,7 +137,7 @@ async function findActiveChat(channelId: string): Promise<string | null> {
     const auth: any = await getOAuth2ClientForUser(channelId);
     const response: any = await youtube.liveBroadcasts.list({
       auth,
-      part: ["snippet"],
+      part: ["snippet","contentDetails"],
       mine: true,
     });
     const items: typeof response.data.items = response.data?.items ?? [];
@@ -153,8 +153,10 @@ async function findActiveChat(channelId: string): Promise<string | null> {
       await saveStream(
         channelId,
         latestChat.snippet.liveChatId,
-        latestChat.snippet.actualStartTime,
+        latestChat.snippet.scheduledStartTime,
         latestChat.snippet.title,
+        latestChat.contentDetails.monitorStream,
+        latestChat.snippet.description,
       );
       return latestChat.snippet.liveChatId;
     }
@@ -200,6 +202,45 @@ async function pollLiveChats(): Promise<void> {
   }
 }
 
+async function pollLiveChatsTest(): Promise<void> {
+  // Map streamers to API requests
+  const requests = Object.entries(activeStreamers).map(
+    async ([channelId, userDetails], index) => {
+      try {
+        // Stagger requests slightly to avoid simultaneous API calls
+        await new Promise((resolve) => setTimeout(resolve, index * 500));
+
+        const response = await youtube.liveChatMessages.list({
+          auth: userDetails.oauthClient,
+          part: ["snippet", "authorDetails"],
+          liveChatId: userDetails.liveChatId,
+          pageToken: userDetails.nextPage,
+        });
+        console.log("polling", channelId, userDetails.liveChatId);
+
+        const items = response.data.items;
+        if (items) {
+          items.forEach((message: any) => {
+            if (message.snippet.type === "textMessageEvent") {
+              processMessage(channelId, message, userDetails.liveChatId);
+            } else {
+              console.log("skipping message", message.snippet.type);
+            }
+          });
+        }
+
+        // Store next page token
+        if (response.data.nextPageToken) {
+          activeStreamers[channelId].nextPage = response.data.nextPageToken;
+        }
+      } catch (error) {
+        console.error(`Error polling chat for ${channelId}:`, error);
+      }
+    },
+  );
+  // Wait for all requests to complete
+  await Promise.allSettled(requests);
+}
 /**
  * Trigger Text-to-Speech functionality
  */
@@ -423,7 +464,7 @@ export function clearPollingApi(intervalId: NodeJS.Timeout) {
 }
 
 // Start the polling interval
-const interval = setInterval(pollLiveChats, 5000);
+const interval = setInterval(pollLiveChatsTest, 5000);
 
 // Set up a periodic cleanup for timeouts (every 15 minutes)
 const timeoutCleanupInterval = setInterval(cleanupTimeouts, 15 * 60 * 1000);

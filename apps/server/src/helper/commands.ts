@@ -3,7 +3,7 @@ import { getCommands } from "../queries/commands";
 import { timeoutUser, removeUserTimeout } from "./timeout-utils";
 import { Timeout } from "./types";
 import { getViewerByUsername } from "../queries/viewer";
-
+import { getStream, saveStream } from "../queries/queries";
 const youtube = google.youtube("v3");
 
 /**
@@ -91,9 +91,7 @@ export async function executeActionCommand(
         // Remove timeout for that user
         const wasRemoved = await removeUserTimeout(channelId, targetChannelId);
 
-        if (wasRemoved) {
-          return `User ${commandTargetUsername} has been removed from timeout.`;
-        } else {
+        if (!wasRemoved) {
           return `User ${commandTargetUsername} is not currently in timeout.`;
         }
       } catch (error) {
@@ -146,10 +144,37 @@ export async function executeActionCommand(
           activeStreamers[channelId].liveChatId,
           timeoutConfig,
         );
-
       } catch (error) {
         console.error("Error timing out user:", error);
         return "Failed to timeout user.";
+      }
+    }
+    case "marker": {
+      if (!hasPermission) {
+        return "You don't have permission to use this command.";
+      }
+      if (args.length < 2) {
+        return "Please specify a title and a description.";
+      }
+
+      const title = args[0];
+      const description = args.slice(1).join(" "); // Join the rest of the args as the description
+
+      try {
+        const stream = await getStream(activeStreamers[channelId].liveChatId);
+        const updatedDescription = `${stream?.description || ""}\n\n${description}`;
+        await saveStream(
+          channelId,
+          activeStreamers[channelId].liveChatId,
+          stream?.startTime || new Date(),
+          title,
+          { monitorStream: {} },
+          updatedDescription,
+        );
+        return "Marker created successfully.";
+      } catch (error) {
+        console.error("Error creating marker:", error);
+        return "Failed to create marker.";
       }
     }
 

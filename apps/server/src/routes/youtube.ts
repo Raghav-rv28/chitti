@@ -4,12 +4,14 @@ import fs from "fs";
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
 // import { CustomRequest } from "../config/types.js";
-import { randomHex } from "../providers/youtube/auth";
+import { getOAuth2ClientForUser, randomHex } from "../providers/youtube/auth";
 import { createOAuth2Client } from "../config/auth";
 import { google } from "googleapis";
 import { onboardUser } from "../helper/onboarding";
 import { addStreamer, findActiveChat, interval } from "../helper/chat-polling";
 import { CustomRequest } from "../config/types";
+import { getStream, saveStream } from "../queries/queries";
+import { reseller } from "googleapis/build/src/apis/reseller";
 //
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = join(dirname(__filename), "..");
@@ -95,6 +97,45 @@ router.get("/start-stream/", async (req: Request, res: Response) => {
   }
   res.status(200).redirect("http://localhost:30001/dashboard");
 });
+
+//NOTE: wont work if broadcast is not active
+router.post(
+  "/update-stream-description",
+  async (req: Request, res: Response) => {
+    const { channelId, liveChatId, description } = req.body;
+    console.log("channelId", channelId);
+    console.log("liveChatId", liveChatId);
+    console.log("description", description);
+    const stream = await getStream(liveChatId);
+    if (!stream) {
+      return res.status(404).send("Stream not found"); // Handle missing stream
+    }
+
+    const oauth2Client:any = await getOAuth2ClientForUser(channelId as string);
+    try {
+      const response = await youtube.liveBroadcasts.update({
+        auth: oauth2Client,
+        part: ["snippet"],
+        requestBody: {
+          id: liveChatId,
+          snippet: {
+            description: description,
+            scheduledStartTime: stream.startTime.toISOString(),
+          },
+        },
+      });
+      console.log("response", response);
+      if (response) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (error) {
+      console.error("error", error);
+      res.status(500).send("Internal Server Error"); // Send error response
+    }
+  },
+);
 
 /**
  * OBS Overlay Page

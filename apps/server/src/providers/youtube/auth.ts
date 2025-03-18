@@ -1,8 +1,9 @@
 import { Auth } from "googleapis";
 import { createOAuth2Client } from "../../config/auth";
 import { getUserTokens, updateTokens } from "../../queries/queries";
+
 const saveTokens = (userId: string, tokens: any) => {
-  console.log(tokens);
+  console.log("saving tokens", tokens);
   if (tokens.access_token && userId !== null && userId !== undefined) {
     updateTokens(tokens.access_token, userId, tokens.refresh_token);
   }
@@ -23,7 +24,6 @@ const getOAuth2ClientForUser = async (
 ): Promise<Auth.AuthClient> => {
   // Retrieve the user's tokens
   const tokens = await getUserTokens(userId);
-  console.log(tokens);
   if (!tokens) {
     throw new Error("User not authenticated.");
   }
