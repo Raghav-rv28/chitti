@@ -180,9 +180,13 @@ async function pollLiveChats(): Promise<void> {
       const items: typeof response.data.items = response.data.items;
       console.log("polling", channelId, userDetails.liveChatId);
       if (items) {
-        items.forEach((message: any) =>
-          processMessage(channelId, message, userDetails.liveChatId),
-        );
+        items.forEach((message: any) => {
+          if (message.snippet.type === "textMessageEvent") {
+            processMessage(channelId, message, userDetails.liveChatId);
+          } else {
+            console.log("skipping message", message.snippet.type);
+          }
+        });
       }
       if (response.data.nextPageToken) {
         activeStreamers[channelId] = {
@@ -289,6 +293,17 @@ async function processMessage(
   // Fast path: Check if user is in timeout (in-memory check, no DB)
   if (isUserTimedOut(channelId, authorChannelId)) {
     console.log(`Skipping message from timed out user ${displayName}`);
+    deleteMessage(channelId, id);
+    saveChatMessages(
+      channelId,
+      displayMessage,
+      liveChatId,
+      authorChannelId,
+      type,
+      displayName,
+      id,
+    );
+    return;
   }
 
   // Get cached configs (no DB queries)
@@ -304,7 +319,6 @@ async function processMessage(
         channelId,
         authorChannelId,
         displayName,
-        authorChannelId,
         displayMessage,
         activeStreamers,
       );
@@ -312,6 +326,16 @@ async function processMessage(
       if (response) {
         // Send response back to chat
         await sendChatMessage(channelId, response);
+        saveChatMessages(
+          channelId,
+          displayMessage,
+          liveChatId,
+          authorChannelId,
+          type,
+          displayName,
+          id,
+        );
+        return;
       }
     } catch (error) {
       console.error("Error processing command:", error);
@@ -356,7 +380,7 @@ async function processMessage(
 
   // Process message storage and points in parallel
   // These are independent operations that can run concurrently
-  await saveChatMessages(
+  saveChatMessages(
     channelId,
     displayMessage,
     liveChatId,

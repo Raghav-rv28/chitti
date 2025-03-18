@@ -1,18 +1,19 @@
-import { LinkConfig } from './types';
-import { timeoutUser } from './timeout-utils';
+import { LinkConfig } from "./types";
+import { timeoutUser } from "./timeout-utils";
 
 // Default configuration for link detection
 export const defaultLinkConfig: LinkConfig = {
   enabled: false,
-  mode: 'blacklist',
+  mode: "blacklist",
   allowedLinks: [], // Empty array means no links are explicitly allowed
-  blockedLinks: [], // Empty array means no links are explicitly blocked
+  blockedLinks: ["https://facebook.com/"], // Empty array means no links are explicitly blocked
   deleteMessage: true,
   timeout: {
     timeoutEnabled: true,
     timeoutDurationSeconds: 300, // 5 minutes
-    timeoutMessage: "Your message contained prohibited links. You've been timed out.",
-  }
+    timeoutMessage:
+      "Your message contained prohibited links. You've been timed out.",
+  },
 };
 
 // Reference to the active streamers object
@@ -43,13 +44,13 @@ function extractUrls(text: string): string[] {
 function urlMatchesPattern(url: string, patterns: string[]): boolean {
   // Convert URL to lowercase for case-insensitive matching
   const lowerUrl = url.toLowerCase();
-  
+
   for (const pattern of patterns) {
     if (lowerUrl.includes(pattern.toLowerCase())) {
       return true;
     }
   }
-  
+
   return false;
 }
 
@@ -60,7 +61,7 @@ export async function checkForLinks(
   channelId: string,
   userId: string,
   message: string,
-  config: LinkConfig
+  config: LinkConfig,
 ): Promise<boolean> {
   // Early return if link detection is disabled
   if (!config.enabled) {
@@ -77,7 +78,7 @@ export async function checkForLinks(
   if (!userLinks[channelId]) {
     userLinks[channelId] = {};
   }
-  
+
   if (!userLinks[channelId][userId]) {
     userLinks[channelId][userId] = {
       timestamp: Date.now(),
@@ -86,23 +87,29 @@ export async function checkForLinks(
 
   // Check each URL against allowed/blocked patterns
   let hasProhibitedLink = false;
-  
+
   for (const url of urls) {
-    if (config.mode === 'whitelist') {
+    if (config.mode === "whitelist") {
       // In whitelist mode, links are blocked unless explicitly allowed
-      if (config.allowedLinks.length === 0 || !urlMatchesPattern(url, config.allowedLinks)) {
+      if (
+        config.allowedLinks.length === 0 ||
+        !urlMatchesPattern(url, config.allowedLinks)
+      ) {
         hasProhibitedLink = true;
         break;
       }
     } else {
       // In blacklist mode, links are allowed unless explicitly blocked
-      if (config.blockedLinks.length > 0 && urlMatchesPattern(url, config.blockedLinks)) {
+      if (
+        config.blockedLinks.length > 0 &&
+        urlMatchesPattern(url, config.blockedLinks)
+      ) {
         hasProhibitedLink = true;
         break;
       }
     }
   }
-  
+
   // If prohibited link found, timeout the user if enabled
   if (hasProhibitedLink && config.timeout.timeoutEnabled) {
     const liveChatId = activeStreamers[channelId]?.liveChatId;
@@ -111,7 +118,7 @@ export async function checkForLinks(
     }
     return true;
   }
-  
+
   return hasProhibitedLink;
 }
 
@@ -129,14 +136,14 @@ export function clearLinkDetection(channelId: string): void {
 function cleanupLinkDetection(): void {
   const now = Date.now();
   const expiryTime = 24 * 60 * 60 * 1000; // 24 hours
-  
+
   for (const channelId in userLinks) {
     for (const userId in userLinks[channelId]) {
       if (now - userLinks[channelId][userId].timestamp > expiryTime) {
         delete userLinks[channelId][userId];
       }
     }
-    
+
     // Delete empty channel entries
     if (Object.keys(userLinks[channelId]).length === 0) {
       delete userLinks[channelId];
@@ -145,4 +152,7 @@ function cleanupLinkDetection(): void {
 }
 
 // Initialize cleanup interval
-export const cleanupInterval = setInterval(cleanupLinkDetection, 60 * 60 * 1000); // Run hourly 
+export const cleanupInterval = setInterval(
+  cleanupLinkDetection,
+  60 * 60 * 1000,
+); // Run hourly

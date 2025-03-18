@@ -2,6 +2,7 @@ import { google } from "googleapis";
 import { getCommands } from "../queries/commands";
 import { timeoutUser, removeUserTimeout } from "./timeout-utils";
 import { Timeout } from "./types";
+import { getViewerByUsername } from "../queries/viewer";
 
 const youtube = google.youtube("v3");
 
@@ -71,13 +72,12 @@ export async function executeActionCommand(
   activeStreamers: Record<string, any>,
   hasPermission: boolean,
 ): Promise<string | undefined> {
-  if (!hasPermission) {
-    return "You don't have permission to use this command.";
-  }
-
   switch (command) {
     case "untimeout":
     case "removeban": {
+      if (!hasPermission) {
+        return "You don't have permission to use this command.";
+      }
       if (args.length < 1) {
         return "Please specify a username.";
       }
@@ -103,6 +103,9 @@ export async function executeActionCommand(
     }
 
     case "timeout": {
+      if (!hasPermission) {
+        return "You don't have permission to use this command.";
+      }
       if (args.length < 1) {
         return "Please specify a username.";
       }
@@ -118,10 +121,14 @@ export async function executeActionCommand(
       }
 
       // Handle username correctly by removing duration if present
-      const commandTargetUsername = usernameArgs.join(" ");
-
+      const commandTargetUsername = usernameArgs.join(" ").toLowerCase();
       if (!commandTargetUsername.trim()) {
         return "Please specify a username.";
+      }
+      const bannedUserId = (await getViewerByUsername(commandTargetUsername))
+        ?.id;
+      if (!bannedUserId) {
+        return "User not found.";
       }
 
       try {
@@ -129,18 +136,17 @@ export async function executeActionCommand(
         const timeoutConfig: Timeout = {
           timeoutEnabled: true,
           timeoutDurationSeconds: durationSeconds,
-          timeoutMessage: `You have been timed out for ${durationSeconds} seconds.`
+          timeoutMessage: `You have been timed out for ${durationSeconds} seconds.`,
         };
 
         // Timeout the user
         await timeoutUser(
           channelId,
-          targetChannelId,
+          bannedUserId,
           activeStreamers[channelId].liveChatId,
-          timeoutConfig
+          timeoutConfig,
         );
 
-        return `User ${commandTargetUsername} timed out for ${durationSeconds} seconds.`;
       } catch (error) {
         console.error("Error timing out user:", error);
         return "Failed to timeout user.";
@@ -158,8 +164,7 @@ export async function executeActionCommand(
 export async function handleCommands(
   channelId: string,
   viewerId: string,
-  targetUsername: string,
-  targetChannelId: string,
+  messagerName: string,
   displayMessage: string,
   activeStreamers: Record<string, any>,
 ): Promise<string | undefined> {
@@ -171,7 +176,11 @@ export async function handleCommands(
     const parts = displayMessage.slice(1).split(" "); // Remove "!" and split by space
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
-    const hasPermission = await isModeratorOrOwner(channelId, viewerId, activeStreamers);
+    const hasPermission = await isModeratorOrOwner(
+      channelId,
+      viewerId,
+      activeStreamers,
+    );
     if (!command) {
       return undefined;
     }
@@ -180,12 +189,12 @@ export async function handleCommands(
     const actionResponse = await executeActionCommand(
       channelId,
       viewerId,
-      targetUsername,
-      targetChannelId,
+      messagerName,
+      viewerId,
       command,
       args,
       activeStreamers,
-      hasPermission
+      hasPermission,
     );
 
     if (actionResponse) {

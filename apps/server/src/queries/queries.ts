@@ -101,37 +101,24 @@ export const saveChatMessages = async (
       console.log("message already saved");
       return;
     }
-    const viewer = await tx.viewer.findFirst({
+    await tx.viewer.upsert({
       where: { id: userId, userChannelId: channelId },
+      create: {
+        id: userId,
+        userChannelId: channelId,
+        username,
+        streamChatId: liveChatId,
+        totalMessages: 1,
+        points: 2,
+        streakDays: 0,
+        createdAt: new Date(),
+      },
+      update: {
+        points: { increment: 2 },
+        totalMessages: { increment: 1 },
+        streamChatId: liveChatId,
+      },
     });
-    console.log("viewer", viewer);
-    if (!viewer) {
-      await tx.viewer.create({
-        data: {
-          id: userId,
-          userChannelId: channelId,
-          username,
-          streamChatId: liveChatId,
-          totalMessages: 1,
-          points: 2,
-          streakDays: 0,
-          createdAt: new Date(),
-        },
-      });
-    } else {
-      await tx.viewer.update({
-        where: {
-          id: userId,
-          userChannelId: channelId,
-          streamChatId: liveChatId,
-        },
-        data: {
-          points: { increment: 2 },
-          totalMessages: { increment: 1 },
-          streamChatId: liveChatId,
-        },
-      });
-    }
 
     return await tx.chat.create({
       data: {

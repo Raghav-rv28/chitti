@@ -93,7 +93,7 @@ router.get("/start-stream/", async (req: Request, res: Response) => {
   } else {
     res.sendStatus(500);
   }
-  res.sendStatus(200).redirect("http://localhost:30001/dashboard");
+  res.status(200).redirect("http://localhost:30001/dashboard");
 });
 
 /**
