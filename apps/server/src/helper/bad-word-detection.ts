@@ -213,7 +213,11 @@ export function clearBadWordDetection(channelId: string): void {
 /**
  * Remove a user from timeout
  */
+<<<<<<< Updated upstream
 export async function removeUserTimeout(channelId: string, userId: string): Promise<boolean> {
+=======
+export function removeUserTimeout(channelId: string, userId: string): boolean {
+>>>>>>> Stashed changes
   const key = `${channelId}:${userId}`;
   
   if (userTimeouts[key]) {
@@ -224,5 +228,8 @@ export async function removeUserTimeout(channelId: string, userId: string): Prom
   
   return false;
 }
+<<<<<<< Updated upstream
 
     
+=======
+>>>>>>> Stashed changes

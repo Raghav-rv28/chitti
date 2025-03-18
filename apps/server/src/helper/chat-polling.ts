@@ -1,6 +1,5 @@
 import { google } from "googleapis";
 import { getOAuth2ClientForUser } from "../providers/youtube/auth";
-import { getCommands } from "../queries/commands";
 import { awardUserPoints } from "../queries/points";
 import { saveStream, saveChatMessages } from "../queries/queries";
 import { prisma } from "@repo/database";
@@ -23,6 +22,7 @@ import {
   clearBadWordDetection,
   cleanupTimeoutInterval,
   defaultBadWordConfig,
+  removeUserTimeout,
 } from "./bad-word-detection";
 
 // Import link detection module
@@ -195,36 +195,6 @@ async function pollLiveChats(): Promise<void> {
 }
 
 /**
- * Handle chat commands that start with !
- */
-async function handleCommands(
-  channelId: string,
-  viewerId: string,
-  displayMessage: string,
-) {
-  const parts = displayMessage.slice(1).split(" "); // Remove "!" and split by space
-  const command = parts[0].toLowerCase();
-  // const args = parts.slice(1);
-  //
-  // //check if commentor is mod or not
-  // const response = await youtube.liveChatModerators.list({
-  //   auth: activeStreamers[channelId].oauthClient,
-  //   part: ["snippet"],
-  //   liveChatId: activeStreamers[channelId].liveChatId,
-  // });
-  // const moderators = response.data.items!.map(
-  //   (item) => item.snippet?.moderatorDetails?.channelId || "",
-  // );
-  // const isModerator = moderators.includes(viewerId);
-
-  // Check user-defined commands in DB
-  const commands = await getCommands(channelId, command);
-  if (commands?.response) {
-    return commands.response;
-  }
-}
-
-/**
  * Trigger Text-to-Speech functionality
  */
 async function triggerTTS(_text: string, _message: any) {
@@ -258,6 +228,39 @@ async function deleteMessage(
 }
 
 /**
+ * Send a message to the live chat
+ */
+async function sendChatMessage(
+  channelId: string,
+  message: string
+): Promise<void> {
+  try {
+    if (!activeStreamers[channelId]?.oauthClient || !activeStreamers[channelId]?.liveChatId) {
+      console.error(`Cannot send message: missing OAuth client or liveChatId for channel ${channelId}`);
+      return;
+    }
+
+    await youtube.liveChatMessages.insert({
+      auth: activeStreamers[channelId].oauthClient,
+      part: ["snippet"],
+      requestBody: {
+        snippet: {
+          liveChatId: activeStreamers[channelId].liveChatId,
+          type: "textMessageEvent",
+          textMessageDetails: {
+            messageText: message
+          }
+        }
+      }
+    });
+
+    console.log(`Message sent to channel ${channelId}: ${message}`);
+  } catch (error) {
+    console.error(`Error sending message to chat:`, error);
+  }
+}
+
+/**
  * Process live YouTube chat messages
  * - Checks for timeouts, spam, and bad words
  * - Handles commands and alerts
@@ -286,10 +289,26 @@ async function processMessage(
   const badWordConfig = getBadWordConfig(channelId);
   const linkConfig = getLinkConfig(channelId);
 
-  // Process commands first if it's a command (most commands are harmless)
-  if (displayMessage[0] === "!") {
-    // Don't await this - let it process in the background
-    handleCommands(channelId, authorChannelId, displayMessage);
+  // Process commands if it's a command
+  if (displayMessage.startsWith("!")) {
+    try {
+      // Pass the display name directly from the message
+      const response = await handleCommands(
+        channelId, 
+        authorChannelId, 
+        displayName,
+        authorChannelId,
+        displayMessage,
+        activeStreamers
+      );
+      
+      if (response) {
+        // Send response back to chat
+        await sendChatMessage(channelId, response);
+      }
+    } catch (error) {
+      console.error("Error processing command:", error);
+    }
   }
 
   // Run moderation checks in parallel
@@ -388,5 +407,4 @@ export {
   triggerTTS,
   spamCleanupInterval,
   cleanupTimeoutInterval,
-  linkCleanupInterval,
 };
