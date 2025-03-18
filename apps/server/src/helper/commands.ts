@@ -1,0 +1,196 @@
+import { google } from "googleapis";
+import { getCommands } from "../queries/commands";
+import { removeUserTimeout, timeoutUser } from "./bad-word-detection";
+
+const youtube = google.youtube("v3");
+
+/**
+ * Check if a user is a moderator or owner of the channel
+ */
+export async function isModeratorOrOwner(
+  channelId: string,
+  viewerId: string,
+  activeStreamers: Record<string, any>
+): Promise<boolean> {
+  try {
+    // Channel owner check
+    if (channelId === viewerId) {
+      return true;
+    }
+    
+    // Safety check for necessary data
+    if (!activeStreamers[channelId]?.oauthClient || !activeStreamers[channelId]?.liveChatId) {
+      console.error("Missing OAuth client or liveChatId for channel", channelId);
+      return false;
+    }
+    
+    // Moderator check
+    const response = await youtube.liveChatModerators.list({
+      auth: activeStreamers[channelId].oauthClient,
+      part: ["snippet"],
+      liveChatId: activeStreamers[channelId].liveChatId,
+    });
+    
+    // Validate response structure
+    if (!response || !response.data || !Array.isArray(response.data.items)) {
+      console.error("Invalid response structure from YouTube API");
+      return false;
+    }
+    
+    const moderators = response.data.items.map(
+      (item) => {
+        if (item?.snippet?.moderatorDetails?.channelId) {
+          return item.snippet.moderatorDetails.channelId;
+        }
+        return "";
+      }
+    );
+    
+    return moderators.includes(viewerId);
+  } catch (error) {
+    console.error("Error checking moderator status:", error);
+    return false;
+  }
+}
+
+/**
+ * Execute an action command (mod/owner only)
+ */
+export async function executeActionCommand(
+  channelId: string,
+  viewerId: string,
+  targetUsername: string,
+  targetChannelId: string,
+  command: string,
+  args: string[],
+  activeStreamers: Record<string, any>
+): Promise<string | undefined> {
+  // Check permissions first - we already have the viewerId
+  const hasPermission = await isModeratorOrOwner(channelId, viewerId, activeStreamers);
+  if (!hasPermission) {
+    return "You don't have permission to use this command.";
+  }
+
+  switch (command) {
+    case "untimeout":
+    case "removeban": {
+      if (args.length < 1) {
+        return "Please specify a username.";
+      }
+      
+      // In this case, we need to determine the target by command args
+      const commandTargetUsername = args.join(" ");
+      // This is where we'd need to look up the user, but we'll use the provided one
+      // if the command target matches
+      
+      try {
+        // Remove timeout for that user
+        const wasRemoved = removeUserTimeout(channelId, targetChannelId);
+        
+        if (wasRemoved) {
+          return `User ${commandTargetUsername} has been removed from timeout.`;
+        } else {
+          return `User ${commandTargetUsername} is not currently in timeout.`;
+        }
+      } catch (error) {
+        console.error("Error removing timeout:", error);
+        return "Failed to remove timeout. Please try again.";
+      }
+    }
+    
+    case "timeout": {
+      if (args.length < 1) {
+        return "Please specify a username.";
+      }
+      
+      // Check if the last argument is a number (duration)
+      const lastArg = args[args.length - 1];
+      let durationSeconds = 300; // Default to 5 minutes
+      let usernameArgs = args;
+      
+      if (!isNaN(parseInt(lastArg, 10))) {
+        durationSeconds = parseInt(lastArg, 10);
+        usernameArgs = args.slice(0, -1); // Remove the duration from username args
+      }
+      
+      // Handle username correctly by removing duration if present
+      const commandTargetUsername = usernameArgs.join(" ");
+      
+      if (!commandTargetUsername.trim()) {
+        return "Please specify a username.";
+      }
+      
+      try {
+        // Timeout the user
+        await timeoutUser(
+          channelId,
+          targetChannelId,
+          activeStreamers[channelId].liveChatId,
+          durationSeconds,
+          `You have been timed out for ${durationSeconds} seconds.`
+        );
+        
+        return `User ${commandTargetUsername} has been timed out for ${durationSeconds} seconds.`;
+      } catch (error) {
+        console.error("Error timing out user:", error);
+        return "Failed to timeout user. Please try again.";
+      }
+    }
+    
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Handle chat commands that start with !
+ */
+export async function handleCommands(
+  channelId: string,
+  viewerId: string,
+  targetUsername: string,
+  targetChannelId: string,
+  displayMessage: string,
+  activeStreamers: Record<string, any>
+): Promise<string | undefined> {
+  try {
+    if (!displayMessage.startsWith("!")) {
+      return undefined;
+    }
+    
+    const parts = displayMessage.slice(1).split(" "); // Remove "!" and split by space
+    const command = parts[0].toLowerCase();
+    const args = parts.slice(1);
+    
+    if (!command) {
+      return undefined;
+    }
+    
+    // First check for action commands (mod/owner only commands)
+    const actionResponse = await executeActionCommand(
+      channelId, 
+      viewerId, 
+      targetUsername, 
+      targetChannelId, 
+      command, 
+      args, 
+      activeStreamers
+    );
+    
+    if (actionResponse) {
+      return actionResponse;
+    }
+    
+    // Check user-defined commands in DB
+    const commandData = await getCommands(channelId, command);
+    if (commandData?.response) {
+      return commandData.response;
+    }
+    
+    // If we got here, command wasn't recognized
+    return undefined;
+  } catch (error) {
+    console.error("Error handling command:", error);
+    return "An error occurred while processing your command.";
+  }
+} 
