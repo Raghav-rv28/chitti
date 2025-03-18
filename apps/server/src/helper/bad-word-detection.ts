@@ -6,7 +6,7 @@ const youtube = google.youtube("v3");
 
 // Default bad word configuration
 export const defaultBadWordConfig: BadWordConfig = {
-  words: ["fuck", "bhainchod"],
+  words: ["fuck", "bhainchod","nonono"],
   exemptedUsers: "",
   timeoutDurationSeconds: 300, // 5 minutes
   timeoutMessage:

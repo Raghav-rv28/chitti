@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-// import path, { join } from "path";
-// import fs from "fs";
+import path from "path";
+import fs from "fs";
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
 // import { CustomRequest } from "../config/types.js";
@@ -14,7 +14,7 @@ import { CustomRequest } from "../config/types";
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = join(dirname(__filename), "..");
 const router: Router = Router();
-const stateStore: Record<string, boolean> = {};
+const stateStore: Record<string, string> = {};
 const youtube = google.youtube("v3");
 // Middleware for authentication (Stubbed for now)
 const authenticateUser = (req: Request, res: Response, next: Function) => {
@@ -32,7 +32,7 @@ router.get("/auth", async (req: Request, res: Response) => {
     "https://www.googleapis.com/auth/youtube.force-ssl",
   ];
   const state = randomHex(); // Generate random state
-  stateStore[state] = true;
+  stateStore[state] = req.query.email as string;
   const oauth2Client = createOAuth2Client(req.query.channelId as string);
   const authorizationUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
@@ -51,7 +51,7 @@ router.get("/auth", async (req: Request, res: Response) => {
  */
 router.get("/callback", async (req: Request, res: Response) => {
   const { code, state } = req.query;
-  if (!state || !stateStore[state as string]) {
+  if (!state || !(state as string in stateStore)) {
     res.status(400).send("Invalid state parameter.");
   }
   try {
@@ -70,6 +70,7 @@ router.get("/callback", async (req: Request, res: Response) => {
       onboardUser(
         {
           userId: user.id,
+          email: stateStore[state as string],
           username: user?.snippet?.title,
           statistics: user?.statistics,
         },
@@ -95,9 +96,9 @@ router.get("/start-stream/", async (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
-///**
-// * OBS Overlay Page
-// */
+/**
+ * OBS Overlay Page
+ */
 router.get("/overlay/:channelId", (req: CustomRequest, res: Response) => {
   const { channelId } = req.params;
   const filePath = path.join(__dirname, "public", "index.html");

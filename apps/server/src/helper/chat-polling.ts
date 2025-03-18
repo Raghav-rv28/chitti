@@ -211,10 +211,15 @@ async function triggerTTS(_text: string, _message: any) {
 /**
  * Delete a message from the live chat
  */
-async function deleteMessage(channelId: string, messageId: string): Promise<void> {
+async function deleteMessage(
+  channelId: string,
+  messageId: string,
+): Promise<void> {
   try {
     if (!activeStreamers[channelId]?.oauthClient) {
-      console.error(`Cannot delete message: no OAuth client for channel ${channelId}`);
+      console.error(
+        `Cannot delete message: no OAuth client for channel ${channelId}`,
+      );
       return;
     }
 
@@ -289,7 +294,9 @@ async function processMessage(
       badWordConfig.timeoutMessage,
     );
 
-    console.log(`Deleting message with bad words from ${displayName}: ${displayMessage}`);
+    console.log(
+      `Deleting message with bad words from ${displayName}: ${displayMessage}`,
+    );
     // Don't await this - let it process in the background
     deleteMessage(channelId, id);
     return;

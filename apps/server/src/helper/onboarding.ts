@@ -34,6 +34,7 @@ const DEFAULT_COMMANDS = [
 export const onboardUser = async (
   user: {
     userId: string;
+    email: string;
     username?: string | null;
     statistics?: any;
   },
@@ -50,6 +51,7 @@ export const onboardUser = async (
     await tx.user.create({
       data: {
         id: user.userId,
+        email: user.email,
         username: user?.username,
         settings: user?.statistics,
       },
