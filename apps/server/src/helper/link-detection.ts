@@ -1,4 +1,5 @@
 import { LinkConfig } from './types';
+import { timeoutUser } from './timeout-utils';
 
 // Default configuration for link detection
 export const defaultLinkConfig: LinkConfig = {
@@ -7,6 +8,11 @@ export const defaultLinkConfig: LinkConfig = {
   allowedLinks: [], // Empty array means no links are explicitly allowed
   blockedLinks: [], // Empty array means no links are explicitly blocked
   deleteMessage: true,
+  timeout: {
+    timeoutEnabled: true,
+    timeoutDurationSeconds: 300, // 5 minutes
+    timeoutMessage: "Your message contained prohibited links. You've been timed out.",
+  }
 };
 
 // Reference to the active streamers object
@@ -28,29 +34,27 @@ const userLinks: Record<string, Record<string, { timestamp: number }>> = {};
 function extractUrls(text: string): string[] {
   // Basic URL regex pattern
   const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const matches = text.match(urlRegex);
-  return matches || [];
+  return text.match(urlRegex) || [];
 }
 
 /**
- * Check if a URL matches any pattern in the list
+ * Check if a URL matches any pattern in the provided list
  */
 function urlMatchesPattern(url: string, patterns: string[]): boolean {
-  if (patterns.length === 0) return false;
+  // Convert URL to lowercase for case-insensitive matching
+  const lowerUrl = url.toLowerCase();
   
-  return patterns.some(pattern => {
-    // Convert the pattern to a regex-safe string and support wildcards
-    const regexPattern = pattern
-      .replace(/\./g, '\\.') // Escape dots
-      .replace(/\*/g, '.*'); // Convert * to .*
-    
-    const regex = new RegExp(`^${regexPattern}`, 'i');
-    return regex.test(url);
-  });
+  for (const pattern of patterns) {
+    if (lowerUrl.includes(pattern.toLowerCase())) {
+      return true;
+    }
+  }
+  
+  return false;
 }
 
 /**
- * Check if a message contains links that should be blocked
+ * Check for prohibited links in a message
  */
 export async function checkForLinks(
   channelId: string,
@@ -80,51 +84,65 @@ export async function checkForLinks(
     };
   }
 
-  // Check each URL against the configured patterns
+  // Check each URL against allowed/blocked patterns
+  let hasProhibitedLink = false;
+  
   for (const url of urls) {
     if (config.mode === 'whitelist') {
-      // In whitelist mode, block if the URL doesn't match any allowed pattern
-      if (!urlMatchesPattern(url, config.allowedLinks)) {
-        return true; // URL should be blocked
+      // In whitelist mode, links are blocked unless explicitly allowed
+      if (config.allowedLinks.length === 0 || !urlMatchesPattern(url, config.allowedLinks)) {
+        hasProhibitedLink = true;
+        break;
       }
     } else {
-      // In blacklist mode, block if the URL matches any blocked pattern
-      if (urlMatchesPattern(url, config.blockedLinks)) {
-        return true; // URL should be blocked
+      // In blacklist mode, links are allowed unless explicitly blocked
+      if (config.blockedLinks.length > 0 && urlMatchesPattern(url, config.blockedLinks)) {
+        hasProhibitedLink = true;
+        break;
       }
     }
   }
-
-  return false; // No blocked URLs found
+  
+  // If prohibited link found, timeout the user if enabled
+  if (hasProhibitedLink && config.timeout.timeoutEnabled) {
+    const liveChatId = activeStreamers[channelId]?.liveChatId;
+    if (liveChatId) {
+      await timeoutUser(channelId, userId, liveChatId, config.timeout);
+    }
+    return true;
+  }
+  
+  return hasProhibitedLink;
 }
 
 /**
  * Clear link detection data for a channel
  */
 export function clearLinkDetection(channelId: string): void {
+  // Delete all entries for this channel
   delete userLinks[channelId];
 }
 
 /**
- * Cleanup old link detection data
+ * Clean up old link detection data
  */
 function cleanupLinkDetection(): void {
   const now = Date.now();
-  const timeout = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
+  const expiryTime = 24 * 60 * 60 * 1000; // 24 hours
+  
   for (const channelId in userLinks) {
     for (const userId in userLinks[channelId]) {
-      if (now - userLinks[channelId][userId].timestamp > timeout) {
+      if (now - userLinks[channelId][userId].timestamp > expiryTime) {
         delete userLinks[channelId][userId];
       }
     }
-
-    // If no users left for this channel, delete the channel entry
+    
+    // Delete empty channel entries
     if (Object.keys(userLinks[channelId]).length === 0) {
       delete userLinks[channelId];
     }
   }
 }
 
-// Set up cleanup interval
-export const cleanupInterval = setInterval(cleanupLinkDetection, 60 * 60 * 1000); // Run cleanup every hour 
+// Initialize cleanup interval
+export const cleanupInterval = setInterval(cleanupLinkDetection, 60 * 60 * 1000); // Run hourly 

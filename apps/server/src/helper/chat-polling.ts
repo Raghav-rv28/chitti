@@ -16,13 +16,9 @@ import {
 
 import {
   checkForBadWords,
-  isUserTimedOut,
-  timeoutUser,
   setActiveStreamersReference as setBadWordActiveStreamersReference,
   clearBadWordDetection,
-  cleanupTimeoutInterval,
   defaultBadWordConfig,
-  removeUserTimeout,
 } from "./bad-word-detection";
 
 // Import link detection module
@@ -33,6 +29,14 @@ import {
   defaultLinkConfig,
   setActiveStreamersReference as setLinkActiveStreamersReference,
 } from "./link-detection";
+import { handleCommands } from "./commands";
+import { 
+  isUserTimedOut, 
+  timeoutUser, 
+  removeUserTimeout,
+  cleanupTimeouts,
+  setActiveStreamersReference as setTimeoutActiveStreamersReference
+} from './timeout-utils';
 
 // Define active streamers with moderation settings
 const activeStreamers: Record<
@@ -232,11 +236,16 @@ async function deleteMessage(
  */
 async function sendChatMessage(
   channelId: string,
-  message: string
+  message: string,
 ): Promise<void> {
   try {
-    if (!activeStreamers[channelId]?.oauthClient || !activeStreamers[channelId]?.liveChatId) {
-      console.error(`Cannot send message: missing OAuth client or liveChatId for channel ${channelId}`);
+    if (
+      !activeStreamers[channelId]?.oauthClient ||
+      !activeStreamers[channelId]?.liveChatId
+    ) {
+      console.error(
+        `Cannot send message: missing OAuth client or liveChatId for channel ${channelId}`,
+      );
       return;
     }
 
@@ -248,10 +257,10 @@ async function sendChatMessage(
           liveChatId: activeStreamers[channelId].liveChatId,
           type: "textMessageEvent",
           textMessageDetails: {
-            messageText: message
-          }
-        }
-      }
+            messageText: message,
+          },
+        },
+      },
     });
 
     console.log(`Message sent to channel ${channelId}: ${message}`);
@@ -294,14 +303,14 @@ async function processMessage(
     try {
       // Pass the display name directly from the message
       const response = await handleCommands(
-        channelId, 
-        authorChannelId, 
+        channelId,
+        authorChannelId,
         displayName,
         authorChannelId,
         displayMessage,
-        activeStreamers
+        activeStreamers,
       );
-      
+
       if (response) {
         // Send response back to chat
         await sendChatMessage(channelId, response);
@@ -327,30 +336,20 @@ async function processMessage(
 
   // Handle bad word detection
   if (containsBadWords) {
-    // Timeout the user with cached config
-    // Don't await this - let it process in the background
-    timeoutUser(
-      channelId,
-      authorChannelId,
-      liveChatId,
-      badWordConfig.timeoutDurationSeconds,
-      badWordConfig.timeoutMessage,
-    );
-
-    console.log(
-      `Deleting message with bad words from ${displayName}: ${displayMessage}`,
-    );
+    // Bad word found, will be handled by the bad-word-detection module directly
+    // No need to call timeoutUser here as it's called within checkForBadWords
+    console.log(`Blocked message with bad words from ${displayName}: ${displayMessage}`);
     // Don't await this - let it process in the background
     deleteMessage(channelId, id);
   }
 
-  // Handle blocked link detection
+  // Handle link detection
   if (containsBlockedLinks) {
-    console.log(
-      `Deleting message with blocked links from ${displayName}: ${displayMessage}`,
-    );
-    // Don't await this - let it process in the background
-    deleteMessage(channelId, id);
+    console.log(`Blocked message with links from ${displayName}: ${displayMessage}`);
+    if (linkConfig.deleteMessage) {
+      // Don't await this - let it process in the background
+      deleteMessage(channelId, id);
+    }
   }
 
   // Process message storage and points in parallel
@@ -377,11 +376,15 @@ async function processMessage(
 
 /**
  * Clear all polling and cleanup intervals
+ * NOTE: Cleanup intervals will be replaced by redis later on.
  */
 export function clearPollingApi(intervalId: NodeJS.Timeout) {
   if (intervalId) {
     clearInterval(intervalId);
-    console.log("Polling interval cleared");
+    clearInterval(spamCleanupInterval);
+    clearInterval(linkCleanupInterval);
+    clearInterval(timeoutCleanupInterval);
+    console.log("All polling and cleanup intervals cleared");
 
     // Clear spam and bad word detection for all active channels
     Object.keys(activeStreamers).forEach((channelId) => {
@@ -395,16 +398,25 @@ export function clearPollingApi(intervalId: NodeJS.Timeout) {
 // Start the polling interval
 const interval = setInterval(pollLiveChats, 5000);
 
-// Initialize active streamers reference for bad word detection
+// Set up a periodic cleanup for timeouts (every 15 minutes)
+const timeoutCleanupInterval = setInterval(cleanupTimeouts, 15 * 60 * 1000);
+
+// Initialize active streamers reference for bad word detection WONT NEED THIS LATER
 setBadWordActiveStreamersReference(activeStreamers);
 setLinkActiveStreamersReference(activeStreamers);
+setTimeoutActiveStreamersReference(activeStreamers);
+setSpamActiveStreamersReference(activeStreamers);
 
 export {
+  pollLiveChats,
+  sendChatMessage,
+  deleteMessage,
   addStreamer,
   findActiveChat,
   interval,
   removeStreamer,
   triggerTTS,
   spamCleanupInterval,
-  cleanupTimeoutInterval,
+  linkCleanupInterval,
+  timeoutCleanupInterval,
 };

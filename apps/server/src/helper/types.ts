@@ -6,19 +6,25 @@ export interface MessageTracker {
   firstTimestamp: number;
   lastTimestamp: number;
 }
+
+export interface Timeout { 
+  timeoutEnabled: boolean;
+  timeoutDurationSeconds: number;
+  timeoutMessage: string;
+}
+
 export interface SpamConfig {
   maxRepeatedMessages: number;
   timeWindowSeconds: number;
   cleanupIntervalSeconds: number;
+  timeout: Timeout;
 }
 
 export interface BadWordConfig {
   enabled: boolean;
   words: string[];
-  timeoutEnabled: boolean;
-  timeoutDurationSeconds: number;
-  timeoutMessage: string;
   exemptedUsers: string;
+  timeout: Timeout;
 }
 
 export interface LinkConfig {
@@ -27,4 +33,5 @@ export interface LinkConfig {
   allowedLinks: string[];
   blockedLinks: string[];
   deleteMessage: boolean;
+  timeout: Timeout;
 }

@@ -1,4 +1,5 @@
 import { SpamConfig } from "./types";
+import { timeoutUser } from './timeout-utils';
 
 // Track repeated messages from users
 const userMessageHistory: Record<
@@ -11,6 +12,11 @@ export const defaultSpamConfig: SpamConfig = {
   maxRepeatedMessages: 3,
   timeWindowSeconds: 10,
   cleanupIntervalSeconds: 60,
+  timeout: {
+    timeoutEnabled: true,
+    timeoutDurationSeconds: 300, // 5 minutes
+    timeoutMessage: "You've been timed out for spamming.",
+  }
 };
 
 // Reference to active streamers for config access
@@ -34,7 +40,7 @@ function getSpamConfig(channelId: string): SpamConfig {
 }
 
 /**
- * Check if a message is spam based on repeated messages
+ * Check for spam messages
  */
 export async function checkForSpam(
   channelId: string,
@@ -58,29 +64,46 @@ export async function checkForSpam(
     now - userMessageHistory[key].lastCleanup >
     config.cleanupIntervalSeconds * 1000
   ) {
-    userMessageHistory[key].messages = [];
+    userMessageHistory[key].messages = userMessageHistory[key].messages.filter(
+      (msg) => {
+        const msgData = JSON.parse(msg);
+        return now - msgData.timestamp < config.timeWindowSeconds * 1000;
+      },
+    );
     userMessageHistory[key].lastCleanup = now;
   }
 
-  // Add new message
-  userMessageHistory[key].messages.push(message);
+  // Count occurrences of this message in the time window
+  const messageCount = userMessageHistory[key].messages.filter((msg) => {
+    const msgData = JSON.parse(msg);
+    return (
+      msgData.text === message &&
+      now - msgData.timestamp < config.timeWindowSeconds * 1000
+    );
+  }).length;
 
-  // Check for repeated messages within time window
-  const recentMessages = userMessageHistory[key].messages.filter(
-    (msg) =>
-      now - userMessageHistory[key].lastCleanup <=
-      config.timeWindowSeconds * 1000,
+  // Add current message to history
+  userMessageHistory[key].messages.push(
+    JSON.stringify({ text: message, timestamp: now }),
   );
 
-  // Count occurrences of the current message
-  const messageCount = recentMessages.filter((msg) => msg === message).length;
+  // Check if message count exceeds threshold
+  if (messageCount >= config.maxRepeatedMessages - 1) {
+    // Spam detected, timeout if enabled
+    if (config.timeout.timeoutEnabled) {
+      const liveChatId = activeStreamersRef[channelId]?.liveChatId;
+      if (liveChatId) {
+        await timeoutUser(channelId, userId, liveChatId, config.timeout);
+      }
+    }
+    return true;
+  }
 
-  // If message appears too many times, consider it spam
-  return messageCount >= config.maxRepeatedMessages;
+  return false;
 }
 
 /**
- * Clear spam detection data for a channel
+ * Clear spam detection for a channel
  */
 export function clearSpamDetection(channelId: string): void {
   // Remove all entries for this channel
@@ -91,18 +114,26 @@ export function clearSpamDetection(channelId: string): void {
   });
 }
 
-/**
- * Cleanup interval to remove old messages
- */
+// Initialize cleanup interval
 export const cleanupInterval = setInterval(() => {
   const now = Date.now();
-  Object.entries(userMessageHistory).forEach(([key, data]) => {
+  
+  // Clean up all user message histories
+  for (const key in userMessageHistory) {
     if (
-      now - data.lastCleanup >
+      now - userMessageHistory[key].lastCleanup >
       defaultSpamConfig.cleanupIntervalSeconds * 1000
     ) {
-      data.messages = [];
-      data.lastCleanup = now;
+      userMessageHistory[key].messages = userMessageHistory[key].messages.filter(
+        (msg) => {
+          const msgData = JSON.parse(msg);
+          return (
+            now - msgData.timestamp <
+            defaultSpamConfig.timeWindowSeconds * 1000
+          );
+        },
+      );
+      userMessageHistory[key].lastCleanup = now;
     }
-  });
+  }
 }, defaultSpamConfig.cleanupIntervalSeconds * 1000);
