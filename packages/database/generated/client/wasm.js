@@ -142,6 +142,8 @@ exports.Prisma.CustomCommandScalarFieldEnum = {
   userId: 'userId',
   trigger: 'trigger',
   response: 'response',
+  description: 'description',
+  enabled: 'enabled',
   createdAt: 'createdAt',
   cooldown: 'cooldown',
   requiredUserLevel: 'requiredUserLevel'

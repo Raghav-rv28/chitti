@@ -51,7 +51,7 @@ router.get("/auth", async (req: Request, res: Response) => {
  */
 router.get("/callback", async (req: Request, res: Response) => {
   const { code, state } = req.query;
-  if (!state || !(state as string in stateStore)) {
+  if (!state || !((state as string) in stateStore)) {
     res.status(400).send("Invalid state parameter.");
   }
   try {
@@ -93,7 +93,7 @@ router.get("/start-stream/", async (req: Request, res: Response) => {
   } else {
     res.sendStatus(500);
   }
-  res.sendStatus(200);
+  res.sendStatus(200).redirect("http://localhost:30001/dashboard");
 });
 
 /**

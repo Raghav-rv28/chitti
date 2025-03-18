@@ -3940,6 +3940,8 @@ export namespace Prisma {
     userId: string | null
     trigger: string | null
     response: string | null
+    description: string | null
+    enabled: boolean | null
     createdAt: Date | null
     cooldown: number | null
     requiredUserLevel: $Enums.Role | null
@@ -3950,6 +3952,8 @@ export namespace Prisma {
     userId: string | null
     trigger: string | null
     response: string | null
+    description: string | null
+    enabled: boolean | null
     createdAt: Date | null
     cooldown: number | null
     requiredUserLevel: $Enums.Role | null
@@ -3960,6 +3964,8 @@ export namespace Prisma {
     userId: number
     trigger: number
     response: number
+    description: number
+    enabled: number
     createdAt: number
     cooldown: number
     requiredUserLevel: number
@@ -3980,6 +3986,8 @@ export namespace Prisma {
     userId?: true
     trigger?: true
     response?: true
+    description?: true
+    enabled?: true
     createdAt?: true
     cooldown?: true
     requiredUserLevel?: true
@@ -3990,6 +3998,8 @@ export namespace Prisma {
     userId?: true
     trigger?: true
     response?: true
+    description?: true
+    enabled?: true
     createdAt?: true
     cooldown?: true
     requiredUserLevel?: true
@@ -4000,6 +4010,8 @@ export namespace Prisma {
     userId?: true
     trigger?: true
     response?: true
+    description?: true
+    enabled?: true
     createdAt?: true
     cooldown?: true
     requiredUserLevel?: true
@@ -4097,6 +4109,8 @@ export namespace Prisma {
     userId: string
     trigger: string
     response: string
+    description: string
+    enabled: boolean
     createdAt: Date
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -4126,6 +4140,8 @@ export namespace Prisma {
     userId?: boolean
     trigger?: boolean
     response?: boolean
+    description?: boolean
+    enabled?: boolean
     createdAt?: boolean
     cooldown?: boolean
     requiredUserLevel?: boolean
@@ -4137,6 +4153,8 @@ export namespace Prisma {
     userId?: boolean
     trigger?: boolean
     response?: boolean
+    description?: boolean
+    enabled?: boolean
     createdAt?: boolean
     cooldown?: boolean
     requiredUserLevel?: boolean
@@ -4148,6 +4166,8 @@ export namespace Prisma {
     userId?: boolean
     trigger?: boolean
     response?: boolean
+    description?: boolean
+    enabled?: boolean
     createdAt?: boolean
     cooldown?: boolean
     requiredUserLevel?: boolean
@@ -4159,12 +4179,14 @@ export namespace Prisma {
     userId?: boolean
     trigger?: boolean
     response?: boolean
+    description?: boolean
+    enabled?: boolean
     createdAt?: boolean
     cooldown?: boolean
     requiredUserLevel?: boolean
   }
 
-  export type CustomCommandOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trigger" | "response" | "createdAt" | "cooldown" | "requiredUserLevel", ExtArgs["result"]["customCommand"]>
+  export type CustomCommandOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trigger" | "response" | "description" | "enabled" | "createdAt" | "cooldown" | "requiredUserLevel", ExtArgs["result"]["customCommand"]>
   export type CustomCommandInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -4185,6 +4207,8 @@ export namespace Prisma {
       userId: string
       trigger: string
       response: string
+      description: string
+      enabled: boolean
       createdAt: Date
       cooldown: number
       requiredUserLevel: $Enums.Role
@@ -4616,6 +4640,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"CustomCommand", 'String'>
     readonly trigger: FieldRef<"CustomCommand", 'String'>
     readonly response: FieldRef<"CustomCommand", 'String'>
+    readonly description: FieldRef<"CustomCommand", 'String'>
+    readonly enabled: FieldRef<"CustomCommand", 'Boolean'>
     readonly createdAt: FieldRef<"CustomCommand", 'DateTime'>
     readonly cooldown: FieldRef<"CustomCommand", 'Int'>
     readonly requiredUserLevel: FieldRef<"CustomCommand", 'Role'>
@@ -10837,6 +10863,8 @@ export namespace Prisma {
     userId: 'userId',
     trigger: 'trigger',
     response: 'response',
+    description: 'description',
+    enabled: 'enabled',
     createdAt: 'createdAt',
     cooldown: 'cooldown',
     requiredUserLevel: 'requiredUserLevel'
@@ -11009,6 +11037,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -11189,6 +11224,8 @@ export namespace Prisma {
     userId?: StringFilter<"CustomCommand"> | string
     trigger?: StringFilter<"CustomCommand"> | string
     response?: StringFilter<"CustomCommand"> | string
+    description?: StringFilter<"CustomCommand"> | string
+    enabled?: BoolFilter<"CustomCommand"> | boolean
     createdAt?: DateTimeFilter<"CustomCommand"> | Date | string
     cooldown?: IntFilter<"CustomCommand"> | number
     requiredUserLevel?: EnumRoleFilter<"CustomCommand"> | $Enums.Role
@@ -11200,6 +11237,8 @@ export namespace Prisma {
     userId?: SortOrder
     trigger?: SortOrder
     response?: SortOrder
+    description?: SortOrder
+    enabled?: SortOrder
     createdAt?: SortOrder
     cooldown?: SortOrder
     requiredUserLevel?: SortOrder
@@ -11214,6 +11253,8 @@ export namespace Prisma {
     NOT?: CustomCommandWhereInput | CustomCommandWhereInput[]
     userId?: StringFilter<"CustomCommand"> | string
     response?: StringFilter<"CustomCommand"> | string
+    description?: StringFilter<"CustomCommand"> | string
+    enabled?: BoolFilter<"CustomCommand"> | boolean
     createdAt?: DateTimeFilter<"CustomCommand"> | Date | string
     cooldown?: IntFilter<"CustomCommand"> | number
     requiredUserLevel?: EnumRoleFilter<"CustomCommand"> | $Enums.Role
@@ -11225,6 +11266,8 @@ export namespace Prisma {
     userId?: SortOrder
     trigger?: SortOrder
     response?: SortOrder
+    description?: SortOrder
+    enabled?: SortOrder
     createdAt?: SortOrder
     cooldown?: SortOrder
     requiredUserLevel?: SortOrder
@@ -11243,6 +11286,8 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"CustomCommand"> | string
     trigger?: StringWithAggregatesFilter<"CustomCommand"> | string
     response?: StringWithAggregatesFilter<"CustomCommand"> | string
+    description?: StringWithAggregatesFilter<"CustomCommand"> | string
+    enabled?: BoolWithAggregatesFilter<"CustomCommand"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CustomCommand"> | Date | string
     cooldown?: IntWithAggregatesFilter<"CustomCommand"> | number
     requiredUserLevel?: EnumRoleWithAggregatesFilter<"CustomCommand"> | $Enums.Role
@@ -11559,7 +11604,7 @@ export namespace Prisma {
 
   export type ViewerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userChannelId_streamChatId?: ViewerUserChannelIdStreamChatIdCompoundUniqueInput
+    id_userChannelId_streamChatId?: ViewerIdUserChannelIdStreamChatIdCompoundUniqueInput
     AND?: ViewerWhereInput | ViewerWhereInput[]
     OR?: ViewerWhereInput[]
     NOT?: ViewerWhereInput | ViewerWhereInput[]
@@ -11574,7 +11619,7 @@ export namespace Prisma {
     Chat?: ChatListRelationFilter
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "userChannelId_streamChatId">
+  }, "id" | "id_userChannelId_streamChatId">
 
   export type ViewerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11671,7 +11716,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateInput = {
-    id?: string
+    id: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -11682,7 +11727,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateInput = {
-    id?: string
+    id: string
     userId: string
     chatType: string
     message: string
@@ -11715,7 +11760,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyInput = {
-    id?: string
+    id: string
     userId: string
     chatType: string
     message: string
@@ -11748,6 +11793,8 @@ export namespace Prisma {
     id?: string
     trigger: string
     response: string
+    description?: string
+    enabled?: boolean
     createdAt?: Date | string
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -11759,6 +11806,8 @@ export namespace Prisma {
     userId: string
     trigger: string
     response: string
+    description?: string
+    enabled?: boolean
     createdAt?: Date | string
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -11768,6 +11817,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -11779,6 +11830,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -11789,6 +11842,8 @@ export namespace Prisma {
     userId: string
     trigger: string
     response: string
+    description?: string
+    enabled?: boolean
     createdAt?: Date | string
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -11798,6 +11853,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -11808,6 +11865,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -12435,6 +12494,11 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -12447,6 +12511,8 @@ export namespace Prisma {
     userId?: SortOrder
     trigger?: SortOrder
     response?: SortOrder
+    description?: SortOrder
+    enabled?: SortOrder
     createdAt?: SortOrder
     cooldown?: SortOrder
     requiredUserLevel?: SortOrder
@@ -12461,6 +12527,8 @@ export namespace Prisma {
     userId?: SortOrder
     trigger?: SortOrder
     response?: SortOrder
+    description?: SortOrder
+    enabled?: SortOrder
     createdAt?: SortOrder
     cooldown?: SortOrder
     requiredUserLevel?: SortOrder
@@ -12471,6 +12539,8 @@ export namespace Prisma {
     userId?: SortOrder
     trigger?: SortOrder
     response?: SortOrder
+    description?: SortOrder
+    enabled?: SortOrder
     createdAt?: SortOrder
     cooldown?: SortOrder
     requiredUserLevel?: SortOrder
@@ -12478,6 +12548,14 @@ export namespace Prisma {
 
   export type CustomCommandSumOrderByAggregateInput = {
     cooldown?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -12799,7 +12877,8 @@ export namespace Prisma {
     expiresAt?: SortOrder
   }
 
-  export type ViewerUserChannelIdStreamChatIdCompoundUniqueInput = {
+  export type ViewerIdUserChannelIdStreamChatIdCompoundUniqueInput = {
+    id: string
     userChannelId: string
     streamChatId: string
   }
@@ -12944,6 +13023,10 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutCustomCommandInput, UserUncheckedCreateWithoutCustomCommandInput>
     connectOrCreate?: UserCreateOrConnectWithoutCustomCommandInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -13610,11 +13693,24 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -14067,7 +14163,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateWithoutStreamChatInput = {
-    id?: string
+    id: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -14077,7 +14173,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateWithoutStreamChatInput = {
-    id?: string
+    id: string
     userId: string
     chatType: string
     message: string
@@ -14290,7 +14386,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateWithoutUserInput = {
-    id?: string
+    id: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -14300,7 +14396,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateWithoutUserInput = {
-    id?: string
+    id: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -14323,6 +14419,8 @@ export namespace Prisma {
     id?: string
     trigger: string
     response: string
+    description?: string
+    enabled?: boolean
     createdAt?: Date | string
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -14332,6 +14430,8 @@ export namespace Prisma {
     id?: string
     trigger: string
     response: string
+    description?: string
+    enabled?: boolean
     createdAt?: Date | string
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -14532,6 +14632,8 @@ export namespace Prisma {
     userId?: StringFilter<"CustomCommand"> | string
     trigger?: StringFilter<"CustomCommand"> | string
     response?: StringFilter<"CustomCommand"> | string
+    description?: StringFilter<"CustomCommand"> | string
+    enabled?: BoolFilter<"CustomCommand"> | boolean
     createdAt?: DateTimeFilter<"CustomCommand"> | Date | string
     cooldown?: IntFilter<"CustomCommand"> | number
     requiredUserLevel?: EnumRoleFilter<"CustomCommand"> | $Enums.Role
@@ -14784,7 +14886,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateWithoutViewerInput = {
-    id?: string
+    id: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -14794,7 +14896,7 @@ export namespace Prisma {
   }
 
   export type ChatUncheckedCreateWithoutViewerInput = {
-    id?: string
+    id: string
     userId: string
     chatType: string
     message: string
@@ -14970,7 +15072,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyStreamChatInput = {
-    id?: string
+    id: string
     userId: string
     chatType: string
     message: string
@@ -15064,7 +15166,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyUserInput = {
-    id?: string
+    id: string
     chatType: string
     message: string
     timestamp?: Date | string
@@ -15077,6 +15179,8 @@ export namespace Prisma {
     id?: string
     trigger: string
     response: string
+    description?: string
+    enabled?: boolean
     createdAt?: Date | string
     cooldown: number
     requiredUserLevel: $Enums.Role
@@ -15170,6 +15274,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15179,6 +15285,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15188,6 +15296,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     trigger?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cooldown?: IntFieldUpdateOperationsInput | number
     requiredUserLevel?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15290,7 +15400,7 @@ export namespace Prisma {
   }
 
   export type ChatCreateManyViewerInput = {
-    id?: string
+    id: string
     userId: string
     chatType: string
     message: string

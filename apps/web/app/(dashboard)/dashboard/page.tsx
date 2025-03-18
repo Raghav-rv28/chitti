@@ -1,14 +1,13 @@
 import { Clock, Command, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TopCommands } from "@/components/custom/top-commands";
 import { UsersList } from "@/components/custom/users-list";
 import { Component } from "@/components/custom/chart";
-import { DialogDemo } from "@/components/custom/test";
 import { getUserInfo } from "@/actions/queries";
 import { currentUser } from "@clerk/nextjs/server";
+import GoLive from "./components/go-live";
 
 export default async function DashboardPage() {
   const userClerk = await currentUser();
@@ -26,12 +25,7 @@ export default async function DashboardPage() {
             Good Afternoon, raghav rudhra
           </h2>
           <div className="flex items-center space-x-2">
-            <Link
-              href={`http://localhost:3000/youtube/start-stream?channelId=${user?.id}`}
-            >
-              <Button>Start Monitoring</Button>
-            </Link>
-            <DialogDemo />
+            <GoLive id={user?.id} />
           </div>
         </div>
         <div className="text-muted-foreground">

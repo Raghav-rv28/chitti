@@ -85,48 +85,66 @@ export const saveStream = async (
 // authorId: channelId
 // userId: viewerId
 export const saveChatMessages = async (
-  authorId: string,
+  channelId: string,
   message: string,
   liveChatId: string,
   userId: string,
   chatType: string,
   username: string,
+  messageId: string,
 ) => {
-  return await prisma.$transaction([
-    prisma.streamChat.upsert({
-      where: { id: liveChatId },
-      create: { id: liveChatId, userId, startTime: new Date() },
-      update: {},
-    }),
-    prisma.viewer.upsert({
-      where: { id: userId },
-      create: {
-        id: userId,
-        userChannelId: authorId,
-        username,
-        streamChatId: liveChatId,
-        totalMessages: 1,
-        points: 2,
-        streakDays: 0,
-        createdAt: new Date(),
-      },
-      update: {
-        points: { increment: 2 },
-        totalMessages: { increment: 1 },
-        streamChatId: liveChatId,
-      },
-    }),
-    prisma.chat.create({
+  return await prisma.$transaction(async (tx) => {
+    const chat = await tx.chat.findUnique({
+      where: { id: messageId, userId: channelId, liveChatId },
+    });
+    if (chat) {
+      console.log("message already saved");
+      return;
+    }
+    const viewer = await tx.viewer.findFirst({
+      where: { id: userId, userChannelId: channelId },
+    });
+    console.log("viewer", viewer);
+    if (!viewer) {
+      await tx.viewer.create({
+        data: {
+          id: userId,
+          userChannelId: channelId,
+          username,
+          streamChatId: liveChatId,
+          totalMessages: 1,
+          points: 2,
+          streakDays: 0,
+          createdAt: new Date(),
+        },
+      });
+    } else {
+      await tx.viewer.update({
+        where: {
+          id: userId,
+          userChannelId: channelId,
+          streamChatId: liveChatId,
+        },
+        data: {
+          points: { increment: 2 },
+          totalMessages: { increment: 1 },
+          streamChatId: liveChatId,
+        },
+      });
+    }
+
+    return await tx.chat.create({
       data: {
-        userId: authorId,
-      viewerId: userId,
+        id: messageId,
+        userId: channelId,
+        viewerId: userId,
         message,
         liveChatId,
         username,
         chatType,
       },
-    }),
-  ]);
+    });
+  });
 };
 
 export const getTopViewers = async (userId: string, limit = 10) => {

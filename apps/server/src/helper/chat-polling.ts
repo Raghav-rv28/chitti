@@ -30,13 +30,11 @@ import {
   setActiveStreamersReference as setLinkActiveStreamersReference,
 } from "./link-detection";
 import { handleCommands } from "./commands";
-import { 
-  isUserTimedOut, 
-  timeoutUser, 
-  removeUserTimeout,
+import {
+  isUserTimedOut,
   cleanupTimeouts,
-  setActiveStreamersReference as setTimeoutActiveStreamersReference
-} from './timeout-utils';
+  setActiveStreamersReference as setTimeoutActiveStreamersReference,
+} from "./timeout-utils";
 
 // Define active streamers with moderation settings
 const activeStreamers: Record<
@@ -284,13 +282,13 @@ async function processMessage(
     return;
   }
 
-  const { authorChannelId, displayMessage, type, id } = message.snippet;
+  const { authorChannelId, displayMessage, type } = message.snippet;
+  const { id } = message;
   const { displayName } = message.authorDetails;
 
   // Fast path: Check if user is in timeout (in-memory check, no DB)
   if (isUserTimedOut(channelId, authorChannelId)) {
     console.log(`Skipping message from timed out user ${displayName}`);
-    return;
   }
 
   // Get cached configs (no DB queries)
@@ -338,14 +336,18 @@ async function processMessage(
   if (containsBadWords) {
     // Bad word found, will be handled by the bad-word-detection module directly
     // No need to call timeoutUser here as it's called within checkForBadWords
-    console.log(`Blocked message with bad words from ${displayName}: ${displayMessage}`);
+    console.log(
+      `Blocked message with bad words from ${displayName}: ${displayMessage}`,
+    );
     // Don't await this - let it process in the background
     deleteMessage(channelId, id);
   }
 
   // Handle link detection
   if (containsBlockedLinks) {
-    console.log(`Blocked message with links from ${displayName}: ${displayMessage}`);
+    console.log(
+      `Blocked message with links from ${displayName}: ${displayMessage}`,
+    );
     if (linkConfig.deleteMessage) {
       // Don't await this - let it process in the background
       deleteMessage(channelId, id);
@@ -361,6 +363,7 @@ async function processMessage(
     authorChannelId,
     type,
     displayName,
+    id,
   );
   if (!isSpam && !containsBadWords && !containsBlockedLinks) {
     awardUserPoints(

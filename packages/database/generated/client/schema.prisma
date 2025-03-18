@@ -19,7 +19,7 @@ model Analytics {
 }
 
 model Chat {
-  id         String     @id @default(uuid())
+  id         String     @id
   userId     String
   chatType   String
   message    String
@@ -37,6 +37,8 @@ model CustomCommand {
   userId            String
   trigger           String   @unique
   response          String
+  description       String   @default("some descripton")
+  enabled           Boolean  @default(true)
   createdAt         DateTime @default(now())
   cooldown          Int
   requiredUserLevel Role
@@ -107,7 +109,7 @@ model Viewer {
   StreamChat    StreamChat @relation(fields: [streamChatId], references: [id])
   User          User       @relation(fields: [userChannelId], references: [id])
 
-  @@unique([userChannelId, streamChatId])
+  @@unique([id, userChannelId, streamChatId])
 }
 
 enum Role {
