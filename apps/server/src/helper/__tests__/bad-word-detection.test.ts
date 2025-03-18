@@ -1,4 +1,4 @@
-import { checkForBadWords, cleanupTimeoutInterval } from "../bad-word-detection";
+import { checkForBadWords } from "../bad-word-detection";
 import { BadWordConfig } from "../types";
 
 
@@ -10,27 +10,39 @@ describe("Bad Word Detection", () => {
   const mockConfig: BadWordConfig = {
     words: ["bhainchod", "inappropriate", "offensive"],
     exemptedUsers: "",
-    timeoutDurationSeconds: 300,
-    timeoutMessage: "You've been timed out.",
+    enabled: true,
+    timeout: {
+      timeoutEnabled: true,
+      timeoutDurationSeconds: 300,
+      timeoutMessage: "You've been timed out.",
+    },
   };
 
   const mockConfigWithExemptedUser: BadWordConfig = {
     words: ["badword", "inappropriate", "offensive"],
     exemptedUsers: "user-123, user-456",
-    timeoutDurationSeconds: 300,
-    timeoutMessage: "You've been timed out.",
+    enabled: true,
+    timeout: {
+      timeoutEnabled: true,
+      timeoutDurationSeconds: 300,
+      timeoutMessage: "You've been timed out.",
+    },
   };
 
   const mockConfigEmptyWords: BadWordConfig = {
     words: [],
     exemptedUsers: "",
-    timeoutDurationSeconds: 300,
-    timeoutMessage: "You've been timed out.",
+    enabled: true,
+    timeout: {
+      timeoutEnabled: true,
+      timeoutDurationSeconds: 300,
+      timeoutMessage: "You've been timed out.",
+    },
   };
 
   // Clear the interval after all tests
   afterAll(() => {
-    clearInterval(cleanupTimeoutInterval);
+    // No cleanup needed since cleanupTimeoutInterval is removed
   });
 
   it("should detect bad words in a message", async () => {

@@ -69,13 +69,8 @@ export async function executeActionCommand(
   command: string,
   args: string[],
   activeStreamers: Record<string, any>,
+  hasPermission: boolean,
 ): Promise<string | undefined> {
-  // Check permissions first - we already have the viewerId
-  const hasPermission = await isModeratorOrOwner(
-    channelId,
-    viewerId,
-    activeStreamers,
-  );
   if (!hasPermission) {
     return "You don't have permission to use this command.";
   }
@@ -176,7 +171,7 @@ export async function handleCommands(
     const parts = displayMessage.slice(1).split(" "); // Remove "!" and split by space
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
-
+    const hasPermission = await isModeratorOrOwner(channelId, viewerId, activeStreamers);
     if (!command) {
       return undefined;
     }
@@ -190,6 +185,7 @@ export async function handleCommands(
       command,
       args,
       activeStreamers,
+      hasPermission
     );
 
     if (actionResponse) {
