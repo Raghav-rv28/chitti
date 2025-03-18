@@ -4,7 +4,7 @@ import { getCommands } from "../queries/commands";
 import { awardUserPoints } from "../queries/points";
 import { saveStream, saveChatMessages } from "../queries/queries";
 import { prisma } from "@repo/database";
-import { SpamConfig, BadWordConfig } from "./types";
+import { SpamConfig, BadWordConfig, LinkConfig } from "./types";
 
 // Import spam detection and bad word detection modules
 import {
@@ -25,6 +25,15 @@ import {
   defaultBadWordConfig,
 } from "./bad-word-detection";
 
+// Import link detection module
+import {
+  checkForLinks,
+  clearLinkDetection,
+  cleanupInterval as linkCleanupInterval,
+  defaultLinkConfig,
+  setActiveStreamersReference as setLinkActiveStreamersReference,
+} from "./link-detection";
+
 // Define active streamers with moderation settings
 const activeStreamers: Record<
   string,
@@ -35,6 +44,7 @@ const activeStreamers: Record<
     moderationSettings: {
       spamConfig: SpamConfig;
       badWordConfig: BadWordConfig;
+      linkConfig: LinkConfig;
     };
   }
 > = {};
@@ -66,12 +76,15 @@ async function addStreamer(channelId: string, liveChatId: string) {
       badWordConfig:
         (moderation?.blacklist as unknown as BadWordConfig) ||
         defaultBadWordConfig,
+      linkConfig:
+        (moderation?.links as unknown as LinkConfig) || defaultLinkConfig,
     },
   };
 
   // Update references in both detection modules
   setSpamActiveStreamersReference(activeStreamers);
   setBadWordActiveStreamersReference(activeStreamers);
+  setLinkActiveStreamersReference(activeStreamers);
 }
 
 /**
@@ -91,6 +104,16 @@ function getBadWordConfig(channelId: string): BadWordConfig {
   return (
     activeStreamers[channelId]?.moderationSettings.badWordConfig ||
     defaultBadWordConfig
+  );
+}
+
+/**
+ * Get link configuration for a channel from memory
+ */
+function getLinkConfig(channelId: string): LinkConfig {
+  return (
+    activeStreamers[channelId]?.moderationSettings.linkConfig ||
+    defaultLinkConfig
   );
 }
 
@@ -261,6 +284,7 @@ async function processMessage(
   // Get cached configs (no DB queries)
   const spamConfig = getSpamConfig(channelId);
   const badWordConfig = getBadWordConfig(channelId);
+  const linkConfig = getLinkConfig(channelId);
 
   // Process commands first if it's a command (most commands are harmless)
   if (displayMessage[0] === "!") {
@@ -269,9 +293,10 @@ async function processMessage(
   }
 
   // Run moderation checks in parallel
-  const [isSpam, containsBadWords] = await Promise.all([
+  const [isSpam, containsBadWords, containsBlockedLinks] = await Promise.all([
     checkForSpam(channelId, authorChannelId, displayMessage, spamConfig),
     checkForBadWords(channelId, authorChannelId, displayMessage, badWordConfig),
+    checkForLinks(channelId, authorChannelId, displayMessage, linkConfig),
   ]);
 
   // Handle spam detection
@@ -279,7 +304,6 @@ async function processMessage(
     console.log(`Deleting spam message from ${displayName}: ${displayMessage}`);
     // Don't await this - let it process in the background
     deleteMessage(channelId, id);
-    return;
   }
 
   // Handle bad word detection
@@ -299,30 +323,37 @@ async function processMessage(
     );
     // Don't await this - let it process in the background
     deleteMessage(channelId, id);
-    return;
+  }
+
+  // Handle blocked link detection
+  if (containsBlockedLinks) {
+    console.log(
+      `Deleting message with blocked links from ${displayName}: ${displayMessage}`,
+    );
+    // Don't await this - let it process in the background
+    deleteMessage(channelId, id);
   }
 
   // Process message storage and points in parallel
   // These are independent operations that can run concurrently
-  Promise.all([
-    saveChatMessages(
-      channelId,
-      displayMessage,
-      liveChatId,
-      authorChannelId,
-      type,
-      displayName,
-    ),
+  await saveChatMessages(
+    channelId,
+    displayMessage,
+    liveChatId,
+    authorChannelId,
+    type,
+    displayName,
+  );
+  if (!isSpam && !containsBadWords && !containsBlockedLinks) {
     awardUserPoints(
       authorChannelId,
       displayName,
       channelId,
       liveChatId,
       displayMessage,
-    ),
-  ]).catch((error) => {
-    console.error("Error processing message:", error);
-  });
+    );
+  }
+  return;
 }
 
 /**
@@ -337,6 +368,7 @@ export function clearPollingApi(intervalId: NodeJS.Timeout) {
     Object.keys(activeStreamers).forEach((channelId) => {
       clearSpamDetection(channelId);
       clearBadWordDetection(channelId);
+      clearLinkDetection(channelId);
     });
   }
 }
@@ -346,6 +378,7 @@ const interval = setInterval(pollLiveChats, 5000);
 
 // Initialize active streamers reference for bad word detection
 setBadWordActiveStreamersReference(activeStreamers);
+setLinkActiveStreamersReference(activeStreamers);
 
 export {
   addStreamer,
@@ -355,4 +388,5 @@ export {
   triggerTTS,
   spamCleanupInterval,
   cleanupTimeoutInterval,
+  linkCleanupInterval,
 };

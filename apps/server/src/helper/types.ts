@@ -11,9 +11,20 @@ export interface SpamConfig {
   timeWindowSeconds: number;
   cleanupIntervalSeconds: number;
 }
+
 export interface BadWordConfig {
+  enabled: boolean;
   words: string[];
+  timeoutEnabled: boolean;
   timeoutDurationSeconds: number;
   timeoutMessage: string;
   exemptedUsers: string;
+}
+
+export interface LinkConfig {
+  enabled: boolean;
+  mode: 'whitelist' | 'blacklist';
+  allowedLinks: string[];
+  blockedLinks: string[];
+  deleteMessage: boolean;
 }

@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 import { getCommands } from "../queries/commands";
-import { removeUserTimeout, timeoutUser } from "./bad-word-detection";
+import { timeoutUser, removeUserTimeout } from "./bad-word-detection";
 
 const youtube = google.youtube("v3");
 
@@ -85,7 +85,7 @@ export async function executeActionCommand(
       
       try {
         // Remove timeout for that user
-        const wasRemoved = removeUserTimeout(channelId, targetChannelId);
+        const wasRemoved = await removeUserTimeout(channelId, targetChannelId);
         
         if (wasRemoved) {
           return `User ${commandTargetUsername} has been removed from timeout.`;

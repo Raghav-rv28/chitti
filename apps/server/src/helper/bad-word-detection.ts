@@ -8,6 +8,8 @@ const youtube = google.youtube("v3");
 export const defaultBadWordConfig: BadWordConfig = {
   words: ["fuck", "bhainchod","nonono"],
   exemptedUsers: "",
+  enabled: true,
+  timeoutEnabled: true,
   timeoutDurationSeconds: 300, // 5 minutes
   timeoutMessage:
     "Your message contained inappropriate content. You've been timed out.",
@@ -207,3 +209,20 @@ export function clearBadWordDetection(channelId: string): void {
     }
   });
 }
+
+/**
+ * Remove a user from timeout
+ */
+export async function removeUserTimeout(channelId: string, userId: string): Promise<boolean> {
+  const key = `${channelId}:${userId}`;
+  
+  if (userTimeouts[key]) {
+    delete userTimeouts[key];
+    console.log(`User ${userId} removed from timeout in channel ${channelId}`);
+    return true;
+  }
+  
+  return false;
+}
+
+    
