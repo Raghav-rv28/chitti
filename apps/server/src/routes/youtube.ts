@@ -4,7 +4,11 @@ import fs from "fs";
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
 // import { CustomRequest } from "../config/types.js";
-import { getOAuth2ClientForUser, randomHex } from "../providers/youtube/auth";
+import {
+  getOAuth2ClientForUser,
+  randomHex,
+  saveTokens,
+} from "../providers/youtube/auth";
 import { createOAuth2Client } from "../config/auth";
 import { google } from "googleapis";
 import { onboardUser } from "../helper/onboarding";
@@ -35,7 +39,7 @@ router.get("/auth", async (req: Request, res: Response) => {
   ];
   const state = randomHex(); // Generate random state
   stateStore[state] = req.query.email as string;
-  const oauth2Client = createOAuth2Client(req.query.channelId as string);
+  const oauth2Client = createOAuth2Client("");
   const authorizationUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
     scope: scopes,
@@ -69,15 +73,13 @@ router.get("/callback", async (req: Request, res: Response) => {
     const items = userProfile.data?.items ?? [];
     const user = items[0];
     if (user && user.id) {
-      onboardUser(
-        {
-          userId: user.id,
-          email: stateStore[state as string],
-          username: user?.snippet?.title,
-          statistics: user?.statistics,
-        },
-        tokens,
-      );
+      onboardUser({
+        userId: user.id,
+        email: stateStore[state as string],
+        username: user?.snippet?.title,
+        statistics: user?.statistics,
+      });
+      saveTokens(user.id, tokens);
     }
     res.redirect("http://localhost:3001/dashboard");
   } catch (error) {
@@ -88,9 +90,9 @@ router.get("/callback", async (req: Request, res: Response) => {
 
 router.get("/start-stream/", async (req: Request, res: Response) => {
   const { channelId } = req.query;
-  const liveChatId = await findActiveChat(channelId as string);
-  if (liveChatId !== null) {
-    await addStreamer(channelId as string, liveChatId);
+  const { broadcastId, liveChatId } = await findActiveChat(channelId as string);
+  if (liveChatId !== null && broadcastId !== null) {
+    await addStreamer(channelId as string, liveChatId, broadcastId);
     interval.ref();
   } else {
     res.sendStatus(500);
@@ -102,22 +104,19 @@ router.get("/start-stream/", async (req: Request, res: Response) => {
 router.post(
   "/update-stream-description",
   async (req: Request, res: Response) => {
-    const { channelId, liveChatId, description } = req.body;
-    console.log("channelId", channelId);
-    console.log("liveChatId", liveChatId);
-    console.log("description", description);
-    const stream = await getStream(liveChatId);
+    const { channelId, broadcastId, description } = req.body;
+    const stream = await getStream(broadcastId);
     if (!stream) {
       return res.status(404).send("Stream not found"); // Handle missing stream
     }
 
-    const oauth2Client:any = await getOAuth2ClientForUser(channelId as string);
+    const oauth2Client: any = await getOAuth2ClientForUser(channelId as string);
     try {
       const response = await youtube.liveBroadcasts.update({
         auth: oauth2Client,
         part: ["snippet"],
         requestBody: {
-          id: liveChatId,
+          id: broadcastId,
           snippet: {
             description: description,
             scheduledStartTime: stream.startTime.toISOString(),

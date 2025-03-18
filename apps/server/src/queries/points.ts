@@ -17,6 +17,7 @@ export const awardUserPoints = async (
   userId: string,
   liveChatId: string,
   message: string,
+  broadcastId: string,
   repliedTo?: string,
 ) => {
   return await prisma.$transaction(async (tx) => {
@@ -71,7 +72,7 @@ export const awardUserPoints = async (
         totalPoints += 5;
       }
     }
-
+    console.log(broadcastId);
     // Upsert viewer with all computed updates in one query
     await tx.viewer.upsert({
       where: { id: authorId },
@@ -79,7 +80,7 @@ export const awardUserPoints = async (
         id: authorId,
         userChannelId: userId,
         username,
-        streamChatId: liveChatId,
+        streamChatId: broadcastId,
         totalMessages: totalMessagesIncrement,
         points: totalPoints,
         streakDays: 0,
@@ -89,7 +90,7 @@ export const awardUserPoints = async (
         totalMessages: { increment: totalMessagesIncrement },
         points: { increment: totalPoints },
         username,
-        streamChatId: liveChatId,
+        streamChatId: broadcastId,
       },
     });
   });

@@ -169,7 +169,7 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
                           body: JSON.stringify({
                             channelId: selectedStream.userId,
                             liveChatId: selectedStream.id,
-                            description: "test",
+                            description: selectedStream.description,
                           }),
                         },
                       );

@@ -40,6 +40,7 @@ import {
 const activeStreamers: Record<
   string,
   {
+    broadcastId: string;
     liveChatId: string;
     nextPage: string;
     oauthClient: any;
@@ -57,7 +58,11 @@ const youtube = google.youtube("v3");
 /**
  * Add a streamer to the active streamers list
  */
-async function addStreamer(channelId: string, liveChatId: string) {
+async function addStreamer(
+  channelId: string,
+  liveChatId: string,
+  broadcastId: string,
+) {
   const auth = await getOAuth2ClientForUser(channelId);
 
   // Fetch moderation settings from database
@@ -71,6 +76,7 @@ async function addStreamer(channelId: string, liveChatId: string) {
   activeStreamers[channelId] = {
     liveChatId,
     nextPage: "",
+    broadcastId,
     oauthClient: auth,
     moderationSettings: {
       spamConfig:
@@ -132,18 +138,21 @@ function removeStreamer(channelId: string): void {
 /**
  * Find active live chat for a channel
  */
-async function findActiveChat(channelId: string): Promise<string | null> {
+async function findActiveChat(
+  channelId: string,
+): Promise<{ broadcastId: string | null; liveChatId: string | null }> {
+  let liveChatId = null;
+  let broadcastId = null;
   try {
     const auth: any = await getOAuth2ClientForUser(channelId);
     const response: any = await youtube.liveBroadcasts.list({
       auth,
-      part: ["snippet","contentDetails"],
+      part: ["snippet", "contentDetails"],
       mine: true,
     });
     const items: typeof response.data.items = response.data?.items ?? [];
     if (items.length === 0) {
       console.log("No Active Chat Found");
-      return null;
     }
 
     const latestChat = items[0];
@@ -156,14 +165,16 @@ async function findActiveChat(channelId: string): Promise<string | null> {
         latestChat.snippet.scheduledStartTime,
         latestChat.snippet.title,
         latestChat.contentDetails.monitorStream,
+        latestChat.id,
         latestChat.snippet.description,
       );
-      return latestChat.snippet.liveChatId;
+      broadcastId = latestChat.id;
+      liveChatId = latestChat.snippet.liveChatId;
     }
-    return null;
+    return { broadcastId, liveChatId };
   } catch (error) {
     console.error("Error fetching active chat:", error);
-    return null;
+    return { broadcastId, liveChatId };
   }
 }
 
@@ -343,6 +354,7 @@ async function processMessage(
       type,
       displayName,
       id,
+      activeStreamers[channelId].broadcastId,
     );
     return;
   }
@@ -375,6 +387,7 @@ async function processMessage(
           type,
           displayName,
           id,
+          activeStreamers[channelId].broadcastId,
         );
         return;
       }
@@ -429,6 +442,7 @@ async function processMessage(
     type,
     displayName,
     id,
+    activeStreamers[channelId].broadcastId,
   );
   if (!isSpam && !containsBadWords && !containsBlockedLinks) {
     awardUserPoints(
@@ -436,6 +450,7 @@ async function processMessage(
       displayName,
       channelId,
       liveChatId,
+      activeStreamers[channelId].broadcastId,
       displayMessage,
     );
   }

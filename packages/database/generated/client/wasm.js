@@ -154,6 +154,7 @@ exports.Prisma.StreamChatScalarFieldEnum = {
   userId: 'userId',
   title: 'title',
   streamUrl: 'streamUrl',
+  liveChatId: 'liveChatId',
   contentDetails: 'contentDetails',
   description: 'description',
   startTime: 'startTime',

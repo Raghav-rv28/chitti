@@ -5088,6 +5088,7 @@ export namespace Prisma {
     userId: string | null
     title: string | null
     streamUrl: string | null
+    liveChatId: string | null
     description: string | null
     startTime: Date | null
     endTime: Date | null
@@ -5101,6 +5102,7 @@ export namespace Prisma {
     userId: string | null
     title: string | null
     streamUrl: string | null
+    liveChatId: string | null
     description: string | null
     startTime: Date | null
     endTime: Date | null
@@ -5114,6 +5116,7 @@ export namespace Prisma {
     userId: number
     title: number
     streamUrl: number
+    liveChatId: number
     contentDetails: number
     description: number
     startTime: number
@@ -5142,6 +5145,7 @@ export namespace Prisma {
     userId?: true
     title?: true
     streamUrl?: true
+    liveChatId?: true
     description?: true
     startTime?: true
     endTime?: true
@@ -5155,6 +5159,7 @@ export namespace Prisma {
     userId?: true
     title?: true
     streamUrl?: true
+    liveChatId?: true
     description?: true
     startTime?: true
     endTime?: true
@@ -5168,6 +5173,7 @@ export namespace Prisma {
     userId?: true
     title?: true
     streamUrl?: true
+    liveChatId?: true
     contentDetails?: true
     description?: true
     startTime?: true
@@ -5269,6 +5275,7 @@ export namespace Prisma {
     userId: string
     title: string | null
     streamUrl: string | null
+    liveChatId: string
     contentDetails: JsonValue
     description: string
     startTime: Date
@@ -5302,6 +5309,7 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    liveChatId?: boolean
     contentDetails?: boolean
     description?: boolean
     startTime?: boolean
@@ -5320,6 +5328,7 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    liveChatId?: boolean
     contentDetails?: boolean
     description?: boolean
     startTime?: boolean
@@ -5335,6 +5344,7 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    liveChatId?: boolean
     contentDetails?: boolean
     description?: boolean
     startTime?: boolean
@@ -5350,6 +5360,7 @@ export namespace Prisma {
     userId?: boolean
     title?: boolean
     streamUrl?: boolean
+    liveChatId?: boolean
     contentDetails?: boolean
     description?: boolean
     startTime?: boolean
@@ -5359,7 +5370,7 @@ export namespace Prisma {
     totalViews?: boolean
   }
 
-  export type StreamChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "streamUrl" | "contentDetails" | "description" | "startTime" | "endTime" | "duration" | "totalDonations" | "totalViews", ExtArgs["result"]["streamChat"]>
+  export type StreamChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "streamUrl" | "liveChatId" | "contentDetails" | "description" | "startTime" | "endTime" | "duration" | "totalDonations" | "totalViews", ExtArgs["result"]["streamChat"]>
   export type StreamChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | StreamChat$ChatArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
@@ -5385,6 +5396,7 @@ export namespace Prisma {
       userId: string
       title: string | null
       streamUrl: string | null
+      liveChatId: string
       contentDetails: Prisma.JsonValue
       description: string
       startTime: Date
@@ -5822,6 +5834,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"StreamChat", 'String'>
     readonly title: FieldRef<"StreamChat", 'String'>
     readonly streamUrl: FieldRef<"StreamChat", 'String'>
+    readonly liveChatId: FieldRef<"StreamChat", 'String'>
     readonly contentDetails: FieldRef<"StreamChat", 'Json'>
     readonly description: FieldRef<"StreamChat", 'String'>
     readonly startTime: FieldRef<"StreamChat", 'DateTime'>
@@ -10900,6 +10913,7 @@ export namespace Prisma {
     userId: 'userId',
     title: 'title',
     streamUrl: 'streamUrl',
+    liveChatId: 'liveChatId',
     contentDetails: 'contentDetails',
     description: 'description',
     startTime: 'startTime',
@@ -11332,6 +11346,7 @@ export namespace Prisma {
     userId?: StringFilter<"StreamChat"> | string
     title?: StringNullableFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableFilter<"StreamChat"> | string | null
+    liveChatId?: StringFilter<"StreamChat"> | string
     contentDetails?: JsonFilter<"StreamChat">
     description?: StringFilter<"StreamChat"> | string
     startTime?: DateTimeFilter<"StreamChat"> | Date | string
@@ -11349,6 +11364,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrderInput | SortOrder
     streamUrl?: SortOrderInput | SortOrder
+    liveChatId?: SortOrder
     contentDetails?: SortOrder
     description?: SortOrder
     startTime?: SortOrder
@@ -11369,6 +11385,7 @@ export namespace Prisma {
     userId?: StringFilter<"StreamChat"> | string
     title?: StringNullableFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableFilter<"StreamChat"> | string | null
+    liveChatId?: StringFilter<"StreamChat"> | string
     contentDetails?: JsonFilter<"StreamChat">
     description?: StringFilter<"StreamChat"> | string
     startTime?: DateTimeFilter<"StreamChat"> | Date | string
@@ -11386,6 +11403,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrderInput | SortOrder
     streamUrl?: SortOrderInput | SortOrder
+    liveChatId?: SortOrder
     contentDetails?: SortOrder
     description?: SortOrder
     startTime?: SortOrder
@@ -11408,6 +11426,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"StreamChat"> | string
     title?: StringNullableWithAggregatesFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableWithAggregatesFilter<"StreamChat"> | string | null
+    liveChatId?: StringWithAggregatesFilter<"StreamChat"> | string
     contentDetails?: JsonWithAggregatesFilter<"StreamChat">
     description?: StringWithAggregatesFilter<"StreamChat"> | string
     startTime?: DateTimeWithAggregatesFilter<"StreamChat"> | Date | string
@@ -11917,6 +11936,7 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -11934,6 +11954,7 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -11949,6 +11970,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11966,6 +11988,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11982,6 +12005,7 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -11995,6 +12019,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12009,6 +12034,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12704,6 +12730,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrder
     streamUrl?: SortOrder
+    liveChatId?: SortOrder
     contentDetails?: SortOrder
     description?: SortOrder
     startTime?: SortOrder
@@ -12724,6 +12751,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrder
     streamUrl?: SortOrder
+    liveChatId?: SortOrder
     description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -12737,6 +12765,7 @@ export namespace Prisma {
     userId?: SortOrder
     title?: SortOrder
     streamUrl?: SortOrder
+    liveChatId?: SortOrder
     description?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -14021,6 +14050,7 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -14037,6 +14067,7 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -14129,6 +14160,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14145,6 +14177,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14590,6 +14623,7 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -14605,6 +14639,7 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -14806,6 +14841,7 @@ export namespace Prisma {
     userId?: StringFilter<"StreamChat"> | string
     title?: StringNullableFilter<"StreamChat"> | string | null
     streamUrl?: StringNullableFilter<"StreamChat"> | string | null
+    liveChatId?: StringFilter<"StreamChat"> | string
     contentDetails?: JsonFilter<"StreamChat">
     description?: StringFilter<"StreamChat"> | string
     startTime?: DateTimeFilter<"StreamChat"> | Date | string
@@ -15064,6 +15100,7 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -15080,6 +15117,7 @@ export namespace Prisma {
     userId: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -15159,6 +15197,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15175,6 +15214,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15343,6 +15383,7 @@ export namespace Prisma {
     id: string
     title?: string | null
     streamUrl?: string | null
+    liveChatId?: string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: string
     startTime: Date | string
@@ -15462,6 +15503,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15477,6 +15519,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15492,6 +15535,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
     contentDetails?: JsonNullValueInput | InputJsonValue
     description?: StringFieldUpdateOperationsInput | string
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string

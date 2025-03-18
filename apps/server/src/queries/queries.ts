@@ -69,7 +69,7 @@ export const updateTokens = async (
 };
 
 export const getStream = async (liveChatId: string) => {
-  return await prisma.streamChat.findUnique({ where: { id: liveChatId } });
+  return await prisma.streamChat.findFirst({ where: { liveChatId } });
 };
 
 export const saveStream = async (
@@ -80,17 +80,23 @@ export const saveStream = async (
   contentDetails: {
     monitorStream: any;
   },
+  broadcastId: string,
   description?: string,
 ) => {
   return await prisma.streamChat.upsert({
-    where: { id: liveChatId },
+    where: { id: broadcastId },
     update: { description, contentDetails, title },
-    create: { id: liveChatId, userId, startTime, title, contentDetails },
+    create: {
+      id: broadcastId,
+      userId,
+      liveChatId,
+      startTime,
+      title,
+      contentDetails,
+    },
   });
 };
 
-//TODO: add zod validation here
-// authorId: channelId
 // userId: viewerId
 export const saveChatMessages = async (
   channelId: string,
@@ -100,6 +106,7 @@ export const saveChatMessages = async (
   chatType: string,
   username: string,
   messageId: string,
+  broadcastId: string,
 ) => {
   return await prisma.$transaction(async (tx) => {
     const chat = await tx.chat.findUnique({
@@ -115,7 +122,7 @@ export const saveChatMessages = async (
         id: userId,
         userChannelId: channelId,
         username,
-        streamChatId: liveChatId,
+        streamChatId: broadcastId,
         totalMessages: 1,
         points: 2,
         streakDays: 0,
@@ -124,7 +131,7 @@ export const saveChatMessages = async (
       update: {
         points: { increment: 2 },
         totalMessages: { increment: 1 },
-        streamChatId: liveChatId,
+        streamChatId: broadcastId,
       },
     });
 
@@ -134,7 +141,7 @@ export const saveChatMessages = async (
         userId: channelId,
         viewerId: userId,
         message,
-        liveChatId,
+        liveChatId: broadcastId,
         username,
         chatType,
       },

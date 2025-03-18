@@ -153,21 +153,17 @@ export async function executeActionCommand(
       if (!hasPermission) {
         return "You don't have permission to use this command.";
       }
-      if (args.length < 2) {
-        return "Please specify a title and a description.";
-      }
 
-      const title = args[0];
-      const description = args.slice(1).join(" "); // Join the rest of the args as the description
+      const description = args.slice().join(" ");
 
       try {
-        const stream = await getStream(activeStreamers[channelId].liveChatId);
+        const stream = await getStream(activeStreamers[channelId].broadcastId);
         const updatedDescription = `${stream?.description || ""}\n\n${description}`;
         await saveStream(
           channelId,
           activeStreamers[channelId].liveChatId,
           stream?.startTime || new Date(),
-          title,
+          stream?.title || "",
           { monitorStream: {} },
           updatedDescription,
         );
