@@ -1,69 +1,25 @@
-import { Clock, Command, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TopCommands } from "@/components/custom/top-commands";
-import { UsersList } from "@/components/custom/users-list";
+import { TopCommands } from "@/app/(dashboard)/dashboard/components/top-commands";
+import { UsersList } from "@/app/(dashboard)/dashboard/components/users-list";
 import { Component } from "@/components/custom/chart";
-import { getUserInfo } from "@/actions/queries";
-import { currentUser } from "@clerk/nextjs/server";
 import GoLive from "./components/go-live";
+import { Suspense } from "react";
+import Loading from "../loading";
+import Summary from "@/app/(dashboard)/dashboard/components/summary";
 
 export default async function DashboardPage() {
-  const userClerk = await currentUser();
-  let user;
-  const email = userClerk?.emailAddresses[0].emailAddress;
-  if (email) {
-    user = await getUserInfo(email);
-  }
-  console.log(user);
   return (
     <div className="flex min-h-screen flex-col">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Good Afternoon, raghav rudhra
-          </h2>
-          <div className="flex items-center space-x-2">
-            <GoLive id={user?.id} />
-          </div>
-        </div>
+        <Suspense fallback={<Loading />}>
+          <GoLive />
+        </Suspense>
         <div className="text-muted-foreground">
           Here&apos;s a quick 7-day overview of your channel.
         </div>
-        <p>{email}</p>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Messages</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">Today</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Commands</CardTitle>
-              <Command className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">Today</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Timeouts</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">Today</p>
-            </CardContent>
-          </Card>
-        </div>
+        <Summary />
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-2">
             <Card>
@@ -71,7 +27,9 @@ export default async function DashboardPage() {
                 <CardTitle>Overview</CardTitle>
               </CardHeader>
               <CardContent className="px-2">
-                <Component />
+                <Suspense fallback={<Loading />}>
+                  <Component />
+                </Suspense>
               </CardContent>
             </Card>
             <Card>
@@ -79,7 +37,9 @@ export default async function DashboardPage() {
                 <CardTitle>TOP COMMANDS</CardTitle>
               </CardHeader>
               <CardContent>
-                <TopCommands />
+                <Suspense fallback={<Loading />}>
+                  <TopCommands />
+                </Suspense>
               </CardContent>
             </Card>
             <Card>
@@ -87,7 +47,9 @@ export default async function DashboardPage() {
                 <CardTitle>USERS</CardTitle>
               </CardHeader>
               <CardContent>
-                <UsersList />
+                <Suspense fallback={<Loading />}>
+                  <UsersList />
+                </Suspense>
               </CardContent>
             </Card>
           </div>

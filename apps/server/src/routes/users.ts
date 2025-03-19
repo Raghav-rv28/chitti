@@ -3,7 +3,12 @@ import { prisma } from "@repo/database";
 import { z } from "zod";
 
 const router: Router = express.Router();
-
+interface StreamSummary {
+  message_count: number;
+  command_count: number;
+  timeout_count: number;
+  stream_count: number;
+}
 // Validation schema for user creation
 const createUserSchema = z.object({
   username: z.string().min(3).max(50),
@@ -72,60 +77,6 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// POST create a new user
-router.post("/", async (req: Request, res: Response) => {
-  try {
-    // Validate request body
-    const validationResult = createUserSchema.safeParse(req.body);
-
-    if (!validationResult.success) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid user data",
-        errors: validationResult.error.format(),
-      });
-    }
-
-    const { username, email } = validationResult.data;
-
-    // Check if username already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { username },
-    });
-
-    if (existingUser) {
-      return res.status(409).json({
-        success: false,
-        message: "Username already taken",
-      });
-    }
-
-    // Generate a unique ID
-    const id = `user_${Date.now()}`;
-
-    // Create new user
-    const newUser = await prisma.user.create({
-      data: {
-        id,
-        username,
-        email,
-      },
-    });
-
-    res.status(201).json({
-      success: true,
-      data: newUser,
-    });
-  } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to create user",
-      error: error instanceof Error ? error.message : "Unknown error",
-    });
-  }
-});
-
 // DELETE user by ID
 router.delete("/:id", async (req: Request, res: Response) => {
   try {
@@ -157,6 +108,55 @@ router.delete("/:id", async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Failed to delete user",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+router.get("/get-summary/:channelId", async (req: Request, res: Response) => {
+  const { channelId } = req.params;
+  console.log("entering here");
+  // Calculate date 7 days ago
+
+  const sevenDaysAgo = new Date();
+
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  try {
+    const summaryRaw = await prisma.$queryRaw<StreamSummary[]>`
+  WITH recent_streams AS (
+    SELECT id
+    FROM "StreamChat"
+    WHERE "userId" = ${channelId}
+    AND "startTime" >= ${sevenDaysAgo}
+  )
+  SELECT
+    (SELECT COUNT(*) FROM "Chat" WHERE "broadcastId" IN (SELECT id FROM recent_streams)) as message_count,
+    (SELECT COUNT(*) FROM "StreamLogs" WHERE "broadcastId" IN (SELECT id FROM recent_streams) AND "eventType" = 'command') as command_count,
+    (SELECT COUNT(*) FROM "StreamLogs" WHERE "broadcastId" IN (SELECT id FROM recent_streams) AND "eventType" = 'timeout') as timeout_count,
+    (SELECT COUNT(*) FROM recent_streams) as stream_count
+`;
+    const summary = summaryRaw[0]
+      ? {
+          message_count: Number(summaryRaw[0].message_count),
+          command_count: Number(summaryRaw[0].command_count),
+          timeout_count: Number(summaryRaw[0].timeout_count),
+          stream_count: Number(summaryRaw[0].stream_count),
+        }
+      : {
+          message_count: 0,
+          command_count: 0,
+          timeout_count: 0,
+          stream_count: 0,
+        };
+    res.status(200).json({
+      success: true,
+      data: summary,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to load summary",
       error: error instanceof Error ? error.message : "Unknown error",
     });
   }

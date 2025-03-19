@@ -14,10 +14,10 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model Analytics
+ * Model StreamLogs
  * 
  */
-export type Analytics = $Result.DefaultSelection<Prisma.$AnalyticsPayload>
+export type StreamLogs = $Result.DefaultSelection<Prisma.$StreamLogsPayload>
 /**
  * Model Chat
  * 
@@ -58,7 +58,15 @@ export type Viewer = $Result.DefaultSelection<Prisma.$ViewerPayload>
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
+  export const ChatEvents: {
+  command: 'command',
+  timeout: 'timeout'
+};
+
+export type ChatEvents = (typeof ChatEvents)[keyof typeof ChatEvents]
+
+
+export const Role: {
   moderation: 'moderation',
   owner: 'owner',
   viewer: 'viewer'
@@ -67,6 +75,10 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 }
+
+export type ChatEvents = $Enums.ChatEvents
+
+export const ChatEvents: typeof $Enums.ChatEvents
 
 export type Role = $Enums.Role
 
@@ -79,8 +91,8 @@ export const Role: typeof $Enums.Role
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Analytics
- * const analytics = await prisma.analytics.findMany()
+ * // Fetch zero or more StreamLogs
+ * const streamLogs = await prisma.streamLogs.findMany()
  * ```
  *
  *
@@ -100,8 +112,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Analytics
-   * const analytics = await prisma.analytics.findMany()
+   * // Fetch zero or more StreamLogs
+   * const streamLogs = await prisma.streamLogs.findMany()
    * ```
    *
    *
@@ -198,14 +210,14 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.analytics`: Exposes CRUD operations for the **Analytics** model.
+   * `prisma.streamLogs`: Exposes CRUD operations for the **StreamLogs** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Analytics
-    * const analytics = await prisma.analytics.findMany()
+    * // Fetch zero or more StreamLogs
+    * const streamLogs = await prisma.streamLogs.findMany()
     * ```
     */
-  get analytics(): Prisma.AnalyticsDelegate<ExtArgs, ClientOptions>;
+  get streamLogs(): Prisma.StreamLogsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.chat`: Exposes CRUD operations for the **Chat** model.
@@ -716,7 +728,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Analytics: 'Analytics',
+    StreamLogs: 'StreamLogs',
     Chat: 'Chat',
     CustomCommand: 'CustomCommand',
     StreamChat: 'StreamChat',
@@ -742,81 +754,81 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "analytics" | "chat" | "customCommand" | "streamChat" | "user" | "moderation" | "userSecurity" | "viewer"
+      modelProps: "streamLogs" | "chat" | "customCommand" | "streamChat" | "user" | "moderation" | "userSecurity" | "viewer"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      Analytics: {
-        payload: Prisma.$AnalyticsPayload<ExtArgs>
-        fields: Prisma.AnalyticsFieldRefs
+      StreamLogs: {
+        payload: Prisma.$StreamLogsPayload<ExtArgs>
+        fields: Prisma.StreamLogsFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.AnalyticsFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload> | null
+            args: Prisma.StreamLogsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.AnalyticsFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>
+            args: Prisma.StreamLogsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>
           }
           findFirst: {
-            args: Prisma.AnalyticsFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload> | null
+            args: Prisma.StreamLogsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.AnalyticsFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>
+            args: Prisma.StreamLogsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>
           }
           findMany: {
-            args: Prisma.AnalyticsFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>[]
+            args: Prisma.StreamLogsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>[]
           }
           create: {
-            args: Prisma.AnalyticsCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>
+            args: Prisma.StreamLogsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>
           }
           createMany: {
-            args: Prisma.AnalyticsCreateManyArgs<ExtArgs>
+            args: Prisma.StreamLogsCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.AnalyticsCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>[]
+            args: Prisma.StreamLogsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>[]
           }
           delete: {
-            args: Prisma.AnalyticsDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>
+            args: Prisma.StreamLogsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>
           }
           update: {
-            args: Prisma.AnalyticsUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>
+            args: Prisma.StreamLogsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>
           }
           deleteMany: {
-            args: Prisma.AnalyticsDeleteManyArgs<ExtArgs>
+            args: Prisma.StreamLogsDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.AnalyticsUpdateManyArgs<ExtArgs>
+            args: Prisma.StreamLogsUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.AnalyticsUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>[]
+            args: Prisma.StreamLogsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>[]
           }
           upsert: {
-            args: Prisma.AnalyticsUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AnalyticsPayload>
+            args: Prisma.StreamLogsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamLogsPayload>
           }
           aggregate: {
-            args: Prisma.AnalyticsAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAnalytics>
+            args: Prisma.StreamLogsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStreamLogs>
           }
           groupBy: {
-            args: Prisma.AnalyticsGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AnalyticsGroupByOutputType>[]
+            args: Prisma.StreamLogsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StreamLogsGroupByOutputType>[]
           }
           count: {
-            args: Prisma.AnalyticsCountArgs<ExtArgs>
-            result: $Utils.Optional<AnalyticsCountAggregateOutputType> | number
+            args: Prisma.StreamLogsCountArgs<ExtArgs>
+            result: $Utils.Optional<StreamLogsCountAggregateOutputType> | number
           }
         }
       }
@@ -1422,7 +1434,7 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
-    analytics?: AnalyticsOmit
+    streamLogs?: StreamLogsOmit
     chat?: ChatOmit
     customCommand?: CustomCommandOmit
     streamChat?: StreamChatOmit
@@ -1526,11 +1538,13 @@ export namespace Prisma {
   export type StreamChatCountOutputType = {
     Chat: number
     Viewer: number
+    StreamLogs: number
   }
 
   export type StreamChatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | StreamChatCountOutputTypeCountChatArgs
     Viewer?: boolean | StreamChatCountOutputTypeCountViewerArgs
+    StreamLogs?: boolean | StreamChatCountOutputTypeCountStreamLogsArgs
   }
 
   // Custom InputTypes
@@ -1558,27 +1572,34 @@ export namespace Prisma {
     where?: ViewerWhereInput
   }
 
+  /**
+   * StreamChatCountOutputType without action
+   */
+  export type StreamChatCountOutputTypeCountStreamLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreamLogsWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
    */
 
   export type UserCountOutputType = {
-    Analytics: number
     Chat: number
     CustomCommand: number
     StreamChat: number
     Viewer: number
     Moderation: number
+    StreamLogs: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Analytics?: boolean | UserCountOutputTypeCountAnalyticsArgs
     Chat?: boolean | UserCountOutputTypeCountChatArgs
     CustomCommand?: boolean | UserCountOutputTypeCountCustomCommandArgs
     StreamChat?: boolean | UserCountOutputTypeCountStreamChatArgs
     Viewer?: boolean | UserCountOutputTypeCountViewerArgs
     Moderation?: boolean | UserCountOutputTypeCountModerationArgs
+    StreamLogs?: boolean | UserCountOutputTypeCountStreamLogsArgs
   }
 
   // Custom InputTypes
@@ -1590,13 +1611,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountAnalyticsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AnalyticsWhereInput
   }
 
   /**
@@ -1634,6 +1648,13 @@ export namespace Prisma {
     where?: ModerationWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStreamLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreamLogsWhereInput
+  }
+
 
   /**
    * Count Type ViewerCountOutputType
@@ -1641,10 +1662,12 @@ export namespace Prisma {
 
   export type ViewerCountOutputType = {
     Chat: number
+    StreamLogs: number
   }
 
   export type ViewerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | ViewerCountOutputTypeCountChatArgs
+    StreamLogs?: boolean | ViewerCountOutputTypeCountStreamLogsArgs
   }
 
   // Custom InputTypes
@@ -1665,410 +1688,393 @@ export namespace Prisma {
     where?: ChatWhereInput
   }
 
+  /**
+   * ViewerCountOutputType without action
+   */
+  export type ViewerCountOutputTypeCountStreamLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreamLogsWhereInput
+  }
+
 
   /**
    * Models
    */
 
   /**
-   * Model Analytics
+   * Model StreamLogs
    */
 
-  export type AggregateAnalytics = {
-    _count: AnalyticsCountAggregateOutputType | null
-    _avg: AnalyticsAvgAggregateOutputType | null
-    _sum: AnalyticsSumAggregateOutputType | null
-    _min: AnalyticsMinAggregateOutputType | null
-    _max: AnalyticsMaxAggregateOutputType | null
+  export type AggregateStreamLogs = {
+    _count: StreamLogsCountAggregateOutputType | null
+    _min: StreamLogsMinAggregateOutputType | null
+    _max: StreamLogsMaxAggregateOutputType | null
   }
 
-  export type AnalyticsAvgAggregateOutputType = {
-    totalViews: number | null
-    subscribers: number | null
-    engagementRate: number | null
-  }
-
-  export type AnalyticsSumAggregateOutputType = {
-    totalViews: number | null
-    subscribers: number | null
-    engagementRate: number | null
-  }
-
-  export type AnalyticsMinAggregateOutputType = {
+  export type StreamLogsMinAggregateOutputType = {
     id: string | null
-    userId: string | null
-    totalViews: number | null
-    subscribers: number | null
-    engagementRate: number | null
-    timestamp: Date | null
+    viewerId: string | null
+    broadcastId: string | null
+    channelId: string | null
+    eventType: $Enums.ChatEvents | null
   }
 
-  export type AnalyticsMaxAggregateOutputType = {
+  export type StreamLogsMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
-    totalViews: number | null
-    subscribers: number | null
-    engagementRate: number | null
-    timestamp: Date | null
+    viewerId: string | null
+    broadcastId: string | null
+    channelId: string | null
+    eventType: $Enums.ChatEvents | null
   }
 
-  export type AnalyticsCountAggregateOutputType = {
+  export type StreamLogsCountAggregateOutputType = {
     id: number
-    userId: number
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp: number
+    messageDetails: number
+    viewerId: number
+    broadcastId: number
+    channelId: number
+    eventType: number
+    eventDetails: number
     _all: number
   }
 
 
-  export type AnalyticsAvgAggregateInputType = {
-    totalViews?: true
-    subscribers?: true
-    engagementRate?: true
-  }
-
-  export type AnalyticsSumAggregateInputType = {
-    totalViews?: true
-    subscribers?: true
-    engagementRate?: true
-  }
-
-  export type AnalyticsMinAggregateInputType = {
+  export type StreamLogsMinAggregateInputType = {
     id?: true
-    userId?: true
-    totalViews?: true
-    subscribers?: true
-    engagementRate?: true
-    timestamp?: true
+    viewerId?: true
+    broadcastId?: true
+    channelId?: true
+    eventType?: true
   }
 
-  export type AnalyticsMaxAggregateInputType = {
+  export type StreamLogsMaxAggregateInputType = {
     id?: true
-    userId?: true
-    totalViews?: true
-    subscribers?: true
-    engagementRate?: true
-    timestamp?: true
+    viewerId?: true
+    broadcastId?: true
+    channelId?: true
+    eventType?: true
   }
 
-  export type AnalyticsCountAggregateInputType = {
+  export type StreamLogsCountAggregateInputType = {
     id?: true
-    userId?: true
-    totalViews?: true
-    subscribers?: true
-    engagementRate?: true
-    timestamp?: true
+    messageDetails?: true
+    viewerId?: true
+    broadcastId?: true
+    channelId?: true
+    eventType?: true
+    eventDetails?: true
     _all?: true
   }
 
-  export type AnalyticsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Analytics to aggregate.
+     * Filter which StreamLogs to aggregate.
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Analytics to fetch.
+     * Determine the order of StreamLogs to fetch.
      */
-    orderBy?: AnalyticsOrderByWithRelationInput | AnalyticsOrderByWithRelationInput[]
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: AnalyticsWhereUniqueInput
+    cursor?: StreamLogsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Analytics from the position of the cursor.
+     * Take `±n` StreamLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Analytics.
+     * Skip the first `n` StreamLogs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Analytics
+     * Count returned StreamLogs
     **/
-    _count?: true | AnalyticsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: AnalyticsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AnalyticsSumAggregateInputType
+    _count?: true | StreamLogsCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: AnalyticsMinAggregateInputType
+    _min?: StreamLogsMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: AnalyticsMaxAggregateInputType
+    _max?: StreamLogsMaxAggregateInputType
   }
 
-  export type GetAnalyticsAggregateType<T extends AnalyticsAggregateArgs> = {
-        [P in keyof T & keyof AggregateAnalytics]: P extends '_count' | 'count'
+  export type GetStreamLogsAggregateType<T extends StreamLogsAggregateArgs> = {
+        [P in keyof T & keyof AggregateStreamLogs]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAnalytics[P]>
-      : GetScalarType<T[P], AggregateAnalytics[P]>
+        : GetScalarType<T[P], AggregateStreamLogs[P]>
+      : GetScalarType<T[P], AggregateStreamLogs[P]>
   }
 
 
 
 
-  export type AnalyticsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AnalyticsWhereInput
-    orderBy?: AnalyticsOrderByWithAggregationInput | AnalyticsOrderByWithAggregationInput[]
-    by: AnalyticsScalarFieldEnum[] | AnalyticsScalarFieldEnum
-    having?: AnalyticsScalarWhereWithAggregatesInput
+  export type StreamLogsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreamLogsWhereInput
+    orderBy?: StreamLogsOrderByWithAggregationInput | StreamLogsOrderByWithAggregationInput[]
+    by: StreamLogsScalarFieldEnum[] | StreamLogsScalarFieldEnum
+    having?: StreamLogsScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: AnalyticsCountAggregateInputType | true
-    _avg?: AnalyticsAvgAggregateInputType
-    _sum?: AnalyticsSumAggregateInputType
-    _min?: AnalyticsMinAggregateInputType
-    _max?: AnalyticsMaxAggregateInputType
+    _count?: StreamLogsCountAggregateInputType | true
+    _min?: StreamLogsMinAggregateInputType
+    _max?: StreamLogsMaxAggregateInputType
   }
 
-  export type AnalyticsGroupByOutputType = {
+  export type StreamLogsGroupByOutputType = {
     id: string
-    userId: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp: Date
-    _count: AnalyticsCountAggregateOutputType | null
-    _avg: AnalyticsAvgAggregateOutputType | null
-    _sum: AnalyticsSumAggregateOutputType | null
-    _min: AnalyticsMinAggregateOutputType | null
-    _max: AnalyticsMaxAggregateOutputType | null
+    messageDetails: JsonValue
+    viewerId: string
+    broadcastId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails: JsonValue
+    _count: StreamLogsCountAggregateOutputType | null
+    _min: StreamLogsMinAggregateOutputType | null
+    _max: StreamLogsMaxAggregateOutputType | null
   }
 
-  type GetAnalyticsGroupByPayload<T extends AnalyticsGroupByArgs> = Prisma.PrismaPromise<
+  type GetStreamLogsGroupByPayload<T extends StreamLogsGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<AnalyticsGroupByOutputType, T['by']> &
+      PickEnumerable<StreamLogsGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof AnalyticsGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof StreamLogsGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], AnalyticsGroupByOutputType[P]>
-            : GetScalarType<T[P], AnalyticsGroupByOutputType[P]>
+              : GetScalarType<T[P], StreamLogsGroupByOutputType[P]>
+            : GetScalarType<T[P], StreamLogsGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type AnalyticsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type StreamLogsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
-    totalViews?: boolean
-    subscribers?: boolean
-    engagementRate?: boolean
-    timestamp?: boolean
+    messageDetails?: boolean
+    viewerId?: boolean
+    broadcastId?: boolean
+    channelId?: boolean
+    eventType?: boolean
+    eventDetails?: boolean
+    StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["analytics"]>
+    Viewer?: boolean | ViewerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["streamLogs"]>
 
-  export type AnalyticsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type StreamLogsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
-    totalViews?: boolean
-    subscribers?: boolean
-    engagementRate?: boolean
-    timestamp?: boolean
+    messageDetails?: boolean
+    viewerId?: boolean
+    broadcastId?: boolean
+    channelId?: boolean
+    eventType?: boolean
+    eventDetails?: boolean
+    StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["analytics"]>
+    Viewer?: boolean | ViewerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["streamLogs"]>
 
-  export type AnalyticsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type StreamLogsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
-    totalViews?: boolean
-    subscribers?: boolean
-    engagementRate?: boolean
-    timestamp?: boolean
+    messageDetails?: boolean
+    viewerId?: boolean
+    broadcastId?: boolean
+    channelId?: boolean
+    eventType?: boolean
+    eventDetails?: boolean
+    StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["analytics"]>
+    Viewer?: boolean | ViewerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["streamLogs"]>
 
-  export type AnalyticsSelectScalar = {
+  export type StreamLogsSelectScalar = {
     id?: boolean
-    userId?: boolean
-    totalViews?: boolean
-    subscribers?: boolean
-    engagementRate?: boolean
-    timestamp?: boolean
+    messageDetails?: boolean
+    viewerId?: boolean
+    broadcastId?: boolean
+    channelId?: boolean
+    eventType?: boolean
+    eventDetails?: boolean
   }
 
-  export type AnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalViews" | "subscribers" | "engagementRate" | "timestamp", ExtArgs["result"]["analytics"]>
-  export type AnalyticsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "messageDetails" | "viewerId" | "broadcastId" | "channelId" | "eventType" | "eventDetails", ExtArgs["result"]["streamLogs"]>
+  export type StreamLogsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    Viewer?: boolean | ViewerDefaultArgs<ExtArgs>
   }
-  export type AnalyticsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    Viewer?: boolean | ViewerDefaultArgs<ExtArgs>
   }
-  export type AnalyticsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    Viewer?: boolean | ViewerDefaultArgs<ExtArgs>
   }
 
-  export type $AnalyticsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Analytics"
+  export type $StreamLogsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StreamLogs"
     objects: {
+      StreamChat: Prisma.$StreamChatPayload<ExtArgs>
       User: Prisma.$UserPayload<ExtArgs>
+      Viewer: Prisma.$ViewerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
-      totalViews: number
-      subscribers: number
-      engagementRate: number
-      timestamp: Date
-    }, ExtArgs["result"]["analytics"]>
+      messageDetails: Prisma.JsonValue
+      viewerId: string
+      broadcastId: string
+      channelId: string
+      eventType: $Enums.ChatEvents
+      eventDetails: Prisma.JsonValue
+    }, ExtArgs["result"]["streamLogs"]>
     composites: {}
   }
 
-  type AnalyticsGetPayload<S extends boolean | null | undefined | AnalyticsDefaultArgs> = $Result.GetResult<Prisma.$AnalyticsPayload, S>
+  type StreamLogsGetPayload<S extends boolean | null | undefined | StreamLogsDefaultArgs> = $Result.GetResult<Prisma.$StreamLogsPayload, S>
 
-  type AnalyticsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AnalyticsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AnalyticsCountAggregateInputType | true
+  type StreamLogsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StreamLogsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StreamLogsCountAggregateInputType | true
     }
 
-  export interface AnalyticsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Analytics'], meta: { name: 'Analytics' } }
+  export interface StreamLogsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StreamLogs'], meta: { name: 'StreamLogs' } }
     /**
-     * Find zero or one Analytics that matches the filter.
-     * @param {AnalyticsFindUniqueArgs} args - Arguments to find a Analytics
+     * Find zero or one StreamLogs that matches the filter.
+     * @param {StreamLogsFindUniqueArgs} args - Arguments to find a StreamLogs
      * @example
-     * // Get one Analytics
-     * const analytics = await prisma.analytics.findUnique({
+     * // Get one StreamLogs
+     * const streamLogs = await prisma.streamLogs.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends AnalyticsFindUniqueArgs>(args: SelectSubset<T, AnalyticsFindUniqueArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends StreamLogsFindUniqueArgs>(args: SelectSubset<T, StreamLogsFindUniqueArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Analytics that matches the filter or throw an error with `error.code='P2025'`
+     * Find one StreamLogs that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {AnalyticsFindUniqueOrThrowArgs} args - Arguments to find a Analytics
+     * @param {StreamLogsFindUniqueOrThrowArgs} args - Arguments to find a StreamLogs
      * @example
-     * // Get one Analytics
-     * const analytics = await prisma.analytics.findUniqueOrThrow({
+     * // Get one StreamLogs
+     * const streamLogs = await prisma.streamLogs.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AnalyticsFindUniqueOrThrowArgs>(args: SelectSubset<T, AnalyticsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends StreamLogsFindUniqueOrThrowArgs>(args: SelectSubset<T, StreamLogsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Analytics that matches the filter.
+     * Find the first StreamLogs that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsFindFirstArgs} args - Arguments to find a Analytics
+     * @param {StreamLogsFindFirstArgs} args - Arguments to find a StreamLogs
      * @example
-     * // Get one Analytics
-     * const analytics = await prisma.analytics.findFirst({
+     * // Get one StreamLogs
+     * const streamLogs = await prisma.streamLogs.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends AnalyticsFindFirstArgs>(args?: SelectSubset<T, AnalyticsFindFirstArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends StreamLogsFindFirstArgs>(args?: SelectSubset<T, StreamLogsFindFirstArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Analytics that matches the filter or
+     * Find the first StreamLogs that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsFindFirstOrThrowArgs} args - Arguments to find a Analytics
+     * @param {StreamLogsFindFirstOrThrowArgs} args - Arguments to find a StreamLogs
      * @example
-     * // Get one Analytics
-     * const analytics = await prisma.analytics.findFirstOrThrow({
+     * // Get one StreamLogs
+     * const streamLogs = await prisma.streamLogs.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends AnalyticsFindFirstOrThrowArgs>(args?: SelectSubset<T, AnalyticsFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends StreamLogsFindFirstOrThrowArgs>(args?: SelectSubset<T, StreamLogsFindFirstOrThrowArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Analytics that matches the filter.
+     * Find zero or more StreamLogs that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {StreamLogsFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Analytics
-     * const analytics = await prisma.analytics.findMany()
+     * // Get all StreamLogs
+     * const streamLogs = await prisma.streamLogs.findMany()
      * 
-     * // Get first 10 Analytics
-     * const analytics = await prisma.analytics.findMany({ take: 10 })
+     * // Get first 10 StreamLogs
+     * const streamLogs = await prisma.streamLogs.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const analyticsWithIdOnly = await prisma.analytics.findMany({ select: { id: true } })
+     * const streamLogsWithIdOnly = await prisma.streamLogs.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends AnalyticsFindManyArgs>(args?: SelectSubset<T, AnalyticsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends StreamLogsFindManyArgs>(args?: SelectSubset<T, StreamLogsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Analytics.
-     * @param {AnalyticsCreateArgs} args - Arguments to create a Analytics.
+     * Create a StreamLogs.
+     * @param {StreamLogsCreateArgs} args - Arguments to create a StreamLogs.
      * @example
-     * // Create one Analytics
-     * const Analytics = await prisma.analytics.create({
+     * // Create one StreamLogs
+     * const StreamLogs = await prisma.streamLogs.create({
      *   data: {
-     *     // ... data to create a Analytics
+     *     // ... data to create a StreamLogs
      *   }
      * })
      * 
      */
-    create<T extends AnalyticsCreateArgs>(args: SelectSubset<T, AnalyticsCreateArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends StreamLogsCreateArgs>(args: SelectSubset<T, StreamLogsCreateArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Analytics.
-     * @param {AnalyticsCreateManyArgs} args - Arguments to create many Analytics.
+     * Create many StreamLogs.
+     * @param {StreamLogsCreateManyArgs} args - Arguments to create many StreamLogs.
      * @example
-     * // Create many Analytics
-     * const analytics = await prisma.analytics.createMany({
+     * // Create many StreamLogs
+     * const streamLogs = await prisma.streamLogs.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends AnalyticsCreateManyArgs>(args?: SelectSubset<T, AnalyticsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends StreamLogsCreateManyArgs>(args?: SelectSubset<T, StreamLogsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Analytics and returns the data saved in the database.
-     * @param {AnalyticsCreateManyAndReturnArgs} args - Arguments to create many Analytics.
+     * Create many StreamLogs and returns the data saved in the database.
+     * @param {StreamLogsCreateManyAndReturnArgs} args - Arguments to create many StreamLogs.
      * @example
-     * // Create many Analytics
-     * const analytics = await prisma.analytics.createManyAndReturn({
+     * // Create many StreamLogs
+     * const streamLogs = await prisma.streamLogs.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Analytics and only return the `id`
-     * const analyticsWithIdOnly = await prisma.analytics.createManyAndReturn({
+     * // Create many StreamLogs and only return the `id`
+     * const streamLogsWithIdOnly = await prisma.streamLogs.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -2078,28 +2084,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends AnalyticsCreateManyAndReturnArgs>(args?: SelectSubset<T, AnalyticsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends StreamLogsCreateManyAndReturnArgs>(args?: SelectSubset<T, StreamLogsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Analytics.
-     * @param {AnalyticsDeleteArgs} args - Arguments to delete one Analytics.
+     * Delete a StreamLogs.
+     * @param {StreamLogsDeleteArgs} args - Arguments to delete one StreamLogs.
      * @example
-     * // Delete one Analytics
-     * const Analytics = await prisma.analytics.delete({
+     * // Delete one StreamLogs
+     * const StreamLogs = await prisma.streamLogs.delete({
      *   where: {
-     *     // ... filter to delete one Analytics
+     *     // ... filter to delete one StreamLogs
      *   }
      * })
      * 
      */
-    delete<T extends AnalyticsDeleteArgs>(args: SelectSubset<T, AnalyticsDeleteArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends StreamLogsDeleteArgs>(args: SelectSubset<T, StreamLogsDeleteArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Analytics.
-     * @param {AnalyticsUpdateArgs} args - Arguments to update one Analytics.
+     * Update one StreamLogs.
+     * @param {StreamLogsUpdateArgs} args - Arguments to update one StreamLogs.
      * @example
-     * // Update one Analytics
-     * const analytics = await prisma.analytics.update({
+     * // Update one StreamLogs
+     * const streamLogs = await prisma.streamLogs.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2109,30 +2115,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends AnalyticsUpdateArgs>(args: SelectSubset<T, AnalyticsUpdateArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends StreamLogsUpdateArgs>(args: SelectSubset<T, StreamLogsUpdateArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Analytics.
-     * @param {AnalyticsDeleteManyArgs} args - Arguments to filter Analytics to delete.
+     * Delete zero or more StreamLogs.
+     * @param {StreamLogsDeleteManyArgs} args - Arguments to filter StreamLogs to delete.
      * @example
-     * // Delete a few Analytics
-     * const { count } = await prisma.analytics.deleteMany({
+     * // Delete a few StreamLogs
+     * const { count } = await prisma.streamLogs.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends AnalyticsDeleteManyArgs>(args?: SelectSubset<T, AnalyticsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends StreamLogsDeleteManyArgs>(args?: SelectSubset<T, StreamLogsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Analytics.
+     * Update zero or more StreamLogs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {StreamLogsUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Analytics
-     * const analytics = await prisma.analytics.updateMany({
+     * // Update many StreamLogs
+     * const streamLogs = await prisma.streamLogs.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2142,14 +2148,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends AnalyticsUpdateManyArgs>(args: SelectSubset<T, AnalyticsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends StreamLogsUpdateManyArgs>(args: SelectSubset<T, StreamLogsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Analytics and returns the data updated in the database.
-     * @param {AnalyticsUpdateManyAndReturnArgs} args - Arguments to update many Analytics.
+     * Update zero or more StreamLogs and returns the data updated in the database.
+     * @param {StreamLogsUpdateManyAndReturnArgs} args - Arguments to update many StreamLogs.
      * @example
-     * // Update many Analytics
-     * const analytics = await prisma.analytics.updateManyAndReturn({
+     * // Update many StreamLogs
+     * const streamLogs = await prisma.streamLogs.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2158,8 +2164,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Analytics and only return the `id`
-     * const analyticsWithIdOnly = await prisma.analytics.updateManyAndReturn({
+     * // Update zero or more StreamLogs and only return the `id`
+     * const streamLogsWithIdOnly = await prisma.streamLogs.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -2172,56 +2178,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends AnalyticsUpdateManyAndReturnArgs>(args: SelectSubset<T, AnalyticsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends StreamLogsUpdateManyAndReturnArgs>(args: SelectSubset<T, StreamLogsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Analytics.
-     * @param {AnalyticsUpsertArgs} args - Arguments to update or create a Analytics.
+     * Create or update one StreamLogs.
+     * @param {StreamLogsUpsertArgs} args - Arguments to update or create a StreamLogs.
      * @example
-     * // Update or create a Analytics
-     * const analytics = await prisma.analytics.upsert({
+     * // Update or create a StreamLogs
+     * const streamLogs = await prisma.streamLogs.upsert({
      *   create: {
-     *     // ... data to create a Analytics
+     *     // ... data to create a StreamLogs
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Analytics we want to update
+     *     // ... the filter for the StreamLogs we want to update
      *   }
      * })
      */
-    upsert<T extends AnalyticsUpsertArgs>(args: SelectSubset<T, AnalyticsUpsertArgs<ExtArgs>>): Prisma__AnalyticsClient<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends StreamLogsUpsertArgs>(args: SelectSubset<T, StreamLogsUpsertArgs<ExtArgs>>): Prisma__StreamLogsClient<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Analytics.
+     * Count the number of StreamLogs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsCountArgs} args - Arguments to filter Analytics to count.
+     * @param {StreamLogsCountArgs} args - Arguments to filter StreamLogs to count.
      * @example
-     * // Count the number of Analytics
-     * const count = await prisma.analytics.count({
+     * // Count the number of StreamLogs
+     * const count = await prisma.streamLogs.count({
      *   where: {
-     *     // ... the filter for the Analytics we want to count
+     *     // ... the filter for the StreamLogs we want to count
      *   }
      * })
     **/
-    count<T extends AnalyticsCountArgs>(
-      args?: Subset<T, AnalyticsCountArgs>,
+    count<T extends StreamLogsCountArgs>(
+      args?: Subset<T, StreamLogsCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AnalyticsCountAggregateOutputType>
+          : GetScalarType<T['select'], StreamLogsCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Analytics.
+     * Allows you to perform aggregations operations on a StreamLogs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {StreamLogsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2241,13 +2247,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AnalyticsAggregateArgs>(args: Subset<T, AnalyticsAggregateArgs>): Prisma.PrismaPromise<GetAnalyticsAggregateType<T>>
+    aggregate<T extends StreamLogsAggregateArgs>(args: Subset<T, StreamLogsAggregateArgs>): Prisma.PrismaPromise<GetStreamLogsAggregateType<T>>
 
     /**
-     * Group by Analytics.
+     * Group by StreamLogs.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AnalyticsGroupByArgs} args - Group by arguments.
+     * @param {StreamLogsGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2262,14 +2268,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends AnalyticsGroupByArgs,
+      T extends StreamLogsGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AnalyticsGroupByArgs['orderBy'] }
-        : { orderBy?: AnalyticsGroupByArgs['orderBy'] },
+        ? { orderBy: StreamLogsGroupByArgs['orderBy'] }
+        : { orderBy?: StreamLogsGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2318,22 +2324,24 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AnalyticsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnalyticsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, StreamLogsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStreamLogsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Analytics model
+   * Fields of the StreamLogs model
    */
-  readonly fields: AnalyticsFieldRefs;
+  readonly fields: StreamLogsFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Analytics.
+   * The delegate class that acts as a "Promise-like" for StreamLogs.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__AnalyticsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__StreamLogsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    StreamChat<T extends StreamChatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StreamChatDefaultArgs<ExtArgs>>): Prisma__StreamChatClient<$Result.GetResult<Prisma.$StreamChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Viewer<T extends ViewerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ViewerDefaultArgs<ExtArgs>>): Prisma__ViewerClient<$Result.GetResult<Prisma.$ViewerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2360,426 +2368,427 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Analytics model
+   * Fields of the StreamLogs model
    */ 
-  interface AnalyticsFieldRefs {
-    readonly id: FieldRef<"Analytics", 'String'>
-    readonly userId: FieldRef<"Analytics", 'String'>
-    readonly totalViews: FieldRef<"Analytics", 'Int'>
-    readonly subscribers: FieldRef<"Analytics", 'Int'>
-    readonly engagementRate: FieldRef<"Analytics", 'Float'>
-    readonly timestamp: FieldRef<"Analytics", 'DateTime'>
+  interface StreamLogsFieldRefs {
+    readonly id: FieldRef<"StreamLogs", 'String'>
+    readonly messageDetails: FieldRef<"StreamLogs", 'Json'>
+    readonly viewerId: FieldRef<"StreamLogs", 'String'>
+    readonly broadcastId: FieldRef<"StreamLogs", 'String'>
+    readonly channelId: FieldRef<"StreamLogs", 'String'>
+    readonly eventType: FieldRef<"StreamLogs", 'ChatEvents'>
+    readonly eventDetails: FieldRef<"StreamLogs", 'Json'>
   }
     
 
   // Custom InputTypes
   /**
-   * Analytics findUnique
+   * StreamLogs findUnique
    */
-  export type AnalyticsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * Filter, which Analytics to fetch.
+     * Filter, which StreamLogs to fetch.
      */
-    where: AnalyticsWhereUniqueInput
+    where: StreamLogsWhereUniqueInput
   }
 
   /**
-   * Analytics findUniqueOrThrow
+   * StreamLogs findUniqueOrThrow
    */
-  export type AnalyticsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * Filter, which Analytics to fetch.
+     * Filter, which StreamLogs to fetch.
      */
-    where: AnalyticsWhereUniqueInput
+    where: StreamLogsWhereUniqueInput
   }
 
   /**
-   * Analytics findFirst
+   * StreamLogs findFirst
    */
-  export type AnalyticsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * Filter, which Analytics to fetch.
+     * Filter, which StreamLogs to fetch.
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Analytics to fetch.
+     * Determine the order of StreamLogs to fetch.
      */
-    orderBy?: AnalyticsOrderByWithRelationInput | AnalyticsOrderByWithRelationInput[]
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Analytics.
+     * Sets the position for searching for StreamLogs.
      */
-    cursor?: AnalyticsWhereUniqueInput
+    cursor?: StreamLogsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Analytics from the position of the cursor.
+     * Take `±n` StreamLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Analytics.
+     * Skip the first `n` StreamLogs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Analytics.
+     * Filter by unique combinations of StreamLogs.
      */
-    distinct?: AnalyticsScalarFieldEnum | AnalyticsScalarFieldEnum[]
+    distinct?: StreamLogsScalarFieldEnum | StreamLogsScalarFieldEnum[]
   }
 
   /**
-   * Analytics findFirstOrThrow
+   * StreamLogs findFirstOrThrow
    */
-  export type AnalyticsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * Filter, which Analytics to fetch.
+     * Filter, which StreamLogs to fetch.
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Analytics to fetch.
+     * Determine the order of StreamLogs to fetch.
      */
-    orderBy?: AnalyticsOrderByWithRelationInput | AnalyticsOrderByWithRelationInput[]
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Analytics.
+     * Sets the position for searching for StreamLogs.
      */
-    cursor?: AnalyticsWhereUniqueInput
+    cursor?: StreamLogsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Analytics from the position of the cursor.
+     * Take `±n` StreamLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Analytics.
+     * Skip the first `n` StreamLogs.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Analytics.
+     * Filter by unique combinations of StreamLogs.
      */
-    distinct?: AnalyticsScalarFieldEnum | AnalyticsScalarFieldEnum[]
+    distinct?: StreamLogsScalarFieldEnum | StreamLogsScalarFieldEnum[]
   }
 
   /**
-   * Analytics findMany
+   * StreamLogs findMany
    */
-  export type AnalyticsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * Filter, which Analytics to fetch.
+     * Filter, which StreamLogs to fetch.
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Analytics to fetch.
+     * Determine the order of StreamLogs to fetch.
      */
-    orderBy?: AnalyticsOrderByWithRelationInput | AnalyticsOrderByWithRelationInput[]
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Analytics.
+     * Sets the position for listing StreamLogs.
      */
-    cursor?: AnalyticsWhereUniqueInput
+    cursor?: StreamLogsWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Analytics from the position of the cursor.
+     * Take `±n` StreamLogs from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Analytics.
+     * Skip the first `n` StreamLogs.
      */
     skip?: number
-    distinct?: AnalyticsScalarFieldEnum | AnalyticsScalarFieldEnum[]
+    distinct?: StreamLogsScalarFieldEnum | StreamLogsScalarFieldEnum[]
   }
 
   /**
-   * Analytics create
+   * StreamLogs create
    */
-  export type AnalyticsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * The data needed to create a Analytics.
+     * The data needed to create a StreamLogs.
      */
-    data: XOR<AnalyticsCreateInput, AnalyticsUncheckedCreateInput>
+    data: XOR<StreamLogsCreateInput, StreamLogsUncheckedCreateInput>
   }
 
   /**
-   * Analytics createMany
+   * StreamLogs createMany
    */
-  export type AnalyticsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Analytics.
+     * The data used to create many StreamLogs.
      */
-    data: AnalyticsCreateManyInput | AnalyticsCreateManyInput[]
+    data: StreamLogsCreateManyInput | StreamLogsCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Analytics createManyAndReturn
+   * StreamLogs createManyAndReturn
    */
-  export type AnalyticsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelectCreateManyAndReturn<ExtArgs> | null
+    select?: StreamLogsSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
-     * The data used to create many Analytics.
+     * The data used to create many StreamLogs.
      */
-    data: AnalyticsCreateManyInput | AnalyticsCreateManyInput[]
+    data: StreamLogsCreateManyInput | StreamLogsCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: StreamLogsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Analytics update
+   * StreamLogs update
    */
-  export type AnalyticsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * The data needed to update a Analytics.
+     * The data needed to update a StreamLogs.
      */
-    data: XOR<AnalyticsUpdateInput, AnalyticsUncheckedUpdateInput>
+    data: XOR<StreamLogsUpdateInput, StreamLogsUncheckedUpdateInput>
     /**
-     * Choose, which Analytics to update.
+     * Choose, which StreamLogs to update.
      */
-    where: AnalyticsWhereUniqueInput
+    where: StreamLogsWhereUniqueInput
   }
 
   /**
-   * Analytics updateMany
+   * StreamLogs updateMany
    */
-  export type AnalyticsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Analytics.
+     * The data used to update StreamLogs.
      */
-    data: XOR<AnalyticsUpdateManyMutationInput, AnalyticsUncheckedUpdateManyInput>
+    data: XOR<StreamLogsUpdateManyMutationInput, StreamLogsUncheckedUpdateManyInput>
     /**
-     * Filter which Analytics to update
+     * Filter which StreamLogs to update
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
-     * Limit how many Analytics to update.
+     * Limit how many StreamLogs to update.
      */
     limit?: number
   }
 
   /**
-   * Analytics updateManyAndReturn
+   * StreamLogs updateManyAndReturn
    */
-  export type AnalyticsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: StreamLogsSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
-     * The data used to update Analytics.
+     * The data used to update StreamLogs.
      */
-    data: XOR<AnalyticsUpdateManyMutationInput, AnalyticsUncheckedUpdateManyInput>
+    data: XOR<StreamLogsUpdateManyMutationInput, StreamLogsUncheckedUpdateManyInput>
     /**
-     * Filter which Analytics to update
+     * Filter which StreamLogs to update
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
-     * Limit how many Analytics to update.
+     * Limit how many StreamLogs to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: StreamLogsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Analytics upsert
+   * StreamLogs upsert
    */
-  export type AnalyticsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * The filter to search for the Analytics to update in case it exists.
+     * The filter to search for the StreamLogs to update in case it exists.
      */
-    where: AnalyticsWhereUniqueInput
+    where: StreamLogsWhereUniqueInput
     /**
-     * In case the Analytics found by the `where` argument doesn't exist, create a new Analytics with this data.
+     * In case the StreamLogs found by the `where` argument doesn't exist, create a new StreamLogs with this data.
      */
-    create: XOR<AnalyticsCreateInput, AnalyticsUncheckedCreateInput>
+    create: XOR<StreamLogsCreateInput, StreamLogsUncheckedCreateInput>
     /**
-     * In case the Analytics was found with the provided `where` argument, update it with this data.
+     * In case the StreamLogs was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<AnalyticsUpdateInput, AnalyticsUncheckedUpdateInput>
+    update: XOR<StreamLogsUpdateInput, StreamLogsUncheckedUpdateInput>
   }
 
   /**
-   * Analytics delete
+   * StreamLogs delete
    */
-  export type AnalyticsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
     /**
-     * Filter which Analytics to delete.
+     * Filter which StreamLogs to delete.
      */
-    where: AnalyticsWhereUniqueInput
+    where: StreamLogsWhereUniqueInput
   }
 
   /**
-   * Analytics deleteMany
+   * StreamLogs deleteMany
    */
-  export type AnalyticsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Analytics to delete
+     * Filter which StreamLogs to delete
      */
-    where?: AnalyticsWhereInput
+    where?: StreamLogsWhereInput
     /**
-     * Limit how many Analytics to delete.
+     * Limit how many StreamLogs to delete.
      */
     limit?: number
   }
 
   /**
-   * Analytics without action
+   * StreamLogs without action
    */
-  export type AnalyticsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StreamLogsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Analytics
+     * Select specific fields to fetch from the StreamLogs
      */
-    select?: AnalyticsSelect<ExtArgs> | null
+    select?: StreamLogsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Analytics
+     * Omit specific fields from the StreamLogs
      */
-    omit?: AnalyticsOmit<ExtArgs> | null
+    omit?: StreamLogsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AnalyticsInclude<ExtArgs> | null
+    include?: StreamLogsInclude<ExtArgs> | null
   }
 
 
@@ -2799,7 +2808,7 @@ export namespace Prisma {
     chatType: string | null
     message: string | null
     timestamp: Date | null
-    liveChatId: string | null
+    broadcastId: string | null
     viewerId: string | null
     username: string | null
   }
@@ -2810,7 +2819,7 @@ export namespace Prisma {
     chatType: string | null
     message: string | null
     timestamp: Date | null
-    liveChatId: string | null
+    broadcastId: string | null
     viewerId: string | null
     username: string | null
   }
@@ -2821,7 +2830,7 @@ export namespace Prisma {
     chatType: number
     message: number
     timestamp: number
-    liveChatId: number
+    broadcastId: number
     viewerId: number
     username: number
     _all: number
@@ -2834,7 +2843,7 @@ export namespace Prisma {
     chatType?: true
     message?: true
     timestamp?: true
-    liveChatId?: true
+    broadcastId?: true
     viewerId?: true
     username?: true
   }
@@ -2845,7 +2854,7 @@ export namespace Prisma {
     chatType?: true
     message?: true
     timestamp?: true
-    liveChatId?: true
+    broadcastId?: true
     viewerId?: true
     username?: true
   }
@@ -2856,7 +2865,7 @@ export namespace Prisma {
     chatType?: true
     message?: true
     timestamp?: true
-    liveChatId?: true
+    broadcastId?: true
     viewerId?: true
     username?: true
     _all?: true
@@ -2940,7 +2949,7 @@ export namespace Prisma {
     chatType: string
     message: string
     timestamp: Date
-    liveChatId: string
+    broadcastId: string
     viewerId: string | null
     username: string
     _count: ChatCountAggregateOutputType | null
@@ -2968,7 +2977,7 @@ export namespace Prisma {
     chatType?: boolean
     message?: boolean
     timestamp?: boolean
-    liveChatId?: boolean
+    broadcastId?: boolean
     viewerId?: boolean
     username?: boolean
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
@@ -2982,7 +2991,7 @@ export namespace Prisma {
     chatType?: boolean
     message?: boolean
     timestamp?: boolean
-    liveChatId?: boolean
+    broadcastId?: boolean
     viewerId?: boolean
     username?: boolean
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
@@ -2996,7 +3005,7 @@ export namespace Prisma {
     chatType?: boolean
     message?: boolean
     timestamp?: boolean
-    liveChatId?: boolean
+    broadcastId?: boolean
     viewerId?: boolean
     username?: boolean
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
@@ -3010,12 +3019,12 @@ export namespace Prisma {
     chatType?: boolean
     message?: boolean
     timestamp?: boolean
-    liveChatId?: boolean
+    broadcastId?: boolean
     viewerId?: boolean
     username?: boolean
   }
 
-  export type ChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "chatType" | "message" | "timestamp" | "liveChatId" | "viewerId" | "username", ExtArgs["result"]["chat"]>
+  export type ChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "chatType" | "message" | "timestamp" | "broadcastId" | "viewerId" | "username", ExtArgs["result"]["chat"]>
   export type ChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
@@ -3045,7 +3054,7 @@ export namespace Prisma {
       chatType: string
       message: string
       timestamp: Date
-      liveChatId: string
+      broadcastId: string
       viewerId: string | null
       username: string
     }, ExtArgs["result"]["chat"]>
@@ -3479,7 +3488,7 @@ export namespace Prisma {
     readonly chatType: FieldRef<"Chat", 'String'>
     readonly message: FieldRef<"Chat", 'String'>
     readonly timestamp: FieldRef<"Chat", 'DateTime'>
-    readonly liveChatId: FieldRef<"Chat", 'String'>
+    readonly broadcastId: FieldRef<"Chat", 'String'>
     readonly viewerId: FieldRef<"Chat", 'String'>
     readonly username: FieldRef<"Chat", 'String'>
   }
@@ -5320,6 +5329,7 @@ export namespace Prisma {
     Chat?: boolean | StreamChat$ChatArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
     Viewer?: boolean | StreamChat$ViewerArgs<ExtArgs>
+    StreamLogs?: boolean | StreamChat$StreamLogsArgs<ExtArgs>
     _count?: boolean | StreamChatCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["streamChat"]>
 
@@ -5375,6 +5385,7 @@ export namespace Prisma {
     Chat?: boolean | StreamChat$ChatArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
     Viewer?: boolean | StreamChat$ViewerArgs<ExtArgs>
+    StreamLogs?: boolean | StreamChat$StreamLogsArgs<ExtArgs>
     _count?: boolean | StreamChatCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StreamChatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5390,6 +5401,7 @@ export namespace Prisma {
       Chat: Prisma.$ChatPayload<ExtArgs>[]
       User: Prisma.$UserPayload<ExtArgs>
       Viewer: Prisma.$ViewerPayload<ExtArgs>[]
+      StreamLogs: Prisma.$StreamLogsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5801,6 +5813,7 @@ export namespace Prisma {
     Chat<T extends StreamChat$ChatArgs<ExtArgs> = {}>(args?: Subset<T, StreamChat$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     Viewer<T extends StreamChat$ViewerArgs<ExtArgs> = {}>(args?: Subset<T, StreamChat$ViewerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ViewerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    StreamLogs<T extends StreamChat$StreamLogsArgs<ExtArgs> = {}>(args?: Subset<T, StreamChat$StreamLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6286,6 +6299,30 @@ export namespace Prisma {
   }
 
   /**
+   * StreamChat.StreamLogs
+   */
+  export type StreamChat$StreamLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamLogs
+     */
+    select?: StreamLogsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StreamLogs
+     */
+    omit?: StreamLogsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamLogsInclude<ExtArgs> | null
+    where?: StreamLogsWhereInput
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
+    cursor?: StreamLogsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StreamLogsScalarFieldEnum | StreamLogsScalarFieldEnum[]
+  }
+
+  /**
    * StreamChat without action
    */
   export type StreamChatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6333,6 +6370,7 @@ export namespace Prisma {
     email: number
     createdAt: number
     settings: number
+    statistics: number
     username: number
     _all: number
   }
@@ -6357,6 +6395,7 @@ export namespace Prisma {
     email?: true
     createdAt?: true
     settings?: true
+    statistics?: true
     username?: true
     _all?: true
   }
@@ -6438,6 +6477,7 @@ export namespace Prisma {
     email: string | null
     createdAt: Date
     settings: JsonValue | null
+    statistics: JsonValue
     username: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -6463,14 +6503,15 @@ export namespace Prisma {
     email?: boolean
     createdAt?: boolean
     settings?: boolean
+    statistics?: boolean
     username?: boolean
-    Analytics?: boolean | User$AnalyticsArgs<ExtArgs>
     Chat?: boolean | User$ChatArgs<ExtArgs>
     CustomCommand?: boolean | User$CustomCommandArgs<ExtArgs>
     StreamChat?: boolean | User$StreamChatArgs<ExtArgs>
     UserSecurity?: boolean | User$UserSecurityArgs<ExtArgs>
     Viewer?: boolean | User$ViewerArgs<ExtArgs>
     Moderation?: boolean | User$ModerationArgs<ExtArgs>
+    StreamLogs?: boolean | User$StreamLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6479,6 +6520,7 @@ export namespace Prisma {
     email?: boolean
     createdAt?: boolean
     settings?: boolean
+    statistics?: boolean
     username?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -6487,6 +6529,7 @@ export namespace Prisma {
     email?: boolean
     createdAt?: boolean
     settings?: boolean
+    statistics?: boolean
     username?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -6495,18 +6538,19 @@ export namespace Prisma {
     email?: boolean
     createdAt?: boolean
     settings?: boolean
+    statistics?: boolean
     username?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "createdAt" | "settings" | "username", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "createdAt" | "settings" | "statistics" | "username", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Analytics?: boolean | User$AnalyticsArgs<ExtArgs>
     Chat?: boolean | User$ChatArgs<ExtArgs>
     CustomCommand?: boolean | User$CustomCommandArgs<ExtArgs>
     StreamChat?: boolean | User$StreamChatArgs<ExtArgs>
     UserSecurity?: boolean | User$UserSecurityArgs<ExtArgs>
     Viewer?: boolean | User$ViewerArgs<ExtArgs>
     Moderation?: boolean | User$ModerationArgs<ExtArgs>
+    StreamLogs?: boolean | User$StreamLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -6515,19 +6559,20 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      Analytics: Prisma.$AnalyticsPayload<ExtArgs>[]
       Chat: Prisma.$ChatPayload<ExtArgs>[]
       CustomCommand: Prisma.$CustomCommandPayload<ExtArgs>[]
       StreamChat: Prisma.$StreamChatPayload<ExtArgs>[]
       UserSecurity: Prisma.$UserSecurityPayload<ExtArgs> | null
       Viewer: Prisma.$ViewerPayload<ExtArgs>[]
       Moderation: Prisma.$ModerationPayload<ExtArgs>[]
+      StreamLogs: Prisma.$StreamLogsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string | null
       createdAt: Date
       settings: Prisma.JsonValue | null
+      statistics: Prisma.JsonValue
       username: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -6923,13 +6968,13 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Analytics<T extends User$AnalyticsArgs<ExtArgs> = {}>(args?: Subset<T, User$AnalyticsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Chat<T extends User$ChatArgs<ExtArgs> = {}>(args?: Subset<T, User$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     CustomCommand<T extends User$CustomCommandArgs<ExtArgs> = {}>(args?: Subset<T, User$CustomCommandArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomCommandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     StreamChat<T extends User$StreamChatArgs<ExtArgs> = {}>(args?: Subset<T, User$StreamChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     UserSecurity<T extends User$UserSecurityArgs<ExtArgs> = {}>(args?: Subset<T, User$UserSecurityArgs<ExtArgs>>): Prisma__UserSecurityClient<$Result.GetResult<Prisma.$UserSecurityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Viewer<T extends User$ViewerArgs<ExtArgs> = {}>(args?: Subset<T, User$ViewerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ViewerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Moderation<T extends User$ModerationArgs<ExtArgs> = {}>(args?: Subset<T, User$ModerationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModerationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    StreamLogs<T extends User$StreamLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$StreamLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6963,6 +7008,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly settings: FieldRef<"User", 'Json'>
+    readonly statistics: FieldRef<"User", 'Json'>
     readonly username: FieldRef<"User", 'String'>
   }
     
@@ -7352,30 +7398,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.Analytics
-   */
-  export type User$AnalyticsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Analytics
-     */
-    select?: AnalyticsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Analytics
-     */
-    omit?: AnalyticsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AnalyticsInclude<ExtArgs> | null
-    where?: AnalyticsWhereInput
-    orderBy?: AnalyticsOrderByWithRelationInput | AnalyticsOrderByWithRelationInput[]
-    cursor?: AnalyticsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AnalyticsScalarFieldEnum | AnalyticsScalarFieldEnum[]
-  }
-
-  /**
    * User.Chat
    */
   export type User$ChatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7512,6 +7534,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ModerationScalarFieldEnum | ModerationScalarFieldEnum[]
+  }
+
+  /**
+   * User.StreamLogs
+   */
+  export type User$StreamLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamLogs
+     */
+    select?: StreamLogsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StreamLogs
+     */
+    omit?: StreamLogsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamLogsInclude<ExtArgs> | null
+    where?: StreamLogsWhereInput
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
+    cursor?: StreamLogsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StreamLogsScalarFieldEnum | StreamLogsScalarFieldEnum[]
   }
 
   /**
@@ -9674,6 +9720,7 @@ export namespace Prisma {
   export type ViewerAvgAggregateOutputType = {
     hoursWatched: number | null
     points: number | null
+    bannedTimePeriod: number | null
     streakDays: number | null
     totalMessages: number | null
   }
@@ -9681,6 +9728,7 @@ export namespace Prisma {
   export type ViewerSumAggregateOutputType = {
     hoursWatched: number | null
     points: number | null
+    bannedTimePeriod: number | null
     streakDays: number | null
     totalMessages: number | null
   }
@@ -9691,6 +9739,8 @@ export namespace Prisma {
     username: string | null
     hoursWatched: number | null
     points: number | null
+    banned: boolean | null
+    bannedTimePeriod: number | null
     createdAt: Date | null
     streakDays: number | null
     streamChatId: string | null
@@ -9703,6 +9753,8 @@ export namespace Prisma {
     username: string | null
     hoursWatched: number | null
     points: number | null
+    banned: boolean | null
+    bannedTimePeriod: number | null
     createdAt: Date | null
     streakDays: number | null
     streamChatId: string | null
@@ -9715,6 +9767,8 @@ export namespace Prisma {
     username: number
     hoursWatched: number
     points: number
+    banned: number
+    bannedTimePeriod: number
     createdAt: number
     streakDays: number
     streamChatId: number
@@ -9726,6 +9780,7 @@ export namespace Prisma {
   export type ViewerAvgAggregateInputType = {
     hoursWatched?: true
     points?: true
+    bannedTimePeriod?: true
     streakDays?: true
     totalMessages?: true
   }
@@ -9733,6 +9788,7 @@ export namespace Prisma {
   export type ViewerSumAggregateInputType = {
     hoursWatched?: true
     points?: true
+    bannedTimePeriod?: true
     streakDays?: true
     totalMessages?: true
   }
@@ -9743,6 +9799,8 @@ export namespace Prisma {
     username?: true
     hoursWatched?: true
     points?: true
+    banned?: true
+    bannedTimePeriod?: true
     createdAt?: true
     streakDays?: true
     streamChatId?: true
@@ -9755,6 +9813,8 @@ export namespace Prisma {
     username?: true
     hoursWatched?: true
     points?: true
+    banned?: true
+    bannedTimePeriod?: true
     createdAt?: true
     streakDays?: true
     streamChatId?: true
@@ -9767,6 +9827,8 @@ export namespace Prisma {
     username?: true
     hoursWatched?: true
     points?: true
+    banned?: true
+    bannedTimePeriod?: true
     createdAt?: true
     streakDays?: true
     streamChatId?: true
@@ -9866,6 +9928,8 @@ export namespace Prisma {
     username: string
     hoursWatched: number | null
     points: number
+    banned: boolean
+    bannedTimePeriod: number
     createdAt: Date
     streakDays: number
     streamChatId: string
@@ -9897,6 +9961,8 @@ export namespace Prisma {
     username?: boolean
     hoursWatched?: boolean
     points?: boolean
+    banned?: boolean
+    bannedTimePeriod?: boolean
     createdAt?: boolean
     streakDays?: boolean
     streamChatId?: boolean
@@ -9904,6 +9970,7 @@ export namespace Prisma {
     Chat?: boolean | Viewer$ChatArgs<ExtArgs>
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    StreamLogs?: boolean | Viewer$StreamLogsArgs<ExtArgs>
     _count?: boolean | ViewerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["viewer"]>
 
@@ -9913,6 +9980,8 @@ export namespace Prisma {
     username?: boolean
     hoursWatched?: boolean
     points?: boolean
+    banned?: boolean
+    bannedTimePeriod?: boolean
     createdAt?: boolean
     streakDays?: boolean
     streamChatId?: boolean
@@ -9927,6 +9996,8 @@ export namespace Prisma {
     username?: boolean
     hoursWatched?: boolean
     points?: boolean
+    banned?: boolean
+    bannedTimePeriod?: boolean
     createdAt?: boolean
     streakDays?: boolean
     streamChatId?: boolean
@@ -9941,17 +10012,20 @@ export namespace Prisma {
     username?: boolean
     hoursWatched?: boolean
     points?: boolean
+    banned?: boolean
+    bannedTimePeriod?: boolean
     createdAt?: boolean
     streakDays?: boolean
     streamChatId?: boolean
     totalMessages?: boolean
   }
 
-  export type ViewerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userChannelId" | "username" | "hoursWatched" | "points" | "createdAt" | "streakDays" | "streamChatId" | "totalMessages", ExtArgs["result"]["viewer"]>
+  export type ViewerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userChannelId" | "username" | "hoursWatched" | "points" | "banned" | "bannedTimePeriod" | "createdAt" | "streakDays" | "streamChatId" | "totalMessages", ExtArgs["result"]["viewer"]>
   export type ViewerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | Viewer$ChatArgs<ExtArgs>
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    StreamLogs?: boolean | Viewer$StreamLogsArgs<ExtArgs>
     _count?: boolean | ViewerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ViewerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9969,6 +10043,7 @@ export namespace Prisma {
       Chat: Prisma.$ChatPayload<ExtArgs>[]
       StreamChat: Prisma.$StreamChatPayload<ExtArgs>
       User: Prisma.$UserPayload<ExtArgs>
+      StreamLogs: Prisma.$StreamLogsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9976,6 +10051,8 @@ export namespace Prisma {
       username: string
       hoursWatched: number | null
       points: number
+      banned: boolean
+      bannedTimePeriod: number
       createdAt: Date
       streakDays: number
       streamChatId: string
@@ -10377,6 +10454,7 @@ export namespace Prisma {
     Chat<T extends Viewer$ChatArgs<ExtArgs> = {}>(args?: Subset<T, Viewer$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     StreamChat<T extends StreamChatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StreamChatDefaultArgs<ExtArgs>>): Prisma__StreamChatClient<$Result.GetResult<Prisma.$StreamChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    StreamLogs<T extends Viewer$StreamLogsArgs<ExtArgs> = {}>(args?: Subset<T, Viewer$StreamLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamLogsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10411,6 +10489,8 @@ export namespace Prisma {
     readonly username: FieldRef<"Viewer", 'String'>
     readonly hoursWatched: FieldRef<"Viewer", 'Float'>
     readonly points: FieldRef<"Viewer", 'Int'>
+    readonly banned: FieldRef<"Viewer", 'Boolean'>
+    readonly bannedTimePeriod: FieldRef<"Viewer", 'Int'>
     readonly createdAt: FieldRef<"Viewer", 'DateTime'>
     readonly streakDays: FieldRef<"Viewer", 'Int'>
     readonly streamChatId: FieldRef<"Viewer", 'String'>
@@ -10835,6 +10915,30 @@ export namespace Prisma {
   }
 
   /**
+   * Viewer.StreamLogs
+   */
+  export type Viewer$StreamLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamLogs
+     */
+    select?: StreamLogsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StreamLogs
+     */
+    omit?: StreamLogsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamLogsInclude<ExtArgs> | null
+    where?: StreamLogsWhereInput
+    orderBy?: StreamLogsOrderByWithRelationInput | StreamLogsOrderByWithRelationInput[]
+    cursor?: StreamLogsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StreamLogsScalarFieldEnum | StreamLogsScalarFieldEnum[]
+  }
+
+  /**
    * Viewer without action
    */
   export type ViewerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10867,16 +10971,17 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const AnalyticsScalarFieldEnum: {
+  export const StreamLogsScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
-    totalViews: 'totalViews',
-    subscribers: 'subscribers',
-    engagementRate: 'engagementRate',
-    timestamp: 'timestamp'
+    messageDetails: 'messageDetails',
+    viewerId: 'viewerId',
+    broadcastId: 'broadcastId',
+    channelId: 'channelId',
+    eventType: 'eventType',
+    eventDetails: 'eventDetails'
   };
 
-  export type AnalyticsScalarFieldEnum = (typeof AnalyticsScalarFieldEnum)[keyof typeof AnalyticsScalarFieldEnum]
+  export type StreamLogsScalarFieldEnum = (typeof StreamLogsScalarFieldEnum)[keyof typeof StreamLogsScalarFieldEnum]
 
 
   export const ChatScalarFieldEnum: {
@@ -10885,7 +10990,7 @@ export namespace Prisma {
     chatType: 'chatType',
     message: 'message',
     timestamp: 'timestamp',
-    liveChatId: 'liveChatId',
+    broadcastId: 'broadcastId',
     viewerId: 'viewerId',
     username: 'username'
   };
@@ -10931,6 +11036,7 @@ export namespace Prisma {
     email: 'email',
     createdAt: 'createdAt',
     settings: 'settings',
+    statistics: 'statistics',
     username: 'username'
   };
 
@@ -10967,6 +11073,8 @@ export namespace Prisma {
     username: 'username',
     hoursWatched: 'hoursWatched',
     points: 'points',
+    banned: 'banned',
+    bannedTimePeriod: 'bannedTimePeriod',
     createdAt: 'createdAt',
     streakDays: 'streakDays',
     streamChatId: 'streamChatId',
@@ -11007,14 +11115,6 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -11022,6 +11122,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -11044,30 +11152,30 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Json'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'QueryMode'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'ChatEvents'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type EnumChatEventsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChatEvents'>
     
 
 
   /**
-   * Reference to a field of type 'Float[]'
+   * Reference to a field of type 'ChatEvents[]'
    */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+  export type ListEnumChatEventsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChatEvents[]'>
     
 
 
@@ -11093,6 +11201,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -11107,82 +11229,91 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
+   * Reference to a field of type 'Float'
    */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'QueryMode'
+   * Reference to a field of type 'Float[]'
    */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
    */
 
 
-  export type AnalyticsWhereInput = {
-    AND?: AnalyticsWhereInput | AnalyticsWhereInput[]
-    OR?: AnalyticsWhereInput[]
-    NOT?: AnalyticsWhereInput | AnalyticsWhereInput[]
-    id?: StringFilter<"Analytics"> | string
-    userId?: StringFilter<"Analytics"> | string
-    totalViews?: IntFilter<"Analytics"> | number
-    subscribers?: IntFilter<"Analytics"> | number
-    engagementRate?: FloatFilter<"Analytics"> | number
-    timestamp?: DateTimeFilter<"Analytics"> | Date | string
+  export type StreamLogsWhereInput = {
+    AND?: StreamLogsWhereInput | StreamLogsWhereInput[]
+    OR?: StreamLogsWhereInput[]
+    NOT?: StreamLogsWhereInput | StreamLogsWhereInput[]
+    id?: StringFilter<"StreamLogs"> | string
+    messageDetails?: JsonFilter<"StreamLogs">
+    viewerId?: StringFilter<"StreamLogs"> | string
+    broadcastId?: StringFilter<"StreamLogs"> | string
+    channelId?: StringFilter<"StreamLogs"> | string
+    eventType?: EnumChatEventsFilter<"StreamLogs"> | $Enums.ChatEvents
+    eventDetails?: JsonFilter<"StreamLogs">
+    StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Viewer?: XOR<ViewerScalarRelationFilter, ViewerWhereInput>
   }
 
-  export type AnalyticsOrderByWithRelationInput = {
+  export type StreamLogsOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
-    timestamp?: SortOrder
+    messageDetails?: SortOrder
+    viewerId?: SortOrder
+    broadcastId?: SortOrder
+    channelId?: SortOrder
+    eventType?: SortOrder
+    eventDetails?: SortOrder
+    StreamChat?: StreamChatOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
+    Viewer?: ViewerOrderByWithRelationInput
   }
 
-  export type AnalyticsWhereUniqueInput = Prisma.AtLeast<{
+  export type StreamLogsWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: AnalyticsWhereInput | AnalyticsWhereInput[]
-    OR?: AnalyticsWhereInput[]
-    NOT?: AnalyticsWhereInput | AnalyticsWhereInput[]
-    userId?: StringFilter<"Analytics"> | string
-    totalViews?: IntFilter<"Analytics"> | number
-    subscribers?: IntFilter<"Analytics"> | number
-    engagementRate?: FloatFilter<"Analytics"> | number
-    timestamp?: DateTimeFilter<"Analytics"> | Date | string
+    AND?: StreamLogsWhereInput | StreamLogsWhereInput[]
+    OR?: StreamLogsWhereInput[]
+    NOT?: StreamLogsWhereInput | StreamLogsWhereInput[]
+    messageDetails?: JsonFilter<"StreamLogs">
+    viewerId?: StringFilter<"StreamLogs"> | string
+    broadcastId?: StringFilter<"StreamLogs"> | string
+    channelId?: StringFilter<"StreamLogs"> | string
+    eventType?: EnumChatEventsFilter<"StreamLogs"> | $Enums.ChatEvents
+    eventDetails?: JsonFilter<"StreamLogs">
+    StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Viewer?: XOR<ViewerScalarRelationFilter, ViewerWhereInput>
   }, "id">
 
-  export type AnalyticsOrderByWithAggregationInput = {
+  export type StreamLogsOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
-    timestamp?: SortOrder
-    _count?: AnalyticsCountOrderByAggregateInput
-    _avg?: AnalyticsAvgOrderByAggregateInput
-    _max?: AnalyticsMaxOrderByAggregateInput
-    _min?: AnalyticsMinOrderByAggregateInput
-    _sum?: AnalyticsSumOrderByAggregateInput
+    messageDetails?: SortOrder
+    viewerId?: SortOrder
+    broadcastId?: SortOrder
+    channelId?: SortOrder
+    eventType?: SortOrder
+    eventDetails?: SortOrder
+    _count?: StreamLogsCountOrderByAggregateInput
+    _max?: StreamLogsMaxOrderByAggregateInput
+    _min?: StreamLogsMinOrderByAggregateInput
   }
 
-  export type AnalyticsScalarWhereWithAggregatesInput = {
-    AND?: AnalyticsScalarWhereWithAggregatesInput | AnalyticsScalarWhereWithAggregatesInput[]
-    OR?: AnalyticsScalarWhereWithAggregatesInput[]
-    NOT?: AnalyticsScalarWhereWithAggregatesInput | AnalyticsScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Analytics"> | string
-    userId?: StringWithAggregatesFilter<"Analytics"> | string
-    totalViews?: IntWithAggregatesFilter<"Analytics"> | number
-    subscribers?: IntWithAggregatesFilter<"Analytics"> | number
-    engagementRate?: FloatWithAggregatesFilter<"Analytics"> | number
-    timestamp?: DateTimeWithAggregatesFilter<"Analytics"> | Date | string
+  export type StreamLogsScalarWhereWithAggregatesInput = {
+    AND?: StreamLogsScalarWhereWithAggregatesInput | StreamLogsScalarWhereWithAggregatesInput[]
+    OR?: StreamLogsScalarWhereWithAggregatesInput[]
+    NOT?: StreamLogsScalarWhereWithAggregatesInput | StreamLogsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StreamLogs"> | string
+    messageDetails?: JsonWithAggregatesFilter<"StreamLogs">
+    viewerId?: StringWithAggregatesFilter<"StreamLogs"> | string
+    broadcastId?: StringWithAggregatesFilter<"StreamLogs"> | string
+    channelId?: StringWithAggregatesFilter<"StreamLogs"> | string
+    eventType?: EnumChatEventsWithAggregatesFilter<"StreamLogs"> | $Enums.ChatEvents
+    eventDetails?: JsonWithAggregatesFilter<"StreamLogs">
   }
 
   export type ChatWhereInput = {
@@ -11194,7 +11325,7 @@ export namespace Prisma {
     chatType?: StringFilter<"Chat"> | string
     message?: StringFilter<"Chat"> | string
     timestamp?: DateTimeFilter<"Chat"> | Date | string
-    liveChatId?: StringFilter<"Chat"> | string
+    broadcastId?: StringFilter<"Chat"> | string
     viewerId?: StringNullableFilter<"Chat"> | string | null
     username?: StringFilter<"Chat"> | string
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
@@ -11208,7 +11339,7 @@ export namespace Prisma {
     chatType?: SortOrder
     message?: SortOrder
     timestamp?: SortOrder
-    liveChatId?: SortOrder
+    broadcastId?: SortOrder
     viewerId?: SortOrderInput | SortOrder
     username?: SortOrder
     StreamChat?: StreamChatOrderByWithRelationInput
@@ -11225,7 +11356,7 @@ export namespace Prisma {
     chatType?: StringFilter<"Chat"> | string
     message?: StringFilter<"Chat"> | string
     timestamp?: DateTimeFilter<"Chat"> | Date | string
-    liveChatId?: StringFilter<"Chat"> | string
+    broadcastId?: StringFilter<"Chat"> | string
     viewerId?: StringNullableFilter<"Chat"> | string | null
     username?: StringFilter<"Chat"> | string
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
@@ -11239,7 +11370,7 @@ export namespace Prisma {
     chatType?: SortOrder
     message?: SortOrder
     timestamp?: SortOrder
-    liveChatId?: SortOrder
+    broadcastId?: SortOrder
     viewerId?: SortOrderInput | SortOrder
     username?: SortOrder
     _count?: ChatCountOrderByAggregateInput
@@ -11256,7 +11387,7 @@ export namespace Prisma {
     chatType?: StringWithAggregatesFilter<"Chat"> | string
     message?: StringWithAggregatesFilter<"Chat"> | string
     timestamp?: DateTimeWithAggregatesFilter<"Chat"> | Date | string
-    liveChatId?: StringWithAggregatesFilter<"Chat"> | string
+    broadcastId?: StringWithAggregatesFilter<"Chat"> | string
     viewerId?: StringNullableWithAggregatesFilter<"Chat"> | string | null
     username?: StringWithAggregatesFilter<"Chat"> | string
   }
@@ -11357,6 +11488,7 @@ export namespace Prisma {
     Chat?: ChatListRelationFilter
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     Viewer?: ViewerListRelationFilter
+    StreamLogs?: StreamLogsListRelationFilter
   }
 
   export type StreamChatOrderByWithRelationInput = {
@@ -11375,6 +11507,7 @@ export namespace Prisma {
     Chat?: ChatOrderByRelationAggregateInput
     User?: UserOrderByWithRelationInput
     Viewer?: ViewerOrderByRelationAggregateInput
+    StreamLogs?: StreamLogsOrderByRelationAggregateInput
   }
 
   export type StreamChatWhereUniqueInput = Prisma.AtLeast<{
@@ -11396,6 +11529,7 @@ export namespace Prisma {
     Chat?: ChatListRelationFilter
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     Viewer?: ViewerListRelationFilter
+    StreamLogs?: StreamLogsListRelationFilter
   }, "id">
 
   export type StreamChatOrderByWithAggregationInput = {
@@ -11444,14 +11578,15 @@ export namespace Prisma {
     email?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     settings?: JsonNullableFilter<"User">
+    statistics?: JsonFilter<"User">
     username?: StringNullableFilter<"User"> | string | null
-    Analytics?: AnalyticsListRelationFilter
     Chat?: ChatListRelationFilter
     CustomCommand?: CustomCommandListRelationFilter
     StreamChat?: StreamChatListRelationFilter
     UserSecurity?: XOR<UserSecurityNullableScalarRelationFilter, UserSecurityWhereInput> | null
     Viewer?: ViewerListRelationFilter
     Moderation?: ModerationListRelationFilter
+    StreamLogs?: StreamLogsListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11459,14 +11594,15 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     settings?: SortOrderInput | SortOrder
+    statistics?: SortOrder
     username?: SortOrderInput | SortOrder
-    Analytics?: AnalyticsOrderByRelationAggregateInput
     Chat?: ChatOrderByRelationAggregateInput
     CustomCommand?: CustomCommandOrderByRelationAggregateInput
     StreamChat?: StreamChatOrderByRelationAggregateInput
     UserSecurity?: UserSecurityOrderByWithRelationInput
     Viewer?: ViewerOrderByRelationAggregateInput
     Moderation?: ModerationOrderByRelationAggregateInput
+    StreamLogs?: StreamLogsOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11478,20 +11614,22 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     createdAt?: DateTimeFilter<"User"> | Date | string
     settings?: JsonNullableFilter<"User">
-    Analytics?: AnalyticsListRelationFilter
+    statistics?: JsonFilter<"User">
     Chat?: ChatListRelationFilter
     CustomCommand?: CustomCommandListRelationFilter
     StreamChat?: StreamChatListRelationFilter
     UserSecurity?: XOR<UserSecurityNullableScalarRelationFilter, UserSecurityWhereInput> | null
     Viewer?: ViewerListRelationFilter
     Moderation?: ModerationListRelationFilter
-  }, "id" | "email" | "username">
+    StreamLogs?: StreamLogsListRelationFilter
+  }, "id" | "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     settings?: SortOrderInput | SortOrder
+    statistics?: SortOrder
     username?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -11506,6 +11644,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     settings?: JsonNullableWithAggregatesFilter<"User">
+    statistics?: JsonWithAggregatesFilter<"User">
     username?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
@@ -11638,6 +11777,8 @@ export namespace Prisma {
     username?: StringFilter<"Viewer"> | string
     hoursWatched?: FloatNullableFilter<"Viewer"> | number | null
     points?: IntFilter<"Viewer"> | number
+    banned?: BoolFilter<"Viewer"> | boolean
+    bannedTimePeriod?: IntFilter<"Viewer"> | number
     createdAt?: DateTimeFilter<"Viewer"> | Date | string
     streakDays?: IntFilter<"Viewer"> | number
     streamChatId?: StringFilter<"Viewer"> | string
@@ -11645,6 +11786,7 @@ export namespace Prisma {
     Chat?: ChatListRelationFilter
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
+    StreamLogs?: StreamLogsListRelationFilter
   }
 
   export type ViewerOrderByWithRelationInput = {
@@ -11653,6 +11795,8 @@ export namespace Prisma {
     username?: SortOrder
     hoursWatched?: SortOrderInput | SortOrder
     points?: SortOrder
+    banned?: SortOrder
+    bannedTimePeriod?: SortOrder
     createdAt?: SortOrder
     streakDays?: SortOrder
     streamChatId?: SortOrder
@@ -11660,6 +11804,7 @@ export namespace Prisma {
     Chat?: ChatOrderByRelationAggregateInput
     StreamChat?: StreamChatOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
+    StreamLogs?: StreamLogsOrderByRelationAggregateInput
   }
 
   export type ViewerWhereUniqueInput = Prisma.AtLeast<{
@@ -11672,6 +11817,8 @@ export namespace Prisma {
     username?: StringFilter<"Viewer"> | string
     hoursWatched?: FloatNullableFilter<"Viewer"> | number | null
     points?: IntFilter<"Viewer"> | number
+    banned?: BoolFilter<"Viewer"> | boolean
+    bannedTimePeriod?: IntFilter<"Viewer"> | number
     createdAt?: DateTimeFilter<"Viewer"> | Date | string
     streakDays?: IntFilter<"Viewer"> | number
     streamChatId?: StringFilter<"Viewer"> | string
@@ -11679,6 +11826,7 @@ export namespace Prisma {
     Chat?: ChatListRelationFilter
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
+    StreamLogs?: StreamLogsListRelationFilter
   }, "id" | "id_userChannelId_streamChatId">
 
   export type ViewerOrderByWithAggregationInput = {
@@ -11687,6 +11835,8 @@ export namespace Prisma {
     username?: SortOrder
     hoursWatched?: SortOrderInput | SortOrder
     points?: SortOrder
+    banned?: SortOrder
+    bannedTimePeriod?: SortOrder
     createdAt?: SortOrder
     streakDays?: SortOrder
     streamChatId?: SortOrder
@@ -11707,72 +11857,79 @@ export namespace Prisma {
     username?: StringWithAggregatesFilter<"Viewer"> | string
     hoursWatched?: FloatNullableWithAggregatesFilter<"Viewer"> | number | null
     points?: IntWithAggregatesFilter<"Viewer"> | number
+    banned?: BoolWithAggregatesFilter<"Viewer"> | boolean
+    bannedTimePeriod?: IntWithAggregatesFilter<"Viewer"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Viewer"> | Date | string
     streakDays?: IntWithAggregatesFilter<"Viewer"> | number
     streamChatId?: StringWithAggregatesFilter<"Viewer"> | string
     totalMessages?: IntWithAggregatesFilter<"Viewer"> | number
   }
 
-  export type AnalyticsCreateInput = {
-    id: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp?: Date | string
-    User: UserCreateNestedOneWithoutAnalyticsInput
+  export type StreamLogsCreateInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    StreamChat: StreamChatCreateNestedOneWithoutStreamLogsInput
+    User: UserCreateNestedOneWithoutStreamLogsInput
+    Viewer: ViewerCreateNestedOneWithoutStreamLogsInput
   }
 
-  export type AnalyticsUncheckedCreateInput = {
-    id: string
-    userId: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp?: Date | string
+  export type StreamLogsUncheckedCreateInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId: string
+    broadcastId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
-  export type AnalyticsUpdateInput = {
+  export type StreamLogsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    User?: UserUpdateOneRequiredWithoutAnalyticsNestedInput
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    StreamChat?: StreamChatUpdateOneRequiredWithoutStreamLogsNestedInput
+    User?: UserUpdateOneRequiredWithoutStreamLogsNestedInput
+    Viewer?: ViewerUpdateOneRequiredWithoutStreamLogsNestedInput
   }
 
-  export type AnalyticsUncheckedUpdateInput = {
+  export type StreamLogsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
-  export type AnalyticsCreateManyInput = {
-    id: string
-    userId: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp?: Date | string
+  export type StreamLogsCreateManyInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId: string
+    broadcastId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
-  export type AnalyticsUpdateManyMutationInput = {
+  export type StreamLogsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
-  export type AnalyticsUncheckedUpdateManyInput = {
+  export type StreamLogsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
   export type ChatCreateInput = {
@@ -11781,7 +11938,7 @@ export namespace Prisma {
     message: string
     timestamp?: Date | string
     username: string
-    StreamChat: StreamChatCreateNestedOneWithoutChatInput
+    StreamChat?: StreamChatCreateNestedOneWithoutChatInput
     User: UserCreateNestedOneWithoutChatInput
     Viewer?: ViewerCreateNestedOneWithoutChatInput
   }
@@ -11792,7 +11949,7 @@ export namespace Prisma {
     chatType: string
     message: string
     timestamp?: Date | string
-    liveChatId: string
+    broadcastId?: string
     viewerId?: string | null
     username: string
   }
@@ -11814,7 +11971,7 @@ export namespace Prisma {
     chatType?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveChatId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
     viewerId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
   }
@@ -11825,7 +11982,7 @@ export namespace Prisma {
     chatType: string
     message: string
     timestamp?: Date | string
-    liveChatId: string
+    broadcastId?: string
     viewerId?: string | null
     username: string
   }
@@ -11844,7 +12001,7 @@ export namespace Prisma {
     chatType?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveChatId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
     viewerId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
   }
@@ -11947,6 +12104,7 @@ export namespace Prisma {
     Chat?: ChatCreateNestedManyWithoutStreamChatInput
     User: UserCreateNestedOneWithoutStreamChatInput
     Viewer?: ViewerCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatUncheckedCreateInput = {
@@ -11964,6 +12122,7 @@ export namespace Prisma {
     totalViews?: number | null
     Chat?: ChatUncheckedCreateNestedManyWithoutStreamChatInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatUpdateInput = {
@@ -11981,6 +12140,7 @@ export namespace Prisma {
     Chat?: ChatUpdateManyWithoutStreamChatNestedInput
     User?: UserUpdateOneRequiredWithoutStreamChatNestedInput
     Viewer?: ViewerUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutStreamChatNestedInput
   }
 
   export type StreamChatUncheckedUpdateInput = {
@@ -11998,6 +12158,7 @@ export namespace Prisma {
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     Chat?: ChatUncheckedUpdateManyWithoutStreamChatNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutStreamChatNestedInput
   }
 
   export type StreamChatCreateManyInput = {
@@ -12049,14 +12210,15 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     Chat?: ChatCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
     Moderation?: ModerationCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12064,14 +12226,15 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12079,14 +12242,15 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     Chat?: ChatUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12094,14 +12258,15 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12109,6 +12274,7 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
   }
 
@@ -12117,6 +12283,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12125,6 +12292,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12257,12 +12425,15 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     totalMessages?: number
     Chat?: ChatCreateNestedManyWithoutViewerInput
     StreamChat: StreamChatCreateNestedOneWithoutViewerInput
     User: UserCreateNestedOneWithoutViewerInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerUncheckedCreateInput = {
@@ -12271,11 +12442,14 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     streamChatId: string
     totalMessages?: number
     Chat?: ChatUncheckedCreateNestedManyWithoutViewerInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerUpdateInput = {
@@ -12283,12 +12457,15 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
     Chat?: ChatUpdateManyWithoutViewerNestedInput
     StreamChat?: StreamChatUpdateOneRequiredWithoutViewerNestedInput
     User?: UserUpdateOneRequiredWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerUncheckedUpdateInput = {
@@ -12297,11 +12474,14 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     streamChatId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
     Chat?: ChatUncheckedUpdateManyWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerCreateManyInput = {
@@ -12310,6 +12490,8 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     streamChatId: string
@@ -12321,6 +12503,8 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
@@ -12332,6 +12516,8 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     streamChatId?: StringFieldUpdateOperationsInput | string
@@ -12352,38 +12538,40 @@ export namespace Prisma {
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
   }
+  export type JsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+  export type EnumChatEventsFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChatEvents | EnumChatEventsFieldRefInput<$PrismaModel>
+    in?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    not?: NestedEnumChatEventsFilter<$PrismaModel> | $Enums.ChatEvents
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  export type StreamChatScalarRelationFilter = {
+    is?: StreamChatWhereInput
+    isNot?: StreamChatWhereInput
   }
 
   export type UserScalarRelationFilter = {
@@ -12391,43 +12579,35 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
-  export type AnalyticsCountOrderByAggregateInput = {
+  export type ViewerScalarRelationFilter = {
+    is?: ViewerWhereInput
+    isNot?: ViewerWhereInput
+  }
+
+  export type StreamLogsCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
-    timestamp?: SortOrder
+    messageDetails?: SortOrder
+    viewerId?: SortOrder
+    broadcastId?: SortOrder
+    channelId?: SortOrder
+    eventType?: SortOrder
+    eventDetails?: SortOrder
   }
 
-  export type AnalyticsAvgOrderByAggregateInput = {
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
-  }
-
-  export type AnalyticsMaxOrderByAggregateInput = {
+  export type StreamLogsMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
-    timestamp?: SortOrder
+    viewerId?: SortOrder
+    broadcastId?: SortOrder
+    channelId?: SortOrder
+    eventType?: SortOrder
   }
 
-  export type AnalyticsMinOrderByAggregateInput = {
+  export type StreamLogsMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
-    timestamp?: SortOrder
-  }
-
-  export type AnalyticsSumOrderByAggregateInput = {
-    totalViews?: SortOrder
-    subscribers?: SortOrder
-    engagementRate?: SortOrder
+    viewerId?: SortOrder
+    broadcastId?: SortOrder
+    channelId?: SortOrder
+    eventType?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -12447,40 +12627,44 @@ export namespace Prisma {
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
   }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  export type EnumChatEventsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChatEvents | EnumChatEventsFieldRefInput<$PrismaModel>
+    in?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    not?: NestedEnumChatEventsWithAggregatesFilter<$PrismaModel> | $Enums.ChatEvents
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedEnumChatEventsFilter<$PrismaModel>
+    _max?: NestedEnumChatEventsFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+  export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12488,10 +12672,7 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -12507,11 +12688,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type StreamChatScalarRelationFilter = {
-    is?: StreamChatWhereInput
-    isNot?: StreamChatWhereInput
   }
 
   export type ViewerNullableScalarRelationFilter = {
@@ -12530,7 +12706,7 @@ export namespace Prisma {
     chatType?: SortOrder
     message?: SortOrder
     timestamp?: SortOrder
-    liveChatId?: SortOrder
+    broadcastId?: SortOrder
     viewerId?: SortOrder
     username?: SortOrder
   }
@@ -12541,7 +12717,7 @@ export namespace Prisma {
     chatType?: SortOrder
     message?: SortOrder
     timestamp?: SortOrder
-    liveChatId?: SortOrder
+    broadcastId?: SortOrder
     viewerId?: SortOrder
     username?: SortOrder
   }
@@ -12552,9 +12728,23 @@ export namespace Prisma {
     chatType?: SortOrder
     message?: SortOrder
     timestamp?: SortOrder
-    liveChatId?: SortOrder
+    broadcastId?: SortOrder
     viewerId?: SortOrder
     username?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12578,6 +12768,17 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -12639,6 +12840,22 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -12647,29 +12864,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-  export type JsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -12717,11 +12911,21 @@ export namespace Prisma {
     none?: ViewerWhereInput
   }
 
+  export type StreamLogsListRelationFilter = {
+    every?: StreamLogsWhereInput
+    some?: StreamLogsWhereInput
+    none?: StreamLogsWhereInput
+  }
+
   export type ChatOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ViewerOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StreamLogsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12778,32 +12982,6 @@ export namespace Prisma {
     duration?: SortOrder
     totalDonations?: SortOrder
     totalViews?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12875,12 +13053,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type AnalyticsListRelationFilter = {
-    every?: AnalyticsWhereInput
-    some?: AnalyticsWhereInput
-    none?: AnalyticsWhereInput
-  }
-
   export type CustomCommandListRelationFilter = {
     every?: CustomCommandWhereInput
     some?: CustomCommandWhereInput
@@ -12904,10 +13076,6 @@ export namespace Prisma {
     none?: ModerationWhereInput
   }
 
-  export type AnalyticsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type CustomCommandOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12925,6 +13093,7 @@ export namespace Prisma {
     email?: SortOrder
     createdAt?: SortOrder
     settings?: SortOrder
+    statistics?: SortOrder
     username?: SortOrder
   }
 
@@ -13026,6 +13195,8 @@ export namespace Prisma {
     username?: SortOrder
     hoursWatched?: SortOrder
     points?: SortOrder
+    banned?: SortOrder
+    bannedTimePeriod?: SortOrder
     createdAt?: SortOrder
     streakDays?: SortOrder
     streamChatId?: SortOrder
@@ -13035,6 +13206,7 @@ export namespace Prisma {
   export type ViewerAvgOrderByAggregateInput = {
     hoursWatched?: SortOrder
     points?: SortOrder
+    bannedTimePeriod?: SortOrder
     streakDays?: SortOrder
     totalMessages?: SortOrder
   }
@@ -13045,6 +13217,8 @@ export namespace Prisma {
     username?: SortOrder
     hoursWatched?: SortOrder
     points?: SortOrder
+    banned?: SortOrder
+    bannedTimePeriod?: SortOrder
     createdAt?: SortOrder
     streakDays?: SortOrder
     streamChatId?: SortOrder
@@ -13057,6 +13231,8 @@ export namespace Prisma {
     username?: SortOrder
     hoursWatched?: SortOrder
     points?: SortOrder
+    banned?: SortOrder
+    bannedTimePeriod?: SortOrder
     createdAt?: SortOrder
     streakDays?: SortOrder
     streamChatId?: SortOrder
@@ -13066,46 +13242,59 @@ export namespace Prisma {
   export type ViewerSumOrderByAggregateInput = {
     hoursWatched?: SortOrder
     points?: SortOrder
+    bannedTimePeriod?: SortOrder
     streakDays?: SortOrder
     totalMessages?: SortOrder
   }
 
-  export type UserCreateNestedOneWithoutAnalyticsInput = {
-    create?: XOR<UserCreateWithoutAnalyticsInput, UserUncheckedCreateWithoutAnalyticsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAnalyticsInput
+  export type StreamChatCreateNestedOneWithoutStreamLogsInput = {
+    create?: XOR<StreamChatCreateWithoutStreamLogsInput, StreamChatUncheckedCreateWithoutStreamLogsInput>
+    connectOrCreate?: StreamChatCreateOrConnectWithoutStreamLogsInput
+    connect?: StreamChatWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutStreamLogsInput = {
+    create?: XOR<UserCreateWithoutStreamLogsInput, UserUncheckedCreateWithoutStreamLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStreamLogsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type ViewerCreateNestedOneWithoutStreamLogsInput = {
+    create?: XOR<ViewerCreateWithoutStreamLogsInput, ViewerUncheckedCreateWithoutStreamLogsInput>
+    connectOrCreate?: ViewerCreateOrConnectWithoutStreamLogsInput
+    connect?: ViewerWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type EnumChatEventsFieldUpdateOperationsInput = {
+    set?: $Enums.ChatEvents
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type StreamChatUpdateOneRequiredWithoutStreamLogsNestedInput = {
+    create?: XOR<StreamChatCreateWithoutStreamLogsInput, StreamChatUncheckedCreateWithoutStreamLogsInput>
+    connectOrCreate?: StreamChatCreateOrConnectWithoutStreamLogsInput
+    upsert?: StreamChatUpsertWithoutStreamLogsInput
+    connect?: StreamChatWhereUniqueInput
+    update?: XOR<XOR<StreamChatUpdateToOneWithWhereWithoutStreamLogsInput, StreamChatUpdateWithoutStreamLogsInput>, StreamChatUncheckedUpdateWithoutStreamLogsInput>
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type UserUpdateOneRequiredWithoutAnalyticsNestedInput = {
-    create?: XOR<UserCreateWithoutAnalyticsInput, UserUncheckedCreateWithoutAnalyticsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAnalyticsInput
-    upsert?: UserUpsertWithoutAnalyticsInput
+  export type UserUpdateOneRequiredWithoutStreamLogsNestedInput = {
+    create?: XOR<UserCreateWithoutStreamLogsInput, UserUncheckedCreateWithoutStreamLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStreamLogsInput
+    upsert?: UserUpsertWithoutStreamLogsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAnalyticsInput, UserUpdateWithoutAnalyticsInput>, UserUncheckedUpdateWithoutAnalyticsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStreamLogsInput, UserUpdateWithoutStreamLogsInput>, UserUncheckedUpdateWithoutStreamLogsInput>
+  }
+
+  export type ViewerUpdateOneRequiredWithoutStreamLogsNestedInput = {
+    create?: XOR<ViewerCreateWithoutStreamLogsInput, ViewerUncheckedCreateWithoutStreamLogsInput>
+    connectOrCreate?: ViewerCreateOrConnectWithoutStreamLogsInput
+    upsert?: ViewerUpsertWithoutStreamLogsInput
+    connect?: ViewerWhereUniqueInput
+    update?: XOR<XOR<ViewerUpdateToOneWithWhereWithoutStreamLogsInput, ViewerUpdateWithoutStreamLogsInput>, ViewerUncheckedUpdateWithoutStreamLogsInput>
   }
 
   export type StreamChatCreateNestedOneWithoutChatInput = {
@@ -13124,6 +13313,10 @@ export namespace Prisma {
     create?: XOR<ViewerCreateWithoutChatInput, ViewerUncheckedCreateWithoutChatInput>
     connectOrCreate?: ViewerCreateOrConnectWithoutChatInput
     connect?: ViewerWhereUniqueInput
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type StreamChatUpdateOneRequiredWithoutChatNestedInput = {
@@ -13166,6 +13359,14 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
@@ -13198,6 +13399,13 @@ export namespace Prisma {
     connect?: ViewerWhereUniqueInput | ViewerWhereUniqueInput[]
   }
 
+  export type StreamLogsCreateNestedManyWithoutStreamChatInput = {
+    create?: XOR<StreamLogsCreateWithoutStreamChatInput, StreamLogsUncheckedCreateWithoutStreamChatInput> | StreamLogsCreateWithoutStreamChatInput[] | StreamLogsUncheckedCreateWithoutStreamChatInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutStreamChatInput | StreamLogsCreateOrConnectWithoutStreamChatInput[]
+    createMany?: StreamLogsCreateManyStreamChatInputEnvelope
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+  }
+
   export type ChatUncheckedCreateNestedManyWithoutStreamChatInput = {
     create?: XOR<ChatCreateWithoutStreamChatInput, ChatUncheckedCreateWithoutStreamChatInput> | ChatCreateWithoutStreamChatInput[] | ChatUncheckedCreateWithoutStreamChatInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutStreamChatInput | ChatCreateOrConnectWithoutStreamChatInput[]
@@ -13210,6 +13418,13 @@ export namespace Prisma {
     connectOrCreate?: ViewerCreateOrConnectWithoutStreamChatInput | ViewerCreateOrConnectWithoutStreamChatInput[]
     createMany?: ViewerCreateManyStreamChatInputEnvelope
     connect?: ViewerWhereUniqueInput | ViewerWhereUniqueInput[]
+  }
+
+  export type StreamLogsUncheckedCreateNestedManyWithoutStreamChatInput = {
+    create?: XOR<StreamLogsCreateWithoutStreamChatInput, StreamLogsUncheckedCreateWithoutStreamChatInput> | StreamLogsCreateWithoutStreamChatInput[] | StreamLogsUncheckedCreateWithoutStreamChatInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutStreamChatInput | StreamLogsCreateOrConnectWithoutStreamChatInput[]
+    createMany?: StreamLogsCreateManyStreamChatInputEnvelope
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -13268,6 +13483,20 @@ export namespace Prisma {
     deleteMany?: ViewerScalarWhereInput | ViewerScalarWhereInput[]
   }
 
+  export type StreamLogsUpdateManyWithoutStreamChatNestedInput = {
+    create?: XOR<StreamLogsCreateWithoutStreamChatInput, StreamLogsUncheckedCreateWithoutStreamChatInput> | StreamLogsCreateWithoutStreamChatInput[] | StreamLogsUncheckedCreateWithoutStreamChatInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutStreamChatInput | StreamLogsCreateOrConnectWithoutStreamChatInput[]
+    upsert?: StreamLogsUpsertWithWhereUniqueWithoutStreamChatInput | StreamLogsUpsertWithWhereUniqueWithoutStreamChatInput[]
+    createMany?: StreamLogsCreateManyStreamChatInputEnvelope
+    set?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    disconnect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    delete?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    update?: StreamLogsUpdateWithWhereUniqueWithoutStreamChatInput | StreamLogsUpdateWithWhereUniqueWithoutStreamChatInput[]
+    updateMany?: StreamLogsUpdateManyWithWhereWithoutStreamChatInput | StreamLogsUpdateManyWithWhereWithoutStreamChatInput[]
+    deleteMany?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
+  }
+
   export type ChatUncheckedUpdateManyWithoutStreamChatNestedInput = {
     create?: XOR<ChatCreateWithoutStreamChatInput, ChatUncheckedCreateWithoutStreamChatInput> | ChatCreateWithoutStreamChatInput[] | ChatUncheckedCreateWithoutStreamChatInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutStreamChatInput | ChatCreateOrConnectWithoutStreamChatInput[]
@@ -13296,11 +13525,18 @@ export namespace Prisma {
     deleteMany?: ViewerScalarWhereInput | ViewerScalarWhereInput[]
   }
 
-  export type AnalyticsCreateNestedManyWithoutUserInput = {
-    create?: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput> | AnalyticsCreateWithoutUserInput[] | AnalyticsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AnalyticsCreateOrConnectWithoutUserInput | AnalyticsCreateOrConnectWithoutUserInput[]
-    createMany?: AnalyticsCreateManyUserInputEnvelope
-    connect?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
+  export type StreamLogsUncheckedUpdateManyWithoutStreamChatNestedInput = {
+    create?: XOR<StreamLogsCreateWithoutStreamChatInput, StreamLogsUncheckedCreateWithoutStreamChatInput> | StreamLogsCreateWithoutStreamChatInput[] | StreamLogsUncheckedCreateWithoutStreamChatInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutStreamChatInput | StreamLogsCreateOrConnectWithoutStreamChatInput[]
+    upsert?: StreamLogsUpsertWithWhereUniqueWithoutStreamChatInput | StreamLogsUpsertWithWhereUniqueWithoutStreamChatInput[]
+    createMany?: StreamLogsCreateManyStreamChatInputEnvelope
+    set?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    disconnect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    delete?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    update?: StreamLogsUpdateWithWhereUniqueWithoutStreamChatInput | StreamLogsUpdateWithWhereUniqueWithoutStreamChatInput[]
+    updateMany?: StreamLogsUpdateManyWithWhereWithoutStreamChatInput | StreamLogsUpdateManyWithWhereWithoutStreamChatInput[]
+    deleteMany?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
   }
 
   export type ChatCreateNestedManyWithoutUserInput = {
@@ -13344,11 +13580,11 @@ export namespace Prisma {
     connect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
   }
 
-  export type AnalyticsUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput> | AnalyticsCreateWithoutUserInput[] | AnalyticsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AnalyticsCreateOrConnectWithoutUserInput | AnalyticsCreateOrConnectWithoutUserInput[]
-    createMany?: AnalyticsCreateManyUserInputEnvelope
-    connect?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
+  export type StreamLogsCreateNestedManyWithoutUserInput = {
+    create?: XOR<StreamLogsCreateWithoutUserInput, StreamLogsUncheckedCreateWithoutUserInput> | StreamLogsCreateWithoutUserInput[] | StreamLogsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutUserInput | StreamLogsCreateOrConnectWithoutUserInput[]
+    createMany?: StreamLogsCreateManyUserInputEnvelope
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
   }
 
   export type ChatUncheckedCreateNestedManyWithoutUserInput = {
@@ -13392,18 +13628,11 @@ export namespace Prisma {
     connect?: ModerationWhereUniqueInput | ModerationWhereUniqueInput[]
   }
 
-  export type AnalyticsUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput> | AnalyticsCreateWithoutUserInput[] | AnalyticsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AnalyticsCreateOrConnectWithoutUserInput | AnalyticsCreateOrConnectWithoutUserInput[]
-    upsert?: AnalyticsUpsertWithWhereUniqueWithoutUserInput | AnalyticsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AnalyticsCreateManyUserInputEnvelope
-    set?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    disconnect?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    delete?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    connect?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    update?: AnalyticsUpdateWithWhereUniqueWithoutUserInput | AnalyticsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AnalyticsUpdateManyWithWhereWithoutUserInput | AnalyticsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AnalyticsScalarWhereInput | AnalyticsScalarWhereInput[]
+  export type StreamLogsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<StreamLogsCreateWithoutUserInput, StreamLogsUncheckedCreateWithoutUserInput> | StreamLogsCreateWithoutUserInput[] | StreamLogsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutUserInput | StreamLogsCreateOrConnectWithoutUserInput[]
+    createMany?: StreamLogsCreateManyUserInputEnvelope
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
   }
 
   export type ChatUpdateManyWithoutUserNestedInput = {
@@ -13486,18 +13715,18 @@ export namespace Prisma {
     deleteMany?: ModerationScalarWhereInput | ModerationScalarWhereInput[]
   }
 
-  export type AnalyticsUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput> | AnalyticsCreateWithoutUserInput[] | AnalyticsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AnalyticsCreateOrConnectWithoutUserInput | AnalyticsCreateOrConnectWithoutUserInput[]
-    upsert?: AnalyticsUpsertWithWhereUniqueWithoutUserInput | AnalyticsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AnalyticsCreateManyUserInputEnvelope
-    set?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    disconnect?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    delete?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    connect?: AnalyticsWhereUniqueInput | AnalyticsWhereUniqueInput[]
-    update?: AnalyticsUpdateWithWhereUniqueWithoutUserInput | AnalyticsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AnalyticsUpdateManyWithWhereWithoutUserInput | AnalyticsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AnalyticsScalarWhereInput | AnalyticsScalarWhereInput[]
+  export type StreamLogsUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StreamLogsCreateWithoutUserInput, StreamLogsUncheckedCreateWithoutUserInput> | StreamLogsCreateWithoutUserInput[] | StreamLogsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutUserInput | StreamLogsCreateOrConnectWithoutUserInput[]
+    upsert?: StreamLogsUpsertWithWhereUniqueWithoutUserInput | StreamLogsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StreamLogsCreateManyUserInputEnvelope
+    set?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    disconnect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    delete?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    update?: StreamLogsUpdateWithWhereUniqueWithoutUserInput | StreamLogsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StreamLogsUpdateManyWithWhereWithoutUserInput | StreamLogsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
   }
 
   export type ChatUncheckedUpdateManyWithoutUserNestedInput = {
@@ -13580,6 +13809,20 @@ export namespace Prisma {
     deleteMany?: ModerationScalarWhereInput | ModerationScalarWhereInput[]
   }
 
+  export type StreamLogsUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StreamLogsCreateWithoutUserInput, StreamLogsUncheckedCreateWithoutUserInput> | StreamLogsCreateWithoutUserInput[] | StreamLogsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutUserInput | StreamLogsCreateOrConnectWithoutUserInput[]
+    upsert?: StreamLogsUpsertWithWhereUniqueWithoutUserInput | StreamLogsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StreamLogsCreateManyUserInputEnvelope
+    set?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    disconnect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    delete?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    update?: StreamLogsUpdateWithWhereUniqueWithoutUserInput | StreamLogsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StreamLogsUpdateManyWithWhereWithoutUserInput | StreamLogsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutModerationInput = {
     create?: XOR<UserCreateWithoutModerationInput, UserUncheckedCreateWithoutModerationInput>
     connectOrCreate?: UserCreateOrConnectWithoutModerationInput
@@ -13627,11 +13870,25 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type StreamLogsCreateNestedManyWithoutViewerInput = {
+    create?: XOR<StreamLogsCreateWithoutViewerInput, StreamLogsUncheckedCreateWithoutViewerInput> | StreamLogsCreateWithoutViewerInput[] | StreamLogsUncheckedCreateWithoutViewerInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutViewerInput | StreamLogsCreateOrConnectWithoutViewerInput[]
+    createMany?: StreamLogsCreateManyViewerInputEnvelope
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+  }
+
   export type ChatUncheckedCreateNestedManyWithoutViewerInput = {
     create?: XOR<ChatCreateWithoutViewerInput, ChatUncheckedCreateWithoutViewerInput> | ChatCreateWithoutViewerInput[] | ChatUncheckedCreateWithoutViewerInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutViewerInput | ChatCreateOrConnectWithoutViewerInput[]
     createMany?: ChatCreateManyViewerInputEnvelope
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+  }
+
+  export type StreamLogsUncheckedCreateNestedManyWithoutViewerInput = {
+    create?: XOR<StreamLogsCreateWithoutViewerInput, StreamLogsUncheckedCreateWithoutViewerInput> | StreamLogsCreateWithoutViewerInput[] | StreamLogsUncheckedCreateWithoutViewerInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutViewerInput | StreamLogsCreateOrConnectWithoutViewerInput[]
+    createMany?: StreamLogsCreateManyViewerInputEnvelope
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
   }
 
   export type ChatUpdateManyWithoutViewerNestedInput = {
@@ -13664,6 +13921,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutViewerInput, UserUpdateWithoutViewerInput>, UserUncheckedUpdateWithoutViewerInput>
   }
 
+  export type StreamLogsUpdateManyWithoutViewerNestedInput = {
+    create?: XOR<StreamLogsCreateWithoutViewerInput, StreamLogsUncheckedCreateWithoutViewerInput> | StreamLogsCreateWithoutViewerInput[] | StreamLogsUncheckedCreateWithoutViewerInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutViewerInput | StreamLogsCreateOrConnectWithoutViewerInput[]
+    upsert?: StreamLogsUpsertWithWhereUniqueWithoutViewerInput | StreamLogsUpsertWithWhereUniqueWithoutViewerInput[]
+    createMany?: StreamLogsCreateManyViewerInputEnvelope
+    set?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    disconnect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    delete?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    update?: StreamLogsUpdateWithWhereUniqueWithoutViewerInput | StreamLogsUpdateWithWhereUniqueWithoutViewerInput[]
+    updateMany?: StreamLogsUpdateManyWithWhereWithoutViewerInput | StreamLogsUpdateManyWithWhereWithoutViewerInput[]
+    deleteMany?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
+  }
+
   export type ChatUncheckedUpdateManyWithoutViewerNestedInput = {
     create?: XOR<ChatCreateWithoutViewerInput, ChatUncheckedCreateWithoutViewerInput> | ChatCreateWithoutViewerInput[] | ChatUncheckedCreateWithoutViewerInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutViewerInput | ChatCreateOrConnectWithoutViewerInput[]
@@ -13676,6 +13947,20 @@ export namespace Prisma {
     update?: ChatUpdateWithWhereUniqueWithoutViewerInput | ChatUpdateWithWhereUniqueWithoutViewerInput[]
     updateMany?: ChatUpdateManyWithWhereWithoutViewerInput | ChatUpdateManyWithWhereWithoutViewerInput[]
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
+  }
+
+  export type StreamLogsUncheckedUpdateManyWithoutViewerNestedInput = {
+    create?: XOR<StreamLogsCreateWithoutViewerInput, StreamLogsUncheckedCreateWithoutViewerInput> | StreamLogsCreateWithoutViewerInput[] | StreamLogsUncheckedCreateWithoutViewerInput[]
+    connectOrCreate?: StreamLogsCreateOrConnectWithoutViewerInput | StreamLogsCreateOrConnectWithoutViewerInput[]
+    upsert?: StreamLogsUpsertWithWhereUniqueWithoutViewerInput | StreamLogsUpsertWithWhereUniqueWithoutViewerInput[]
+    createMany?: StreamLogsCreateManyViewerInputEnvelope
+    set?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    disconnect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    delete?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    connect?: StreamLogsWhereUniqueInput | StreamLogsWhereUniqueInput[]
+    update?: StreamLogsUpdateWithWhereUniqueWithoutViewerInput | StreamLogsUpdateWithWhereUniqueWithoutViewerInput[]
+    updateMany?: StreamLogsUpdateManyWithWhereWithoutViewerInput | StreamLogsUpdateManyWithWhereWithoutViewerInput[]
+    deleteMany?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13692,37 +13977,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  export type NestedEnumChatEventsFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChatEvents | EnumChatEventsFieldRefInput<$PrismaModel>
+    in?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    not?: NestedEnumChatEventsFilter<$PrismaModel> | $Enums.ChatEvents
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13742,7 +14001,7 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -13750,31 +14009,43 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+  export type NestedJsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  export type NestedEnumChatEventsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ChatEvents | EnumChatEventsFieldRefInput<$PrismaModel>
+    in?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ChatEvents[] | ListEnumChatEventsFieldRefInput<$PrismaModel>
+    not?: NestedEnumChatEventsWithAggregatesFilter<$PrismaModel> | $Enums.ChatEvents
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedEnumChatEventsFilter<$PrismaModel>
+    _max?: NestedEnumChatEventsFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13782,10 +14053,7 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -13800,6 +14068,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13850,6 +14132,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -13880,29 +14189,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-  export type NestedJsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13974,11 +14260,51 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type UserCreateWithoutAnalyticsInput = {
+  export type StreamChatCreateWithoutStreamLogsInput = {
+    id: string
+    title?: string | null
+    streamUrl?: string | null
+    liveChatId?: string
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
+    startTime: Date | string
+    endTime?: Date | string | null
+    duration?: number | null
+    totalDonations?: number | null
+    totalViews?: number | null
+    Chat?: ChatCreateNestedManyWithoutStreamChatInput
+    User: UserCreateNestedOneWithoutStreamChatInput
+    Viewer?: ViewerCreateNestedManyWithoutStreamChatInput
+  }
+
+  export type StreamChatUncheckedCreateWithoutStreamLogsInput = {
+    id: string
+    userId: string
+    title?: string | null
+    streamUrl?: string | null
+    liveChatId?: string
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: string
+    startTime: Date | string
+    endTime?: Date | string | null
+    duration?: number | null
+    totalDonations?: number | null
+    totalViews?: number | null
+    Chat?: ChatUncheckedCreateNestedManyWithoutStreamChatInput
+    Viewer?: ViewerUncheckedCreateNestedManyWithoutStreamChatInput
+  }
+
+  export type StreamChatCreateOrConnectWithoutStreamLogsInput = {
+    where: StreamChatWhereUniqueInput
+    create: XOR<StreamChatCreateWithoutStreamLogsInput, StreamChatUncheckedCreateWithoutStreamLogsInput>
+  }
+
+  export type UserCreateWithoutStreamLogsInput = {
     id: string
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
     Chat?: ChatCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
@@ -13988,11 +14314,12 @@ export namespace Prisma {
     Moderation?: ModerationCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutAnalyticsInput = {
+  export type UserUncheckedCreateWithoutStreamLogsInput = {
     id: string
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
@@ -14002,27 +14329,108 @@ export namespace Prisma {
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutAnalyticsInput = {
+  export type UserCreateOrConnectWithoutStreamLogsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAnalyticsInput, UserUncheckedCreateWithoutAnalyticsInput>
+    create: XOR<UserCreateWithoutStreamLogsInput, UserUncheckedCreateWithoutStreamLogsInput>
   }
 
-  export type UserUpsertWithoutAnalyticsInput = {
-    update: XOR<UserUpdateWithoutAnalyticsInput, UserUncheckedUpdateWithoutAnalyticsInput>
-    create: XOR<UserCreateWithoutAnalyticsInput, UserUncheckedCreateWithoutAnalyticsInput>
+  export type ViewerCreateWithoutStreamLogsInput = {
+    id: string
+    username: string
+    hoursWatched?: number | null
+    points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
+    createdAt?: Date | string
+    streakDays?: number
+    totalMessages?: number
+    Chat?: ChatCreateNestedManyWithoutViewerInput
+    StreamChat: StreamChatCreateNestedOneWithoutViewerInput
+    User: UserCreateNestedOneWithoutViewerInput
+  }
+
+  export type ViewerUncheckedCreateWithoutStreamLogsInput = {
+    id: string
+    userChannelId: string
+    username: string
+    hoursWatched?: number | null
+    points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
+    createdAt?: Date | string
+    streakDays?: number
+    streamChatId: string
+    totalMessages?: number
+    Chat?: ChatUncheckedCreateNestedManyWithoutViewerInput
+  }
+
+  export type ViewerCreateOrConnectWithoutStreamLogsInput = {
+    where: ViewerWhereUniqueInput
+    create: XOR<ViewerCreateWithoutStreamLogsInput, ViewerUncheckedCreateWithoutStreamLogsInput>
+  }
+
+  export type StreamChatUpsertWithoutStreamLogsInput = {
+    update: XOR<StreamChatUpdateWithoutStreamLogsInput, StreamChatUncheckedUpdateWithoutStreamLogsInput>
+    create: XOR<StreamChatCreateWithoutStreamLogsInput, StreamChatUncheckedCreateWithoutStreamLogsInput>
+    where?: StreamChatWhereInput
+  }
+
+  export type StreamChatUpdateToOneWithWhereWithoutStreamLogsInput = {
+    where?: StreamChatWhereInput
+    data: XOR<StreamChatUpdateWithoutStreamLogsInput, StreamChatUncheckedUpdateWithoutStreamLogsInput>
+  }
+
+  export type StreamChatUpdateWithoutStreamLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    totalDonations?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalViews?: NullableIntFieldUpdateOperationsInput | number | null
+    Chat?: ChatUpdateManyWithoutStreamChatNestedInput
+    User?: UserUpdateOneRequiredWithoutStreamChatNestedInput
+    Viewer?: ViewerUpdateManyWithoutStreamChatNestedInput
+  }
+
+  export type StreamChatUncheckedUpdateWithoutStreamLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    streamUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveChatId?: StringFieldUpdateOperationsInput | string
+    contentDetails?: JsonNullValueInput | InputJsonValue
+    description?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    totalDonations?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalViews?: NullableIntFieldUpdateOperationsInput | number | null
+    Chat?: ChatUncheckedUpdateManyWithoutStreamChatNestedInput
+    Viewer?: ViewerUncheckedUpdateManyWithoutStreamChatNestedInput
+  }
+
+  export type UserUpsertWithoutStreamLogsInput = {
+    update: XOR<UserUpdateWithoutStreamLogsInput, UserUncheckedUpdateWithoutStreamLogsInput>
+    create: XOR<UserCreateWithoutStreamLogsInput, UserUncheckedCreateWithoutStreamLogsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutAnalyticsInput = {
+  export type UserUpdateToOneWithWhereWithoutStreamLogsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutAnalyticsInput, UserUncheckedUpdateWithoutAnalyticsInput>
+    data: XOR<UserUpdateWithoutStreamLogsInput, UserUncheckedUpdateWithoutStreamLogsInput>
   }
 
-  export type UserUpdateWithoutAnalyticsInput = {
+  export type UserUpdateWithoutStreamLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
     Chat?: ChatUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
@@ -14032,11 +14440,12 @@ export namespace Prisma {
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutAnalyticsInput = {
+  export type UserUncheckedUpdateWithoutStreamLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
@@ -14044,6 +14453,47 @@ export namespace Prisma {
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ViewerUpsertWithoutStreamLogsInput = {
+    update: XOR<ViewerUpdateWithoutStreamLogsInput, ViewerUncheckedUpdateWithoutStreamLogsInput>
+    create: XOR<ViewerCreateWithoutStreamLogsInput, ViewerUncheckedCreateWithoutStreamLogsInput>
+    where?: ViewerWhereInput
+  }
+
+  export type ViewerUpdateToOneWithWhereWithoutStreamLogsInput = {
+    where?: ViewerWhereInput
+    data: XOR<ViewerUpdateWithoutStreamLogsInput, ViewerUncheckedUpdateWithoutStreamLogsInput>
+  }
+
+  export type ViewerUpdateWithoutStreamLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
+    points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    streakDays?: IntFieldUpdateOperationsInput | number
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    Chat?: ChatUpdateManyWithoutViewerNestedInput
+    StreamChat?: StreamChatUpdateOneRequiredWithoutViewerNestedInput
+    User?: UserUpdateOneRequiredWithoutViewerNestedInput
+  }
+
+  export type ViewerUncheckedUpdateWithoutStreamLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userChannelId?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
+    points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    streakDays?: IntFieldUpdateOperationsInput | number
+    streamChatId?: StringFieldUpdateOperationsInput | string
+    totalMessages?: IntFieldUpdateOperationsInput | number
+    Chat?: ChatUncheckedUpdateManyWithoutViewerNestedInput
   }
 
   export type StreamChatCreateWithoutChatInput = {
@@ -14060,6 +14510,7 @@ export namespace Prisma {
     totalViews?: number | null
     User: UserCreateNestedOneWithoutStreamChatInput
     Viewer?: ViewerCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatUncheckedCreateWithoutChatInput = {
@@ -14076,6 +14527,7 @@ export namespace Prisma {
     totalDonations?: number | null
     totalViews?: number | null
     Viewer?: ViewerUncheckedCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatCreateOrConnectWithoutChatInput = {
@@ -14088,13 +14540,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
     Moderation?: ModerationCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChatInput = {
@@ -14102,13 +14555,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChatInput = {
@@ -14121,11 +14575,14 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     totalMessages?: number
     StreamChat: StreamChatCreateNestedOneWithoutViewerInput
     User: UserCreateNestedOneWithoutViewerInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerUncheckedCreateWithoutChatInput = {
@@ -14134,10 +14591,13 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     streamChatId: string
     totalMessages?: number
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerCreateOrConnectWithoutChatInput = {
@@ -14170,6 +14630,7 @@ export namespace Prisma {
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     User?: UserUpdateOneRequiredWithoutStreamChatNestedInput
     Viewer?: ViewerUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutStreamChatNestedInput
   }
 
   export type StreamChatUncheckedUpdateWithoutChatInput = {
@@ -14186,6 +14647,7 @@ export namespace Prisma {
     totalDonations?: NullableFloatFieldUpdateOperationsInput | number | null
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     Viewer?: ViewerUncheckedUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutStreamChatNestedInput
   }
 
   export type UserUpsertWithoutChatInput = {
@@ -14204,13 +14666,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatInput = {
@@ -14218,13 +14681,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ViewerUpsertWithoutChatInput = {
@@ -14243,11 +14707,14 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
     StreamChat?: StreamChatUpdateOneRequiredWithoutViewerNestedInput
     User?: UserUpdateOneRequiredWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerUncheckedUpdateWithoutChatInput = {
@@ -14256,10 +14723,13 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     streamChatId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutViewerNestedInput
   }
 
   export type UserCreateWithoutCustomCommandInput = {
@@ -14267,13 +14737,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     Chat?: ChatCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
     Moderation?: ModerationCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomCommandInput = {
@@ -14281,13 +14752,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomCommandInput = {
@@ -14311,13 +14783,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     Chat?: ChatUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomCommandInput = {
@@ -14325,13 +14798,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChatCreateWithoutStreamChatInput = {
@@ -14369,13 +14843,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     Chat?: ChatCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
     Moderation?: ModerationCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStreamChatInput = {
@@ -14383,13 +14858,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStreamChatInput = {
@@ -14402,11 +14878,14 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     totalMessages?: number
     Chat?: ChatCreateNestedManyWithoutViewerInput
     User: UserCreateNestedOneWithoutViewerInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerUncheckedCreateWithoutStreamChatInput = {
@@ -14415,10 +14894,13 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     totalMessages?: number
     Chat?: ChatUncheckedCreateNestedManyWithoutViewerInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerCreateOrConnectWithoutStreamChatInput = {
@@ -14428,6 +14910,34 @@ export namespace Prisma {
 
   export type ViewerCreateManyStreamChatInputEnvelope = {
     data: ViewerCreateManyStreamChatInput | ViewerCreateManyStreamChatInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StreamLogsCreateWithoutStreamChatInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    User: UserCreateNestedOneWithoutStreamLogsInput
+    Viewer: ViewerCreateNestedOneWithoutStreamLogsInput
+  }
+
+  export type StreamLogsUncheckedCreateWithoutStreamChatInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StreamLogsCreateOrConnectWithoutStreamChatInput = {
+    where: StreamLogsWhereUniqueInput
+    create: XOR<StreamLogsCreateWithoutStreamChatInput, StreamLogsUncheckedCreateWithoutStreamChatInput>
+  }
+
+  export type StreamLogsCreateManyStreamChatInputEnvelope = {
+    data: StreamLogsCreateManyStreamChatInput | StreamLogsCreateManyStreamChatInput[]
     skipDuplicates?: boolean
   }
 
@@ -14456,7 +14966,7 @@ export namespace Prisma {
     chatType?: StringFilter<"Chat"> | string
     message?: StringFilter<"Chat"> | string
     timestamp?: DateTimeFilter<"Chat"> | Date | string
-    liveChatId?: StringFilter<"Chat"> | string
+    broadcastId?: StringFilter<"Chat"> | string
     viewerId?: StringNullableFilter<"Chat"> | string | null
     username?: StringFilter<"Chat"> | string
   }
@@ -14477,13 +14987,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     Chat?: ChatUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStreamChatInput = {
@@ -14491,13 +15002,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ViewerUpsertWithWhereUniqueWithoutStreamChatInput = {
@@ -14525,36 +15037,41 @@ export namespace Prisma {
     username?: StringFilter<"Viewer"> | string
     hoursWatched?: FloatNullableFilter<"Viewer"> | number | null
     points?: IntFilter<"Viewer"> | number
+    banned?: BoolFilter<"Viewer"> | boolean
+    bannedTimePeriod?: IntFilter<"Viewer"> | number
     createdAt?: DateTimeFilter<"Viewer"> | Date | string
     streakDays?: IntFilter<"Viewer"> | number
     streamChatId?: StringFilter<"Viewer"> | string
     totalMessages?: IntFilter<"Viewer"> | number
   }
 
-  export type AnalyticsCreateWithoutUserInput = {
-    id: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp?: Date | string
+  export type StreamLogsUpsertWithWhereUniqueWithoutStreamChatInput = {
+    where: StreamLogsWhereUniqueInput
+    update: XOR<StreamLogsUpdateWithoutStreamChatInput, StreamLogsUncheckedUpdateWithoutStreamChatInput>
+    create: XOR<StreamLogsCreateWithoutStreamChatInput, StreamLogsUncheckedCreateWithoutStreamChatInput>
   }
 
-  export type AnalyticsUncheckedCreateWithoutUserInput = {
-    id: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp?: Date | string
+  export type StreamLogsUpdateWithWhereUniqueWithoutStreamChatInput = {
+    where: StreamLogsWhereUniqueInput
+    data: XOR<StreamLogsUpdateWithoutStreamChatInput, StreamLogsUncheckedUpdateWithoutStreamChatInput>
   }
 
-  export type AnalyticsCreateOrConnectWithoutUserInput = {
-    where: AnalyticsWhereUniqueInput
-    create: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput>
+  export type StreamLogsUpdateManyWithWhereWithoutStreamChatInput = {
+    where: StreamLogsScalarWhereInput
+    data: XOR<StreamLogsUpdateManyMutationInput, StreamLogsUncheckedUpdateManyWithoutStreamChatInput>
   }
 
-  export type AnalyticsCreateManyUserInputEnvelope = {
-    data: AnalyticsCreateManyUserInput | AnalyticsCreateManyUserInput[]
-    skipDuplicates?: boolean
+  export type StreamLogsScalarWhereInput = {
+    AND?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
+    OR?: StreamLogsScalarWhereInput[]
+    NOT?: StreamLogsScalarWhereInput | StreamLogsScalarWhereInput[]
+    id?: StringFilter<"StreamLogs"> | string
+    messageDetails?: JsonFilter<"StreamLogs">
+    viewerId?: StringFilter<"StreamLogs"> | string
+    broadcastId?: StringFilter<"StreamLogs"> | string
+    channelId?: StringFilter<"StreamLogs"> | string
+    eventType?: EnumChatEventsFilter<"StreamLogs"> | $Enums.ChatEvents
+    eventDetails?: JsonFilter<"StreamLogs">
   }
 
   export type ChatCreateWithoutUserInput = {
@@ -14563,7 +15080,7 @@ export namespace Prisma {
     message: string
     timestamp?: Date | string
     username: string
-    StreamChat: StreamChatCreateNestedOneWithoutChatInput
+    StreamChat?: StreamChatCreateNestedOneWithoutChatInput
     Viewer?: ViewerCreateNestedOneWithoutChatInput
   }
 
@@ -14572,7 +15089,7 @@ export namespace Prisma {
     chatType: string
     message: string
     timestamp?: Date | string
-    liveChatId: string
+    broadcastId?: string
     viewerId?: string | null
     username: string
   }
@@ -14633,6 +15150,7 @@ export namespace Prisma {
     totalViews?: number | null
     Chat?: ChatCreateNestedManyWithoutStreamChatInput
     Viewer?: ViewerCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatUncheckedCreateWithoutUserInput = {
@@ -14649,6 +15167,7 @@ export namespace Prisma {
     totalViews?: number | null
     Chat?: ChatUncheckedCreateNestedManyWithoutStreamChatInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatCreateOrConnectWithoutUserInput = {
@@ -14687,11 +15206,14 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     totalMessages?: number
     Chat?: ChatCreateNestedManyWithoutViewerInput
     StreamChat: StreamChatCreateNestedOneWithoutViewerInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerUncheckedCreateWithoutUserInput = {
@@ -14699,11 +15221,14 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     streamChatId: string
     totalMessages?: number
     Chat?: ChatUncheckedCreateNestedManyWithoutViewerInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutViewerInput
   }
 
   export type ViewerCreateOrConnectWithoutUserInput = {
@@ -14742,32 +15267,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AnalyticsUpsertWithWhereUniqueWithoutUserInput = {
-    where: AnalyticsWhereUniqueInput
-    update: XOR<AnalyticsUpdateWithoutUserInput, AnalyticsUncheckedUpdateWithoutUserInput>
-    create: XOR<AnalyticsCreateWithoutUserInput, AnalyticsUncheckedCreateWithoutUserInput>
+  export type StreamLogsCreateWithoutUserInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    StreamChat: StreamChatCreateNestedOneWithoutStreamLogsInput
+    Viewer: ViewerCreateNestedOneWithoutStreamLogsInput
   }
 
-  export type AnalyticsUpdateWithWhereUniqueWithoutUserInput = {
-    where: AnalyticsWhereUniqueInput
-    data: XOR<AnalyticsUpdateWithoutUserInput, AnalyticsUncheckedUpdateWithoutUserInput>
+  export type StreamLogsUncheckedCreateWithoutUserInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId: string
+    broadcastId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
-  export type AnalyticsUpdateManyWithWhereWithoutUserInput = {
-    where: AnalyticsScalarWhereInput
-    data: XOR<AnalyticsUpdateManyMutationInput, AnalyticsUncheckedUpdateManyWithoutUserInput>
+  export type StreamLogsCreateOrConnectWithoutUserInput = {
+    where: StreamLogsWhereUniqueInput
+    create: XOR<StreamLogsCreateWithoutUserInput, StreamLogsUncheckedCreateWithoutUserInput>
   }
 
-  export type AnalyticsScalarWhereInput = {
-    AND?: AnalyticsScalarWhereInput | AnalyticsScalarWhereInput[]
-    OR?: AnalyticsScalarWhereInput[]
-    NOT?: AnalyticsScalarWhereInput | AnalyticsScalarWhereInput[]
-    id?: StringFilter<"Analytics"> | string
-    userId?: StringFilter<"Analytics"> | string
-    totalViews?: IntFilter<"Analytics"> | number
-    subscribers?: IntFilter<"Analytics"> | number
-    engagementRate?: FloatFilter<"Analytics"> | number
-    timestamp?: DateTimeFilter<"Analytics"> | Date | string
+  export type StreamLogsCreateManyUserInputEnvelope = {
+    data: StreamLogsCreateManyUserInput | StreamLogsCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type ChatUpsertWithWhereUniqueWithoutUserInput = {
@@ -14922,18 +15447,35 @@ export namespace Prisma {
     blacklist?: JsonNullableFilter<"Moderation">
   }
 
+  export type StreamLogsUpsertWithWhereUniqueWithoutUserInput = {
+    where: StreamLogsWhereUniqueInput
+    update: XOR<StreamLogsUpdateWithoutUserInput, StreamLogsUncheckedUpdateWithoutUserInput>
+    create: XOR<StreamLogsCreateWithoutUserInput, StreamLogsUncheckedCreateWithoutUserInput>
+  }
+
+  export type StreamLogsUpdateWithWhereUniqueWithoutUserInput = {
+    where: StreamLogsWhereUniqueInput
+    data: XOR<StreamLogsUpdateWithoutUserInput, StreamLogsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StreamLogsUpdateManyWithWhereWithoutUserInput = {
+    where: StreamLogsScalarWhereInput
+    data: XOR<StreamLogsUpdateManyMutationInput, StreamLogsUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type UserCreateWithoutModerationInput = {
     id: string
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     Chat?: ChatCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutModerationInput = {
@@ -14941,13 +15483,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutModerationInput = {
@@ -14971,13 +15514,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     Chat?: ChatUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutModerationInput = {
@@ -14985,13 +15529,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserSecurityInput = {
@@ -14999,13 +15544,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     Chat?: ChatCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     Viewer?: ViewerCreateNestedManyWithoutUserInput
     Moderation?: ModerationCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserSecurityInput = {
@@ -15013,13 +15559,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     Viewer?: ViewerUncheckedCreateNestedManyWithoutUserInput
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserSecurityInput = {
@@ -15043,13 +15590,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     Chat?: ChatUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     Viewer?: ViewerUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserSecurityInput = {
@@ -15057,13 +15605,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChatCreateWithoutViewerInput = {
@@ -15072,7 +15621,7 @@ export namespace Prisma {
     message: string
     timestamp?: Date | string
     username: string
-    StreamChat: StreamChatCreateNestedOneWithoutChatInput
+    StreamChat?: StreamChatCreateNestedOneWithoutChatInput
     User: UserCreateNestedOneWithoutChatInput
   }
 
@@ -15082,7 +15631,7 @@ export namespace Prisma {
     chatType: string
     message: string
     timestamp?: Date | string
-    liveChatId: string
+    broadcastId?: string
     username: string
   }
 
@@ -15110,6 +15659,7 @@ export namespace Prisma {
     totalViews?: number | null
     Chat?: ChatCreateNestedManyWithoutStreamChatInput
     User: UserCreateNestedOneWithoutStreamChatInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatUncheckedCreateWithoutViewerInput = {
@@ -15126,6 +15676,7 @@ export namespace Prisma {
     totalDonations?: number | null
     totalViews?: number | null
     Chat?: ChatUncheckedCreateNestedManyWithoutStreamChatInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutStreamChatInput
   }
 
   export type StreamChatCreateOrConnectWithoutViewerInput = {
@@ -15138,13 +15689,14 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsCreateNestedManyWithoutUserInput
     Chat?: ChatCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityCreateNestedOneWithoutUserInput
     Moderation?: ModerationCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutViewerInput = {
@@ -15152,18 +15704,47 @@ export namespace Prisma {
     email?: string | null
     createdAt?: Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: string | null
-    Analytics?: AnalyticsUncheckedCreateNestedManyWithoutUserInput
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     CustomCommand?: CustomCommandUncheckedCreateNestedManyWithoutUserInput
     StreamChat?: StreamChatUncheckedCreateNestedManyWithoutUserInput
     UserSecurity?: UserSecurityUncheckedCreateNestedOneWithoutUserInput
     Moderation?: ModerationUncheckedCreateNestedManyWithoutUserInput
+    StreamLogs?: StreamLogsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutViewerInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutViewerInput, UserUncheckedCreateWithoutViewerInput>
+  }
+
+  export type StreamLogsCreateWithoutViewerInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    StreamChat: StreamChatCreateNestedOneWithoutStreamLogsInput
+    User: UserCreateNestedOneWithoutStreamLogsInput
+  }
+
+  export type StreamLogsUncheckedCreateWithoutViewerInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    broadcastId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StreamLogsCreateOrConnectWithoutViewerInput = {
+    where: StreamLogsWhereUniqueInput
+    create: XOR<StreamLogsCreateWithoutViewerInput, StreamLogsUncheckedCreateWithoutViewerInput>
+  }
+
+  export type StreamLogsCreateManyViewerInputEnvelope = {
+    data: StreamLogsCreateManyViewerInput | StreamLogsCreateManyViewerInput[]
+    skipDuplicates?: boolean
   }
 
   export type ChatUpsertWithWhereUniqueWithoutViewerInput = {
@@ -15207,6 +15788,7 @@ export namespace Prisma {
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     Chat?: ChatUpdateManyWithoutStreamChatNestedInput
     User?: UserUpdateOneRequiredWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutStreamChatNestedInput
   }
 
   export type StreamChatUncheckedUpdateWithoutViewerInput = {
@@ -15223,6 +15805,7 @@ export namespace Prisma {
     totalDonations?: NullableFloatFieldUpdateOperationsInput | number | null
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     Chat?: ChatUncheckedUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutStreamChatNestedInput
   }
 
   export type UserUpsertWithoutViewerInput = {
@@ -15241,13 +15824,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUpdateManyWithoutUserNestedInput
     Chat?: ChatUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUpdateOneWithoutUserNestedInput
     Moderation?: ModerationUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutViewerInput = {
@@ -15255,13 +15839,30 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: NullableJsonNullValueInput | InputJsonValue
+    statistics?: JsonNullValueInput | InputJsonValue
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    Analytics?: AnalyticsUncheckedUpdateManyWithoutUserNestedInput
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     CustomCommand?: CustomCommandUncheckedUpdateManyWithoutUserNestedInput
     StreamChat?: StreamChatUncheckedUpdateManyWithoutUserNestedInput
     UserSecurity?: UserSecurityUncheckedUpdateOneWithoutUserNestedInput
     Moderation?: ModerationUncheckedUpdateManyWithoutUserNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StreamLogsUpsertWithWhereUniqueWithoutViewerInput = {
+    where: StreamLogsWhereUniqueInput
+    update: XOR<StreamLogsUpdateWithoutViewerInput, StreamLogsUncheckedUpdateWithoutViewerInput>
+    create: XOR<StreamLogsCreateWithoutViewerInput, StreamLogsUncheckedCreateWithoutViewerInput>
+  }
+
+  export type StreamLogsUpdateWithWhereUniqueWithoutViewerInput = {
+    where: StreamLogsWhereUniqueInput
+    data: XOR<StreamLogsUpdateWithoutViewerInput, StreamLogsUncheckedUpdateWithoutViewerInput>
+  }
+
+  export type StreamLogsUpdateManyWithWhereWithoutViewerInput = {
+    where: StreamLogsScalarWhereInput
+    data: XOR<StreamLogsUpdateManyMutationInput, StreamLogsUncheckedUpdateManyWithoutViewerInput>
   }
 
   export type ChatCreateManyStreamChatInput = {
@@ -15280,9 +15881,20 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     totalMessages?: number
+  }
+
+  export type StreamLogsCreateManyStreamChatInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
   export type ChatUpdateWithoutStreamChatInput = {
@@ -15320,11 +15932,14 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
     Chat?: ChatUpdateManyWithoutViewerNestedInput
     User?: UserUpdateOneRequiredWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerUncheckedUpdateWithoutStreamChatInput = {
@@ -15333,10 +15948,13 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
     Chat?: ChatUncheckedUpdateManyWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerUncheckedUpdateManyWithoutStreamChatInput = {
@@ -15345,17 +15963,38 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
   }
 
-  export type AnalyticsCreateManyUserInput = {
-    id: string
-    totalViews: number
-    subscribers: number
-    engagementRate: number
-    timestamp?: Date | string
+  export type StreamLogsUpdateWithoutStreamChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    User?: UserUpdateOneRequiredWithoutStreamLogsNestedInput
+    Viewer?: ViewerUpdateOneRequiredWithoutStreamLogsNestedInput
+  }
+
+  export type StreamLogsUncheckedUpdateWithoutStreamChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StreamLogsUncheckedUpdateManyWithoutStreamChatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
   export type ChatCreateManyUserInput = {
@@ -15363,7 +16002,7 @@ export namespace Prisma {
     chatType: string
     message: string
     timestamp?: Date | string
-    liveChatId: string
+    broadcastId?: string
     viewerId?: string | null
     username: string
   }
@@ -15398,6 +16037,8 @@ export namespace Prisma {
     username: string
     hoursWatched?: number | null
     points?: number
+    banned?: boolean
+    bannedTimePeriod?: number
     createdAt?: Date | string
     streakDays?: number
     streamChatId: string
@@ -15412,28 +16053,13 @@ export namespace Prisma {
     blacklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type AnalyticsUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AnalyticsUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AnalyticsUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    totalViews?: IntFieldUpdateOperationsInput | number
-    subscribers?: IntFieldUpdateOperationsInput | number
-    engagementRate?: FloatFieldUpdateOperationsInput | number
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type StreamLogsCreateManyUserInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId: string
+    broadcastId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
   export type ChatUpdateWithoutUserInput = {
@@ -15451,7 +16077,7 @@ export namespace Prisma {
     chatType?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveChatId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
     viewerId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
   }
@@ -15461,7 +16087,7 @@ export namespace Prisma {
     chatType?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveChatId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
     viewerId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
   }
@@ -15513,6 +16139,7 @@ export namespace Prisma {
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     Chat?: ChatUpdateManyWithoutStreamChatNestedInput
     Viewer?: ViewerUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutStreamChatNestedInput
   }
 
   export type StreamChatUncheckedUpdateWithoutUserInput = {
@@ -15529,6 +16156,7 @@ export namespace Prisma {
     totalViews?: NullableIntFieldUpdateOperationsInput | number | null
     Chat?: ChatUncheckedUpdateManyWithoutStreamChatNestedInput
     Viewer?: ViewerUncheckedUpdateManyWithoutStreamChatNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutStreamChatNestedInput
   }
 
   export type StreamChatUncheckedUpdateManyWithoutUserInput = {
@@ -15550,11 +16178,14 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     totalMessages?: IntFieldUpdateOperationsInput | number
     Chat?: ChatUpdateManyWithoutViewerNestedInput
     StreamChat?: StreamChatUpdateOneRequiredWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerUncheckedUpdateWithoutUserInput = {
@@ -15562,11 +16193,14 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     streamChatId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
     Chat?: ChatUncheckedUpdateManyWithoutViewerNestedInput
+    StreamLogs?: StreamLogsUncheckedUpdateManyWithoutViewerNestedInput
   }
 
   export type ViewerUncheckedUpdateManyWithoutUserInput = {
@@ -15574,6 +16208,8 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    bannedTimePeriod?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     streakDays?: IntFieldUpdateOperationsInput | number
     streamChatId?: StringFieldUpdateOperationsInput | string
@@ -15604,14 +16240,50 @@ export namespace Prisma {
     blacklist?: NullableJsonNullValueInput | InputJsonValue
   }
 
+  export type StreamLogsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    StreamChat?: StreamChatUpdateOneRequiredWithoutStreamLogsNestedInput
+    Viewer?: ViewerUpdateOneRequiredWithoutStreamLogsNestedInput
+  }
+
+  export type StreamLogsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StreamLogsUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    viewerId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+  }
+
   export type ChatCreateManyViewerInput = {
     id: string
     userId: string
     chatType: string
     message: string
     timestamp?: Date | string
-    liveChatId: string
+    broadcastId?: string
     username: string
+  }
+
+  export type StreamLogsCreateManyViewerInput = {
+    id?: string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    broadcastId: string
+    channelId: string
+    eventType: $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
   export type ChatUpdateWithoutViewerInput = {
@@ -15630,7 +16302,7 @@ export namespace Prisma {
     chatType?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveChatId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
   }
 
@@ -15640,8 +16312,35 @@ export namespace Prisma {
     chatType?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    liveChatId?: StringFieldUpdateOperationsInput | string
+    broadcastId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StreamLogsUpdateWithoutViewerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+    StreamChat?: StreamChatUpdateOneRequiredWithoutStreamLogsNestedInput
+    User?: UserUpdateOneRequiredWithoutStreamLogsNestedInput
+  }
+
+  export type StreamLogsUncheckedUpdateWithoutViewerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    broadcastId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type StreamLogsUncheckedUpdateManyWithoutViewerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    messageDetails?: JsonNullValueInput | InputJsonValue
+    broadcastId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    eventType?: EnumChatEventsFieldUpdateOperationsInput | $Enums.ChatEvents
+    eventDetails?: JsonNullValueInput | InputJsonValue
   }
 
 

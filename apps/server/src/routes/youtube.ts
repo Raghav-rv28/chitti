@@ -73,7 +73,7 @@ router.get("/callback", async (req: Request, res: Response) => {
     const items = userProfile.data?.items ?? [];
     const user = items[0];
     if (user && user.id) {
-      onboardUser({
+      await onboardUser({
         userId: user.id,
         email: stateStore[state as string],
         username: user?.snippet?.title,

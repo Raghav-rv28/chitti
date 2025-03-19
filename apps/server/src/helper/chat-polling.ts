@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 import { getOAuth2ClientForUser } from "../providers/youtube/auth";
-import { awardUserPoints } from "../queries/points";
+import { saveMessageAndPoints } from "../queries/points";
 import { saveStream, saveChatMessages } from "../queries/queries";
 import { prisma } from "@repo/database";
 import { SpamConfig, BadWordConfig, LinkConfig } from "./types";
@@ -346,7 +346,7 @@ async function processMessage(
   if (isUserTimedOut(channelId, authorChannelId)) {
     console.log(`Skipping message from timed out user ${displayName}`);
     deleteMessage(channelId, id);
-    saveChatMessages(
+    saveMessageAndPoints(
       channelId,
       displayMessage,
       liveChatId,
@@ -379,7 +379,7 @@ async function processMessage(
       if (response) {
         // Send response back to chat
         await sendChatMessage(channelId, response);
-        saveChatMessages(
+        saveMessageAndPoints(
           channelId,
           displayMessage,
           liveChatId,
@@ -432,9 +432,8 @@ async function processMessage(
     }
   }
 
-  // Process message storage and points in parallel
-  // These are independent operations that can run concurrently
-  saveChatMessages(
+  // if all moderation test pass. save it
+  saveMessageAndPoints(
     channelId,
     displayMessage,
     liveChatId,
@@ -443,17 +442,9 @@ async function processMessage(
     displayName,
     id,
     activeStreamers[channelId].broadcastId,
+    !isSpam && !containsBadWords && !containsBlockedLinks,
   );
-  if (!isSpam && !containsBadWords && !containsBlockedLinks) {
-    awardUserPoints(
-      authorChannelId,
-      displayName,
-      channelId,
-      liveChatId,
-      activeStreamers[channelId].broadcastId,
-      displayMessage,
-    );
-  }
+
   return;
 }
 

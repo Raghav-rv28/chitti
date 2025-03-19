@@ -165,6 +165,7 @@ export async function executeActionCommand(
           stream?.startTime || new Date(),
           stream?.title || "",
           { monitorStream: {} },
+          activeStreamers[channelId].broadcastId,
           updatedDescription,
         );
         return "Marker created successfully.";

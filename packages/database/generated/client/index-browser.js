@@ -117,13 +117,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.AnalyticsScalarFieldEnum = {
+exports.Prisma.StreamLogsScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  totalViews: 'totalViews',
-  subscribers: 'subscribers',
-  engagementRate: 'engagementRate',
-  timestamp: 'timestamp'
+  messageDetails: 'messageDetails',
+  viewerId: 'viewerId',
+  broadcastId: 'broadcastId',
+  channelId: 'channelId',
+  eventType: 'eventType',
+  eventDetails: 'eventDetails'
 };
 
 exports.Prisma.ChatScalarFieldEnum = {
@@ -132,7 +133,7 @@ exports.Prisma.ChatScalarFieldEnum = {
   chatType: 'chatType',
   message: 'message',
   timestamp: 'timestamp',
-  liveChatId: 'liveChatId',
+  broadcastId: 'broadcastId',
   viewerId: 'viewerId',
   username: 'username'
 };
@@ -169,6 +170,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   createdAt: 'createdAt',
   settings: 'settings',
+  statistics: 'statistics',
   username: 'username'
 };
 
@@ -196,6 +198,8 @@ exports.Prisma.ViewerScalarFieldEnum = {
   username: 'username',
   hoursWatched: 'hoursWatched',
   points: 'points',
+  banned: 'banned',
+  bannedTimePeriod: 'bannedTimePeriod',
   createdAt: 'createdAt',
   streakDays: 'streakDays',
   streamChatId: 'streamChatId',
@@ -221,16 +225,21 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.ChatEvents = exports.$Enums.ChatEvents = {
+  command: 'command',
+  timeout: 'timeout'
+};
+
 exports.Role = exports.$Enums.Role = {
   moderation: 'moderation',
   owner: 'owner',
@@ -238,7 +247,7 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Prisma.ModelName = {
-  Analytics: 'Analytics',
+  StreamLogs: 'StreamLogs',
   Chat: 'Chat',
   CustomCommand: 'CustomCommand',
   StreamChat: 'StreamChat',

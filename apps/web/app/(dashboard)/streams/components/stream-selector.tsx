@@ -158,7 +158,11 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
                 <div>
                   <Button
                     onClick={async () => {
-                      console.log("selectedStream", selectedStream.userId,selectedStream.id);
+                      console.log(
+                        "selectedStream",
+                        selectedStream.userId,
+                        selectedStream.id,
+                      );
                       fetch(
                         `http://localhost:3000/youtube/update-stream-description`,
                         {

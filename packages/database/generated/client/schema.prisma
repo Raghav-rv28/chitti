@@ -8,28 +8,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Analytics {
-  id             String   @id
-  userId         String
-  totalViews     Int
-  subscribers    Int
-  engagementRate Float
-  timestamp      DateTime @default(now())
-  User           User     @relation(fields: [userId], references: [id])
+model StreamLogs {
+  id             String     @id @default(uuid())
+  messageDetails Json       @default("{}")
+  viewerId       String
+  broadcastId    String
+  channelId      String
+  eventType      ChatEvents
+  eventDetails   Json       @default("{}")
+  StreamChat     StreamChat @relation(fields: [broadcastId], references: [id])
+  User           User       @relation(fields: [channelId], references: [id])
+  Viewer         Viewer     @relation(fields: [viewerId], references: [id])
+}
+
+enum ChatEvents {
+  command
+  timeout
 }
 
 model Chat {
-  id         String     @id
-  userId     String
-  chatType   String
-  message    String
-  timestamp  DateTime   @default(now())
-  liveChatId String
-  viewerId   String?
-  username   String
-  StreamChat StreamChat @relation(fields: [liveChatId], references: [id])
-  User       User       @relation(fields: [userId], references: [id])
-  Viewer     Viewer?    @relation(fields: [viewerId], references: [id])
+  id          String     @id
+  userId      String
+  chatType    String
+  message     String
+  timestamp   DateTime   @default(now())
+  broadcastId String     @default("")
+  viewerId    String?
+  username    String
+  StreamChat  StreamChat @relation(fields: [broadcastId], references: [id])
+  User        User       @relation(fields: [userId], references: [id])
+  Viewer      Viewer?    @relation(fields: [viewerId], references: [id])
 }
 
 model CustomCommand {
@@ -46,36 +54,38 @@ model CustomCommand {
 }
 
 model StreamChat {
-  id             String    @id
+  id             String       @id
   userId         String
   title          String?
   streamUrl      String?
-  liveChatId     String    @default("")
-  contentDetails Json      @default("{}")
-  description    String    @default("")
+  liveChatId     String       @default("")
+  contentDetails Json         @default("{}")
+  description    String       @default("")
   startTime      DateTime
   endTime        DateTime?
   duration       Int?
-  totalDonations Float?    @default(0)
-  totalViews     Int?      @default(0)
+  totalDonations Float?       @default(0)
+  totalViews     Int?         @default(0)
   Chat           Chat[]
-  User           User      @relation(fields: [userId], references: [id])
+  User           User         @relation(fields: [userId], references: [id])
   Viewer         Viewer[]
+  StreamLogs     StreamLogs[]
 }
 
 model User {
-  id            String          @id
+  id            String          @id @unique
   email         String?         @unique
   createdAt     DateTime        @default(now())
   settings      Json?
+  statistics    Json            @default("{}")
   username      String?         @unique
-  Analytics     Analytics[]
   Chat          Chat[]
   CustomCommand CustomCommand[]
   StreamChat    StreamChat[]
   UserSecurity  UserSecurity?
   Viewer        Viewer[]
   Moderation    Moderation[]
+  StreamLogs    StreamLogs[]
 }
 
 model Moderation {
@@ -99,18 +109,21 @@ model UserSecurity {
 }
 
 model Viewer {
-  id            String     @id
-  userChannelId String
-  username      String
-  hoursWatched  Float?
-  points        Int        @default(0)
-  createdAt     DateTime   @default(now())
-  streakDays    Int        @default(0)
-  streamChatId  String
-  totalMessages Int        @default(0)
-  Chat          Chat[]
-  StreamChat    StreamChat @relation(fields: [streamChatId], references: [id])
-  User          User       @relation(fields: [userChannelId], references: [id])
+  id               String       @id
+  userChannelId    String
+  username         String
+  hoursWatched     Float?
+  points           Int          @default(0)
+  banned           Boolean      @default(false)
+  bannedTimePeriod Int          @default(0)
+  createdAt        DateTime     @default(now())
+  streakDays       Int          @default(0)
+  streamChatId     String
+  totalMessages    Int          @default(0)
+  Chat             Chat[]
+  StreamChat       StreamChat   @relation(fields: [streamChatId], references: [id])
+  User             User         @relation(fields: [userChannelId], references: [id])
+  StreamLogs       StreamLogs[]
 
   @@unique([id, userChannelId, streamChatId])
 }

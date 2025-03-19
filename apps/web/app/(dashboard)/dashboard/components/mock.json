@@ -1,0 +1,5 @@
+[
+  { "commandType": "!vote", "count": 150 },
+  { "commandType": "!points", "count": 120 },
+  { "commandType": "!rank", "count": 90 }
+]

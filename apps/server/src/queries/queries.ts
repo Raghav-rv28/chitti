@@ -68,8 +68,8 @@ export const updateTokens = async (
   ]);
 };
 
-export const getStream = async (liveChatId: string) => {
-  return await prisma.streamChat.findFirst({ where: { liveChatId } });
+export const getStream = async (id: string) => {
+  return await prisma.streamChat.findUnique({ where: { id } });
 };
 
 export const saveStream = async (
@@ -110,7 +110,7 @@ export const saveChatMessages = async (
 ) => {
   return await prisma.$transaction(async (tx) => {
     const chat = await tx.chat.findUnique({
-      where: { id: messageId, userId: channelId, liveChatId },
+      where: { id: messageId, userId: channelId, broadcastId },
     });
     if (chat) {
       console.log("message already saved");
@@ -141,7 +141,7 @@ export const saveChatMessages = async (
         userId: channelId,
         viewerId: userId,
         message,
-        liveChatId: broadcastId,
+        broadcastId,
         username,
         chatType,
       },

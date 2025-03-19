@@ -10,14 +10,18 @@ const recentMessages = new Map<string, { timestamp: number; count: number }>();
  * Awards points based on user messages and time spent in the chat.
  * @param userId streamers Id
  * @param authorId viewer Id
+ * @param awardPoints boolean flag to determine if points should be awarded
  */
-export const awardUserPoints = async (
-  authorId: string,
-  username: string,
+export const saveMessageAndPoints = async (
   userId: string,
-  liveChatId: string,
   message: string,
+  liveChatId: string,
+  authorId: string,
+  chatType: string,
+  username: string,
+  messageId: string,
   broadcastId: string,
+  awardPoints: boolean = false,
   repliedTo?: string,
 ) => {
   return await prisma.$transaction(async (tx) => {
@@ -38,41 +42,45 @@ export const awardUserPoints = async (
     recentMessages.set(`${authorId}-${liveChatId}`, userStats);
 
     // Calculate total points before DB update
-    let totalPoints = 2; // Base points for sending a message
-    let totalMessagesIncrement = 1;
+    let totalPoints = 0; // Start with 0 points
 
-    // Bonus for interaction (replying to another user)
-    if (repliedTo) {
-      totalPoints += 3;
-    }
+    if (awardPoints) {
+      // Check if points should be awarded
+      totalPoints = 2; // Base points for sending a message
 
-    // Bonus for meaningful messages
-    if (KEYWORD_BONUS.some((word) => message.toLowerCase().includes(word))) {
-      totalPoints += 2;
-    }
+      // Bonus for interaction (replying to another user)
+      if (repliedTo) {
+        totalPoints += 3;
+      }
 
-    if (message.length > MESSAGE_LENGTH_BONUS) {
-      totalPoints += 1;
-    }
+      // Bonus for meaningful messages
+      if (KEYWORD_BONUS.some((word) => message.toLowerCase().includes(word))) {
+        totalPoints += 2;
+      }
 
-    // Get last message timestamp for the user
-    const lastMessage = await tx.chat.findFirst({
-      where: { viewerId: authorId },
-      orderBy: { timestamp: "desc" },
-      select: { timestamp: true },
-    });
+      if (message.length > MESSAGE_LENGTH_BONUS) {
+        totalPoints += 1;
+      }
 
-    // Time-based point awarding
-    if (lastMessage) {
-      const minutesSinceLastActive = differenceInMinutes(
-        new Date(),
-        lastMessage.timestamp,
-      );
-      if (minutesSinceLastActive >= 5) {
-        totalPoints += 5;
+      // Get last message timestamp for the user
+      const lastMessage = await tx.chat.findFirst({
+        where: { viewerId: authorId },
+        orderBy: { timestamp: "desc" },
+        select: { timestamp: true },
+      });
+
+      // Time-based point awarding
+      if (lastMessage) {
+        const minutesSinceLastActive = differenceInMinutes(
+          new Date(),
+          lastMessage.timestamp,
+        );
+        if (minutesSinceLastActive >= 5) {
+          totalPoints += 5;
+        }
       }
     }
-    console.log(broadcastId);
+
     // Upsert viewer with all computed updates in one query
     await tx.viewer.upsert({
       where: { id: authorId },
@@ -81,13 +89,13 @@ export const awardUserPoints = async (
         userChannelId: userId,
         username,
         streamChatId: broadcastId,
-        totalMessages: totalMessagesIncrement,
+        totalMessages: 1,
         points: totalPoints,
         streakDays: 0,
         createdAt: new Date(),
       },
       update: {
-        totalMessages: { increment: totalMessagesIncrement },
+        totalMessages: { increment: 1 },
         points: { increment: totalPoints },
         username,
         streamChatId: broadcastId,
