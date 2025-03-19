@@ -88,7 +88,7 @@ router.get("/callback", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/start-stream/", async (req: Request, res: Response) => {
+router.post("/start-stream/", async (req: Request, res: Response) => {
   const { channelId } = req.query;
   const { broadcastId, liveChatId } = await findActiveChat(channelId as string);
   console.log(broadcastId, liveChatId);

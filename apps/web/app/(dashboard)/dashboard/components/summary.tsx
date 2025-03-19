@@ -13,12 +13,21 @@ interface SummaryData {
   timeout_count: number;
   stream_count: number;
 }
+interface ReturnedData {
+  data: SummaryData;
+  success: boolean;
+}
 
-export default function Summary() {
+// Accept userId as a prop
+interface SummaryProps {
+  userId: string;
+}
+
+export default function Summary({ userId }: SummaryProps) {
   const [summary, setSummary] = useState<SummaryData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     // Only fetch data if user is signed in
@@ -27,29 +36,17 @@ export default function Summary() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // Import dynamically to avoid server/client mismatch
-        const { getUserInfo } = await import("@/actions/queries");
-
-        if (!user?.emailAddresses?.[0]?.emailAddress) {
-          throw new Error("Email address not found");
-        }
-
-        const userData = await getUserInfo(user.emailAddresses[0].emailAddress);
-
-        if (!userData?.id) {
-          throw new Error("User ID not found");
-        }
-
         const response = await fetch(
-          `http://localhost:3000/api/users/get-summary/${userData.id}`,
+          `http://localhost:3000/api/users/get-summary/${userId}`, // Use userId here
         );
 
         if (!response.ok) {
           throw new Error(`API error: ${response.status}`);
         }
 
-        const result = await response.json();
-        setSummary(result.data[0]); // Access first item in the array returned by raw query
+        const result = (await response.json()) as ReturnedData;
+        console.log(result.data);
+        setSummary(result.data);
       } catch (err) {
         console.error("Failed to fetch summary:", err);
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -59,7 +56,7 @@ export default function Summary() {
     };
 
     fetchData();
-  }, [isSignedIn, isLoaded, user]);
+  }, [isSignedIn, isLoaded, userId]); // Add userId as a dependency
 
   if (!isLoaded) return null;
   if (!isSignedIn) return <RedirectToSignIn />;
@@ -78,9 +75,7 @@ export default function Summary() {
             <div className="text-sm text-red-500">Error loading data</div>
           ) : (
             <>
-              <div className="text-2xl font-bold">
-                {summary?.message_count || 0}
-              </div>
+              <div className="text-2xl font-bold">{summary?.message_count}</div>
               <p className="text-xs text-muted-foreground">Last 7 days</p>
             </>
           )}
@@ -98,9 +93,7 @@ export default function Summary() {
             <div className="text-sm text-red-500">Error loading data</div>
           ) : (
             <>
-              <div className="text-2xl font-bold">
-                {summary?.command_count || 0}
-              </div>
+              <div className="text-2xl font-bold">{summary?.command_count}</div>
               <p className="text-xs text-muted-foreground">Last 7 days</p>
             </>
           )}
@@ -118,9 +111,7 @@ export default function Summary() {
             <div className="text-sm text-red-500">Error loading data</div>
           ) : (
             <>
-              <div className="text-2xl font-bold">
-                {summary?.timeout_count || 0}
-              </div>
+              <div className="text-2xl font-bold">{summary?.timeout_count}</div>
               <p className="text-xs text-muted-foreground">Last 7 days</p>
             </>
           )}

@@ -18,7 +18,7 @@ export default async function LogsPage() {
   const streams = await getStreams(user?.id ?? "");
 
   return (
-    <div className="container py-6 space-y-6">
+    <div className="flex flex-col justify-center items-center">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Stream Logs</h1>
         <p className="text-muted-foreground">

@@ -104,7 +104,7 @@ export default function CustomCommands({
   return (
     <div className="py-4 space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-medium">Custom Commands</h2>
+        <h2 className="text-lg font-medium">Commands</h2>
         <Button onClick={handleCreateCommand} size="sm" disabled={loading}>
           <Plus className="h-4 w-4 mr-2" />
           Add Command

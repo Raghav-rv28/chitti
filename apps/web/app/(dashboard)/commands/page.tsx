@@ -17,8 +17,8 @@ export default async function Page() {
   const commands = await getCommands(user?.id);
 
   return (
-    <div className="container max-w-6xl py-6 space-y-6">
-      <div>
+    <div className="container max-w-6xl py-6 space-y-6 mx-auto flex flex-col items-center">
+      <div className="w-full text-center">
         <h1 className="text-2xl font-bold tracking-tight">Commands</h1>
         <p className="text-muted-foreground">
           Commands are used to trigger responses in chat.

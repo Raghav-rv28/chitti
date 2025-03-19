@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
 import { useUser } from "@clerk/nextjs";
+import { Suspense } from "react";
+import Loading from "@/app/(dashboard)/loading";
 
 const data = {
   user: {

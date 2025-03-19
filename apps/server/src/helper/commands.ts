@@ -237,6 +237,7 @@ export async function handleCommands(
         actionResponse,
         hasPermission,
         args,
+        { messagerName },
       );
       sendChatMessage(channelId, actionResponse);
       return true;
@@ -253,6 +254,7 @@ export async function handleCommands(
         commandData.response,
         hasPermission,
         args,
+        { messagerName },
       );
       sendChatMessage(channelId, commandData.response);
       return true;

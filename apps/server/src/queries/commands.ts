@@ -79,7 +79,7 @@ export async function logCommandDetails(
   response: string | undefined,
   hasPermission: boolean,
   args: string[],
-  messageDetails: { id: string },
+  messageDetails: any,
   timeoutDetails?: { durationSeconds: number; message: string } | null,
 ) {
   await prisma.streamLogs.create({

@@ -1,6 +1,8 @@
 import express, { Request, Response, Router } from "express";
 import { prisma } from "@repo/database";
 import { z } from "zod";
+import { getUnixTime } from "date-fns";
+import { getTopViewers, getUserTopCommands } from "../queries/dashboard";
 
 const router: Router = express.Router();
 interface StreamSummary {
@@ -115,7 +117,6 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
 router.get("/get-summary/:channelId", async (req: Request, res: Response) => {
   const { channelId } = req.params;
-  console.log("entering here");
   // Calculate date 7 days ago
 
   const sevenDaysAgo = new Date();
@@ -157,6 +158,45 @@ router.get("/get-summary/:channelId", async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Failed to load summary",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+
+router.get(
+  "/top-commands/:channelId",
+  async (req: Request, res: Response) => {
+    const { channelId } = req.params;
+    try{
+      const data = await getUserTopCommands(channelId);
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to load top commands",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  },
+);
+
+router.get("/top-viewers/:channelId", async (req: Request, res: Response) => {
+  const { channelId } = req.params;
+  try {
+    const data = await getTopViewers(channelId);
+    res.status(200).json({
+      success: true,
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to load top viewers",
       error: error instanceof Error ? error.message : "Unknown error",
     });
   }
