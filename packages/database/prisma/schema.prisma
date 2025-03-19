@@ -110,6 +110,7 @@ model UserSecurity {
 
 model Viewer {
   id               String       @id
+  viewerId         String       @default("")
   userChannelId    String
   username         String
   hoursWatched     Float?
@@ -125,7 +126,7 @@ model Viewer {
   User             User         @relation(fields: [userChannelId], references: [id])
   StreamLogs       StreamLogs[]
 
-  @@unique([id, userChannelId, streamChatId])
+  @@unique([viewerId, userChannelId, streamChatId])
 }
 
 enum Role {

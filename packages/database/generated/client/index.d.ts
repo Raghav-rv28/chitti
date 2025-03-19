@@ -9735,6 +9735,7 @@ export namespace Prisma {
 
   export type ViewerMinAggregateOutputType = {
     id: string | null
+    viewerId: string | null
     userChannelId: string | null
     username: string | null
     hoursWatched: number | null
@@ -9749,6 +9750,7 @@ export namespace Prisma {
 
   export type ViewerMaxAggregateOutputType = {
     id: string | null
+    viewerId: string | null
     userChannelId: string | null
     username: string | null
     hoursWatched: number | null
@@ -9763,6 +9765,7 @@ export namespace Prisma {
 
   export type ViewerCountAggregateOutputType = {
     id: number
+    viewerId: number
     userChannelId: number
     username: number
     hoursWatched: number
@@ -9795,6 +9798,7 @@ export namespace Prisma {
 
   export type ViewerMinAggregateInputType = {
     id?: true
+    viewerId?: true
     userChannelId?: true
     username?: true
     hoursWatched?: true
@@ -9809,6 +9813,7 @@ export namespace Prisma {
 
   export type ViewerMaxAggregateInputType = {
     id?: true
+    viewerId?: true
     userChannelId?: true
     username?: true
     hoursWatched?: true
@@ -9823,6 +9828,7 @@ export namespace Prisma {
 
   export type ViewerCountAggregateInputType = {
     id?: true
+    viewerId?: true
     userChannelId?: true
     username?: true
     hoursWatched?: true
@@ -9924,6 +9930,7 @@ export namespace Prisma {
 
   export type ViewerGroupByOutputType = {
     id: string
+    viewerId: string
     userChannelId: string
     username: string
     hoursWatched: number | null
@@ -9957,6 +9964,7 @@ export namespace Prisma {
 
   export type ViewerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    viewerId?: boolean
     userChannelId?: boolean
     username?: boolean
     hoursWatched?: boolean
@@ -9976,6 +9984,7 @@ export namespace Prisma {
 
   export type ViewerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    viewerId?: boolean
     userChannelId?: boolean
     username?: boolean
     hoursWatched?: boolean
@@ -9992,6 +10001,7 @@ export namespace Prisma {
 
   export type ViewerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    viewerId?: boolean
     userChannelId?: boolean
     username?: boolean
     hoursWatched?: boolean
@@ -10008,6 +10018,7 @@ export namespace Prisma {
 
   export type ViewerSelectScalar = {
     id?: boolean
+    viewerId?: boolean
     userChannelId?: boolean
     username?: boolean
     hoursWatched?: boolean
@@ -10020,7 +10031,7 @@ export namespace Prisma {
     totalMessages?: boolean
   }
 
-  export type ViewerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userChannelId" | "username" | "hoursWatched" | "points" | "banned" | "bannedTimePeriod" | "createdAt" | "streakDays" | "streamChatId" | "totalMessages", ExtArgs["result"]["viewer"]>
+  export type ViewerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "viewerId" | "userChannelId" | "username" | "hoursWatched" | "points" | "banned" | "bannedTimePeriod" | "createdAt" | "streakDays" | "streamChatId" | "totalMessages", ExtArgs["result"]["viewer"]>
   export type ViewerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | Viewer$ChatArgs<ExtArgs>
     StreamChat?: boolean | StreamChatDefaultArgs<ExtArgs>
@@ -10047,6 +10058,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      viewerId: string
       userChannelId: string
       username: string
       hoursWatched: number | null
@@ -10485,6 +10497,7 @@ export namespace Prisma {
    */ 
   interface ViewerFieldRefs {
     readonly id: FieldRef<"Viewer", 'String'>
+    readonly viewerId: FieldRef<"Viewer", 'String'>
     readonly userChannelId: FieldRef<"Viewer", 'String'>
     readonly username: FieldRef<"Viewer", 'String'>
     readonly hoursWatched: FieldRef<"Viewer", 'Float'>
@@ -11069,6 +11082,7 @@ export namespace Prisma {
 
   export const ViewerScalarFieldEnum: {
     id: 'id',
+    viewerId: 'viewerId',
     userChannelId: 'userChannelId',
     username: 'username',
     hoursWatched: 'hoursWatched',
@@ -11773,6 +11787,7 @@ export namespace Prisma {
     OR?: ViewerWhereInput[]
     NOT?: ViewerWhereInput | ViewerWhereInput[]
     id?: StringFilter<"Viewer"> | string
+    viewerId?: StringFilter<"Viewer"> | string
     userChannelId?: StringFilter<"Viewer"> | string
     username?: StringFilter<"Viewer"> | string
     hoursWatched?: FloatNullableFilter<"Viewer"> | number | null
@@ -11791,6 +11806,7 @@ export namespace Prisma {
 
   export type ViewerOrderByWithRelationInput = {
     id?: SortOrder
+    viewerId?: SortOrder
     userChannelId?: SortOrder
     username?: SortOrder
     hoursWatched?: SortOrderInput | SortOrder
@@ -11809,10 +11825,11 @@ export namespace Prisma {
 
   export type ViewerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    id_userChannelId_streamChatId?: ViewerIdUserChannelIdStreamChatIdCompoundUniqueInput
+    viewerId_userChannelId_streamChatId?: ViewerViewerIdUserChannelIdStreamChatIdCompoundUniqueInput
     AND?: ViewerWhereInput | ViewerWhereInput[]
     OR?: ViewerWhereInput[]
     NOT?: ViewerWhereInput | ViewerWhereInput[]
+    viewerId?: StringFilter<"Viewer"> | string
     userChannelId?: StringFilter<"Viewer"> | string
     username?: StringFilter<"Viewer"> | string
     hoursWatched?: FloatNullableFilter<"Viewer"> | number | null
@@ -11827,10 +11844,11 @@ export namespace Prisma {
     StreamChat?: XOR<StreamChatScalarRelationFilter, StreamChatWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     StreamLogs?: StreamLogsListRelationFilter
-  }, "id" | "id_userChannelId_streamChatId">
+  }, "id" | "viewerId_userChannelId_streamChatId">
 
   export type ViewerOrderByWithAggregationInput = {
     id?: SortOrder
+    viewerId?: SortOrder
     userChannelId?: SortOrder
     username?: SortOrder
     hoursWatched?: SortOrderInput | SortOrder
@@ -11853,6 +11871,7 @@ export namespace Prisma {
     OR?: ViewerScalarWhereWithAggregatesInput[]
     NOT?: ViewerScalarWhereWithAggregatesInput | ViewerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Viewer"> | string
+    viewerId?: StringWithAggregatesFilter<"Viewer"> | string
     userChannelId?: StringWithAggregatesFilter<"Viewer"> | string
     username?: StringWithAggregatesFilter<"Viewer"> | string
     hoursWatched?: FloatNullableWithAggregatesFilter<"Viewer"> | number | null
@@ -12422,6 +12441,7 @@ export namespace Prisma {
 
   export type ViewerCreateInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -12438,6 +12458,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedCreateInput = {
     id: string
+    viewerId?: string
     userChannelId: string
     username: string
     hoursWatched?: number | null
@@ -12454,6 +12475,7 @@ export namespace Prisma {
 
   export type ViewerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -12470,6 +12492,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     userChannelId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -12486,6 +12509,7 @@ export namespace Prisma {
 
   export type ViewerCreateManyInput = {
     id: string
+    viewerId?: string
     userChannelId: string
     username: string
     hoursWatched?: number | null
@@ -12500,6 +12524,7 @@ export namespace Prisma {
 
   export type ViewerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -12512,6 +12537,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     userChannelId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13183,14 +13209,15 @@ export namespace Prisma {
     expiresAt?: SortOrder
   }
 
-  export type ViewerIdUserChannelIdStreamChatIdCompoundUniqueInput = {
-    id: string
+  export type ViewerViewerIdUserChannelIdStreamChatIdCompoundUniqueInput = {
+    viewerId: string
     userChannelId: string
     streamChatId: string
   }
 
   export type ViewerCountOrderByAggregateInput = {
     id?: SortOrder
+    viewerId?: SortOrder
     userChannelId?: SortOrder
     username?: SortOrder
     hoursWatched?: SortOrder
@@ -13213,6 +13240,7 @@ export namespace Prisma {
 
   export type ViewerMaxOrderByAggregateInput = {
     id?: SortOrder
+    viewerId?: SortOrder
     userChannelId?: SortOrder
     username?: SortOrder
     hoursWatched?: SortOrder
@@ -13227,6 +13255,7 @@ export namespace Prisma {
 
   export type ViewerMinOrderByAggregateInput = {
     id?: SortOrder
+    viewerId?: SortOrder
     userChannelId?: SortOrder
     username?: SortOrder
     hoursWatched?: SortOrder
@@ -14336,6 +14365,7 @@ export namespace Prisma {
 
   export type ViewerCreateWithoutStreamLogsInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -14351,6 +14381,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedCreateWithoutStreamLogsInput = {
     id: string
+    viewerId?: string
     userChannelId: string
     username: string
     hoursWatched?: number | null
@@ -14468,6 +14499,7 @@ export namespace Prisma {
 
   export type ViewerUpdateWithoutStreamLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -14483,6 +14515,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateWithoutStreamLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     userChannelId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14572,6 +14605,7 @@ export namespace Prisma {
 
   export type ViewerCreateWithoutChatInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -14587,6 +14621,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedCreateWithoutChatInput = {
     id: string
+    viewerId?: string
     userChannelId: string
     username: string
     hoursWatched?: number | null
@@ -14704,6 +14739,7 @@ export namespace Prisma {
 
   export type ViewerUpdateWithoutChatInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -14719,6 +14755,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateWithoutChatInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     userChannelId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14875,6 +14912,7 @@ export namespace Prisma {
 
   export type ViewerCreateWithoutStreamChatInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -14890,6 +14928,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedCreateWithoutStreamChatInput = {
     id: string
+    viewerId?: string
     userChannelId: string
     username: string
     hoursWatched?: number | null
@@ -15033,6 +15072,7 @@ export namespace Prisma {
     OR?: ViewerScalarWhereInput[]
     NOT?: ViewerScalarWhereInput | ViewerScalarWhereInput[]
     id?: StringFilter<"Viewer"> | string
+    viewerId?: StringFilter<"Viewer"> | string
     userChannelId?: StringFilter<"Viewer"> | string
     username?: StringFilter<"Viewer"> | string
     hoursWatched?: FloatNullableFilter<"Viewer"> | number | null
@@ -15203,6 +15243,7 @@ export namespace Prisma {
 
   export type ViewerCreateWithoutUserInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -15218,6 +15259,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedCreateWithoutUserInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -15877,6 +15919,7 @@ export namespace Prisma {
 
   export type ViewerCreateManyStreamChatInput = {
     id: string
+    viewerId?: string
     userChannelId: string
     username: string
     hoursWatched?: number | null
@@ -15929,6 +15972,7 @@ export namespace Prisma {
 
   export type ViewerUpdateWithoutStreamChatInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -15944,6 +15988,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateWithoutStreamChatInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     userChannelId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -15959,6 +16004,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateManyWithoutStreamChatInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     userChannelId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -16034,6 +16080,7 @@ export namespace Prisma {
 
   export type ViewerCreateManyUserInput = {
     id: string
+    viewerId?: string
     username: string
     hoursWatched?: number | null
     points?: number
@@ -16175,6 +16222,7 @@ export namespace Prisma {
 
   export type ViewerUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -16190,6 +16238,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number
@@ -16205,6 +16254,7 @@ export namespace Prisma {
 
   export type ViewerUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     hoursWatched?: NullableFloatFieldUpdateOperationsInput | number | null
     points?: IntFieldUpdateOperationsInput | number

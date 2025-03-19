@@ -194,6 +194,7 @@ exports.Prisma.UserSecurityScalarFieldEnum = {
 
 exports.Prisma.ViewerScalarFieldEnum = {
   id: 'id',
+  viewerId: 'viewerId',
   userChannelId: 'userChannelId',
   username: 'username',
   hoursWatched: 'hoursWatched',

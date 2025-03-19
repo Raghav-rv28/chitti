@@ -5,6 +5,7 @@ export const getStreams = async (userId: string) => {
     const streams = await prisma.streamChat.findMany({
       where: { userId: userId },
     });
+    console.log(streams);
     return streams;
   } catch (error) {
     console.error("Failed to fetch streams", error);
@@ -15,7 +16,7 @@ export const getStreams = async (userId: string) => {
 export const fetchChatMessages = async (streamId: string) => {
   try {
     const chatMessages = await prisma.chat.findMany({
-      where: { liveChatId: streamId },
+      where: { broadcastId: streamId },
     });
     return chatMessages;
   } catch (error) {

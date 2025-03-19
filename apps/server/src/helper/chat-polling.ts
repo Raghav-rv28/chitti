@@ -367,7 +367,7 @@ async function processMessage(
   if (displayMessage.startsWith("!")) {
     try {
       // Pass the display name directly from the message
-      const response = await handleCommands(
+      const validCommand = await handleCommands(
         channelId,
         authorChannelId,
         displayName,
@@ -375,9 +375,7 @@ async function processMessage(
         activeStreamers,
       );
 
-      if (response) {
-        // Send response back to chat
-        await sendChatMessage(channelId, response);
+      if (validCommand) {
         saveMessageAndPoints(
           channelId,
           displayMessage,

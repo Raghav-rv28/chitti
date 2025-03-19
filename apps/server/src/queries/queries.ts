@@ -139,7 +139,7 @@ export const saveChatMessages = async (
 
 export const getTopViewers = async (userId: string, limit = 10) => {
   return await prisma.viewer.findMany({
-    where: { id: userId },
+    where: { userChannelId: userId },
     orderBy: { points: "desc" },
     take: limit,
   });

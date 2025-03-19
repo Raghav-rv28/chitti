@@ -70,3 +70,33 @@ export const updateCommand = async (
 
   return "Command updated successfully.";
 };
+
+export async function logCommandDetails(
+  channelId: string,
+  viewerId: string,
+  broadcastId: string,
+  command: string,
+  response: string | undefined,
+  hasPermission: boolean,
+  args: string[],
+  messageDetails: { id: string },
+  timeoutDetails?: { durationSeconds: number; message: string } | null,
+) {
+  await prisma.streamLogs.create({
+    data: {
+      channelId,
+      viewerId: `${viewerId}-${broadcastId}`,
+      broadcastId,
+      messageDetails,
+      eventType: "command", // Assuming you have an enum for event types
+      eventDetails: {
+        command,
+        response,
+        caller: viewerId,
+        hasPermission,
+        args,
+        timeoutDetails,
+      },
+    },
+  });
+}

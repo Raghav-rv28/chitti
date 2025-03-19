@@ -1,5 +1,6 @@
 import { differenceInMinutes } from "date-fns";
 import { prisma } from "@repo/database";
+import { ExternalAccountAuthorizedUserClient } from "google-auth-library/build/src/auth/externalAccountAuthorizedUserClient";
 const KEYWORD_BONUS = ["thank you", "great stream", "love this"]; // Example meaningful words
 const MESSAGE_LENGTH_BONUS = 20; // Characters threshold for bonus
 const COOLDOWN_LIMIT = 5; // Max messages in 10 seconds before cooldown
@@ -63,7 +64,7 @@ export const saveMessageAndPoints = async (
 
       // Get last message timestamp for the user
       const lastMessage = await tx.chat.findFirst({
-        where: { viewerId: authorId },
+        where: { viewerId: `${authorId}-${broadcastId}` },
         orderBy: { timestamp: "desc" },
         select: { timestamp: true },
       });
@@ -80,31 +81,54 @@ export const saveMessageAndPoints = async (
       }
     }
 
-    // Upsert viewer with all computed updates in one query
-    await tx.viewer.upsert({
-      where: { id: authorId, streamChatId: broadcastId },
-      create: {
-        id: authorId,
+    // Check if the viewer exists before upserting
+    const existingViewer = await tx.viewer.findUnique({
+      where: {
+        id: `${authorId}-${broadcastId}`,
         userChannelId: userId,
-        username,
-        streamChatId: broadcastId,
-        totalMessages: 1,
-        points: totalPoints,
-        streakDays: 0,
-        createdAt: new Date(),
-      },
-      update: {
-        totalMessages: { increment: 1 },
-        points: { increment: totalPoints },
-        username,
+        viewerId: authorId,
         streamChatId: broadcastId,
       },
     });
-    return await tx.chat.create({
+
+    if (existingViewer) {
+      // Update existing viewer
+      await tx.viewer.update({
+        where: {
+          id: `${authorId}-${broadcastId}`,
+          viewerId: authorId,
+          userChannelId: userId,
+          streamChatId: broadcastId,
+        },
+        data: {
+          totalMessages: { increment: 1 },
+          points: { increment: totalPoints },
+          username,
+          streamChatId: broadcastId,
+        },
+      });
+    } else {
+      // Create new viewer
+      await tx.viewer.create({
+        data: {
+          id: `${authorId}-${broadcastId}`,
+          viewerId: authorId,
+          userChannelId: userId,
+          username,
+          streamChatId: broadcastId,
+          totalMessages: 1,
+          points: totalPoints,
+          streakDays: 0,
+          createdAt: new Date(),
+        },
+      });
+    }
+
+    await tx.chat.create({
       data: {
         id: messageId,
         userId: userId,
-        viewerId: authorId,
+        viewerId: `${authorId}-${broadcastId}`,
         message,
         broadcastId,
         username,

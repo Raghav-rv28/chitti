@@ -1,9 +1,10 @@
 import { google } from "googleapis";
-import { getCommands } from "../queries/commands";
+import { getCommands, logCommandDetails } from "../queries/commands";
 import { timeoutUser, removeUserTimeout } from "./timeout-utils";
 import { Timeout } from "./types";
 import { getViewerByUsername } from "../queries/viewer";
 import { getStream, saveStream } from "../queries/queries";
+import { sendChatMessage } from "./chat-polling";
 const youtube = google.youtube("v3");
 
 /**
@@ -72,6 +73,8 @@ export async function executeActionCommand(
   activeStreamers: Record<string, any>,
   hasPermission: boolean,
 ): Promise<string | undefined> {
+  let response: string | undefined;
+
   switch (command) {
     case "untimeout":
     case "removeban": {
@@ -92,12 +95,14 @@ export async function executeActionCommand(
         const wasRemoved = await removeUserTimeout(channelId, targetChannelId);
 
         if (!wasRemoved) {
-          return `User ${commandTargetUsername} is not currently in timeout.`;
+          response = `User ${commandTargetUsername} is not currently in timeout.`;
         }
       } catch (error) {
         console.error("Error removing timeout:", error);
-        return "Failed to remove timeout. Please try again.";
+        response = "Failed to remove timeout. Please try again.";
       }
+      // Log command details
+      return response;
     }
 
     case "timeout": {
@@ -146,8 +151,9 @@ export async function executeActionCommand(
         );
       } catch (error) {
         console.error("Error timing out user:", error);
-        return "Failed to timeout user.";
+        response = "Failed to timeout user.";
       }
+      return response;
     }
     case "marker": {
       if (!hasPermission) {
@@ -168,7 +174,7 @@ export async function executeActionCommand(
           activeStreamers[channelId].broadcastId,
           updatedDescription,
         );
-        return "Marker created successfully.";
+        return `Marker(${description}) created successfully at ${new Date().toISOString()}`;
       } catch (error) {
         console.error("Error creating marker:", error);
         return "Failed to create marker.";
@@ -189,13 +195,14 @@ export async function handleCommands(
   messagerName: string,
   displayMessage: string,
   activeStreamers: Record<string, any>,
-): Promise<string | undefined> {
+): Promise<boolean> {
+  const response = false;
   try {
     if (!displayMessage.startsWith("!")) {
-      return undefined;
+      return response;
     }
 
-    const parts = displayMessage.slice(1).split(" "); // Remove "!" and split by space
+    const parts = displayMessage.slice(1).split(" ");
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
     const hasPermission = await isModeratorOrOwner(
@@ -203,11 +210,11 @@ export async function handleCommands(
       viewerId,
       activeStreamers,
     );
+
     if (!command) {
-      return undefined;
+      return response;
     }
 
-    // First check for action commands (mod/owner only commands)
     const actionResponse = await executeActionCommand(
       channelId,
       viewerId,
@@ -219,20 +226,41 @@ export async function handleCommands(
       hasPermission,
     );
 
+    // Log command details
+
     if (actionResponse) {
-      return actionResponse;
+      await logCommandDetails(
+        channelId,
+        viewerId,
+        activeStreamers[channelId].broadcastId,
+        command,
+        actionResponse,
+        hasPermission,
+        args,
+      );
+      sendChatMessage(channelId, actionResponse);
+      return true;
     }
 
     // Check user-defined commands in DB
     const commandData = await getCommands(channelId, command);
     if (commandData?.response) {
-      return commandData.response;
+      await logCommandDetails(
+        channelId,
+        viewerId,
+        activeStreamers[channelId].broadcastId,
+        command,
+        commandData.response,
+        hasPermission,
+        args,
+      );
+      sendChatMessage(channelId, commandData.response);
+      return true;
     }
 
-    // If we got here, command wasn't recognized
-    return undefined;
+    return response;
   } catch (error) {
     console.error("Error handling command:", error);
-    return "An error occurred while processing your command.";
+    return false;
   }
 }
