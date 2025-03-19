@@ -15,7 +15,6 @@ const recentMessages = new Map<string, { timestamp: number; count: number }>();
 export const saveMessageAndPoints = async (
   userId: string,
   message: string,
-  liveChatId: string,
   authorId: string,
   chatType: string,
   username: string,
@@ -26,7 +25,7 @@ export const saveMessageAndPoints = async (
 ) => {
   return await prisma.$transaction(async (tx) => {
     const now = Date.now();
-    const userStats = recentMessages.get(`${authorId}-${liveChatId}`) || {
+    const userStats = recentMessages.get(messageId) || {
       timestamp: 0,
       count: 0,
     };
@@ -39,7 +38,7 @@ export const saveMessageAndPoints = async (
       userStats.count = 1;
       userStats.timestamp = now;
     }
-    recentMessages.set(`${authorId}-${liveChatId}`, userStats);
+    recentMessages.set(messageId, userStats);
 
     // Calculate total points before DB update
     let totalPoints = 0; // Start with 0 points
@@ -83,7 +82,7 @@ export const saveMessageAndPoints = async (
 
     // Upsert viewer with all computed updates in one query
     await tx.viewer.upsert({
-      where: { id: authorId },
+      where: { id: authorId, streamChatId: broadcastId },
       create: {
         id: authorId,
         userChannelId: userId,
@@ -99,6 +98,17 @@ export const saveMessageAndPoints = async (
         points: { increment: totalPoints },
         username,
         streamChatId: broadcastId,
+      },
+    });
+    return await tx.chat.create({
+      data: {
+        id: messageId,
+        userId: userId,
+        viewerId: authorId,
+        message,
+        broadcastId,
+        username,
+        chatType,
       },
     });
   });

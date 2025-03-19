@@ -349,7 +349,6 @@ async function processMessage(
     saveMessageAndPoints(
       channelId,
       displayMessage,
-      liveChatId,
       authorChannelId,
       type,
       displayName,
@@ -382,7 +381,6 @@ async function processMessage(
         saveMessageAndPoints(
           channelId,
           displayMessage,
-          liveChatId,
           authorChannelId,
           type,
           displayName,
@@ -436,7 +434,6 @@ async function processMessage(
   saveMessageAndPoints(
     channelId,
     displayMessage,
-    liveChatId,
     authorChannelId,
     type,
     displayName,
@@ -470,7 +467,7 @@ export function clearPollingApi(intervalId: NodeJS.Timeout) {
 }
 
 // Start the polling interval
-const interval = setInterval(pollLiveChatsTest, 5000);
+const interval = setInterval(pollLiveChats, 5000);
 
 // Set up a periodic cleanup for timeouts (every 15 minutes)
 const timeoutCleanupInterval = setInterval(cleanupTimeouts, 15 * 60 * 1000);

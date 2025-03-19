@@ -23,6 +23,7 @@ const getOAuth2ClientForUser = async (
   userId: string,
 ): Promise<Auth.AuthClient> => {
   // Retrieve the user's tokens
+  console.log("requesting tokens for", userId);
   const tokens = await getUserTokens(userId);
   if (!tokens) {
     throw new Error("User not authenticated.");

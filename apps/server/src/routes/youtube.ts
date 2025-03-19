@@ -91,13 +91,14 @@ router.get("/callback", async (req: Request, res: Response) => {
 router.get("/start-stream/", async (req: Request, res: Response) => {
   const { channelId } = req.query;
   const { broadcastId, liveChatId } = await findActiveChat(channelId as string);
+  console.log(broadcastId, liveChatId);
   if (liveChatId !== null && broadcastId !== null) {
     await addStreamer(channelId as string, liveChatId, broadcastId);
     interval.ref();
   } else {
     res.sendStatus(500);
   }
-  res.status(200).redirect("http://localhost:30001/dashboard");
+  res.status(200).redirect("http://localhost:3001/dashboard");
 });
 
 //NOTE: wont work if broadcast is not active

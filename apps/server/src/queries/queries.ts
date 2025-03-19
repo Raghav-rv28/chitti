@@ -134,18 +134,6 @@ export const saveChatMessages = async (
         streamChatId: broadcastId,
       },
     });
-
-    return await tx.chat.create({
-      data: {
-        id: messageId,
-        userId: channelId,
-        viewerId: userId,
-        message,
-        broadcastId,
-        username,
-        chatType,
-      },
-    });
   });
 };
 
