@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     const chatMessages = await fetchChatMessages(liveChatId);
     const streamLogs = await getStreamLogs(liveChatId);
-    return NextResponse.json(chatMessages);
+    return NextResponse.json({ chats: chatMessages, streamLogs });
   } catch (error) {
     console.error("Error fetching chat messages:", error);
     return NextResponse.json(

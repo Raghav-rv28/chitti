@@ -71,7 +71,6 @@ export const saveStream = async (
       userId,
       startTime,
       title,
-      liveChatId,
       contentDetails,
     },
   });

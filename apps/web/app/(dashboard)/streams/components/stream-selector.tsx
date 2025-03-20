@@ -18,8 +18,10 @@ import {
 } from "@/components/ui/card";
 import { Calendar, Clock, MessageSquare, Users } from "lucide-react";
 import { ChatTable } from "./chat-table";
-import { Chat, StreamChat } from "@repo/database";
+import { Chat, StreamChat, StreamLogs } from "@repo/database";
 import { Button } from "@/components/ui/button";
+import { LogTable } from "./logs-table";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface StreamSelectorProps {
   streams: StreamChat[];
@@ -31,7 +33,7 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
   );
   const [loading, setLoading] = useState(false);
   const [chatMessages, setChatMessages] = useState<Chat[]>([]);
-
+  const [streamLogs, setStreamLogs] = useState<StreamLogs[]>([]);
   const handleStreamChange = (streamId: string) => {
     setLoading(true);
     setSelectedStreamId(streamId);
@@ -53,12 +55,17 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
         if (!response.ok) {
           throw new Error("Failed to fetch chat messages");
         }
-        const data = await response.json();
+        const data = await response.json() as {
+          chats: Chat[];
+          streamLogs: StreamLogs[];
+        };
         // Add type assertion to ensure data is treated as an array of Chat objects
-        setChatMessages(data as Chat[]);
+        setChatMessages(data.chats);
+        setStreamLogs(data.streamLogs);
       } catch (error) {
         console.error("Error fetching chat messages:", error);
         setChatMessages([]);
+        setStreamLogs([]);
       } finally {
         setLoading(false);
       }
@@ -187,8 +194,28 @@ export function StreamSelector({ streams }: StreamSelectorProps) {
           </Card>
         )}
       </div>
-
-      <ChatTable chats={currentChats} loading={loading} />
+      <Collapsible>
+        <CollapsibleTrigger>
+          <Button className="flex flex-row items-center gap-2 w-full bg-muted p-2 rounded-md hover:bg-muted-foreground text-white transition-all duration-300">
+            <MessageSquare className="h-4 w-4 " />
+            <span className="text-sm">Chats</span>
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <ChatTable chats={currentChats} loading={loading} />
+        </CollapsibleContent>
+      </Collapsible>
+      <Collapsible>
+        <CollapsibleTrigger>
+          <Button className="flex flex-row items-center gap-2 w-full bg-muted p-2 rounded-md hover:bg-muted-foreground text-white transition-all duration-300">
+            <Clock className="h-4 w-4 " />
+            <span className="text-sm">Logs</span>
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <LogTable logs={streamLogs} loading={loading} />
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }
