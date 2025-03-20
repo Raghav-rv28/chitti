@@ -195,7 +195,7 @@ async function pollLiveChats(): Promise<void> {
       if (items) {
         items.forEach(async (message: any) => {
           if (message.snippet.type === "textMessageEvent") {
-            await processMessage(channelId, message, userDetails.broadcastId);
+            await processMessage(channelId, message, userDetails.liveChatId);
             console.log("processing", message.id);
           } else {
             console.log("skipping message", message.snippet.type);
@@ -270,7 +270,7 @@ async function sendChatMessage(
       part: ["snippet"],
       requestBody: {
         snippet: {
-          broadcastId: activeStreamers[channelId].broadcastId,
+          liveChatId: activeStreamers[channelId].liveChatId,
           type: "textMessageEvent",
           textMessageDetails: {
             messageText: message,
@@ -293,7 +293,7 @@ async function sendChatMessage(
 async function processMessage(
   channelId: string,
   message: any,
-  broadcastId: string,
+  liveChatId: string,
 ): Promise<void> {
   // Early return for empty messages
   if (!message?.snippet?.displayMessage) {
@@ -307,7 +307,7 @@ async function processMessage(
   await saveChatMessages(
     channelId,
     displayMessage,
-    broadcastId,
+    liveChatId,
     authorChannelId,
     type,
     displayName,

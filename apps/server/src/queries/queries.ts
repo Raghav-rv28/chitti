@@ -69,9 +69,9 @@ export const saveStream = async (
     create: {
       id: broadcastId,
       userId,
-      liveChatId,
       startTime,
       title,
+      liveChatId,
       contentDetails,
     },
   });
