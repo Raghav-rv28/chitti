@@ -3,7 +3,7 @@
   "name": "web",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev --turbopack -p 3001",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start -o 3001",
     "lint": "eslint . --max-warnings 0"

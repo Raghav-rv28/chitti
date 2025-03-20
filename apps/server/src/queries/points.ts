@@ -81,18 +81,39 @@ export const awardPoints = async (
       }
     }
 
-    await tx.viewer.update({
+    const existingViewer = await tx.viewer.findFirst({
       where: {
-        id: authorId,
+        username,
         userChannelId: userId,
         streamChatId: broadcastId,
       },
-      data: {
-        totalMessages: { increment: 1 },
-        points: { increment: totalPoints },
-        username,
-        streamChatId: broadcastId,
-      },
     });
+
+    if (existingViewer) {
+      await tx.viewer.update({
+        where: {
+          viewerId: existingViewer.viewerId,
+          username,
+          userChannelId: userId,
+          streamChatId: broadcastId,
+        },
+        data: {
+          totalMessages: { increment: 1 },
+          points: { increment: totalPoints },
+          username,
+          streamChatId: broadcastId,
+        },
+      });
+    } else {
+      await tx.viewer.create({
+        data: {
+          username,
+          userChannelId: userId,
+          streamChatId: broadcastId,
+          totalMessages: 1,
+          points: totalPoints,
+        },
+      });
+    }
   });
 };

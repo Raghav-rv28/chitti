@@ -132,7 +132,7 @@ async function executeYouTubeTimeout(
     //   part: ["snippet"],
     //   requestBody: {
     //     snippet: {
-    //       liveChatId,
+    //       broadcastId,
     //       type: "temporary",
     //       banDurationSeconds: durationSeconds.toString(),
     //       bannedUserDetails: {

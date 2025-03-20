@@ -1,6 +1,6 @@
 export interface Streamer {
   channelId: string;
-  liveChatId: string;
+  broadcastId: string;
 }
 
 export interface AlertData {

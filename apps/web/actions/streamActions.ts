@@ -1,11 +1,10 @@
-import { prisma } from "@repo/database";
+import { Chat, prisma, StreamChat } from "@repo/database";
 
-export const getStreams = async (userId: string) => {
+export const getStreams = async (userId: string): Promise<StreamChat[]> => {
   try {
     const streams = await prisma.streamChat.findMany({
       where: { userId: userId },
     });
-    console.log(streams);
     return streams;
   } catch (error) {
     console.error("Failed to fetch streams", error);
@@ -13,7 +12,7 @@ export const getStreams = async (userId: string) => {
   }
 };
 
-export const fetchChatMessages = async (streamId: string) => {
+export const fetchChatMessages = async (streamId: string): Promise<Chat[]> => {
   try {
     const chatMessages = await prisma.chat.findMany({
       where: { broadcastId: streamId },

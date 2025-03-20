@@ -83,26 +83,25 @@ export const onboardUser = async (user: {
         id: user.userId,
         email: user.email,
         username: user?.username,
-        settings: user?.statistics,
-      },
-    });
-    // save tokens
-    // Insert default commands
-    await tx.customCommand.createMany({
-      data: DEFAULT_COMMANDS.map((cmd) => ({
-        userId: user.userId,
-        cooldown: 0,
-        requiredUserLevel: "viewer",
-        trigger: cmd.trigger,
-        response: cmd.response,
-      })),
-    });
-    await tx.moderation.create({
-      data: {
-        userId: user.userId,
-        spamConfig: DEFAULT_SPAM_CONFIG,
-        blacklist: DEFAULT_BAD_WORD_CONFIG,
-        links: DEFAULT_LINK_CONFIG,
+        statistics: user?.statistics,
+        moderation: {
+          create: {
+            spamConfig: DEFAULT_SPAM_CONFIG,
+            blacklist: DEFAULT_BAD_WORD_CONFIG,
+            links: DEFAULT_LINK_CONFIG,
+          },
+        },
+        commands: {
+          createMany: {
+            data: DEFAULT_COMMANDS.map((cmd) => ({
+              cooldown: 0,
+              requiredUserLevel: "viewer",
+              trigger: cmd.trigger,
+              response: cmd.response,
+              description: cmd.description,
+            })),
+          },
+        },
       },
     });
   });

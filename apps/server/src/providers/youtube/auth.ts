@@ -17,8 +17,6 @@ const randomHex = () => {
   );
 };
 
-// FIXME: fix auth
-// authenticate user if the access token is expired
 const getOAuth2ClientForUser = async (
   userId: string,
 ): Promise<Auth.AuthClient> => {

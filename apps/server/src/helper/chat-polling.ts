@@ -66,7 +66,7 @@ async function addStreamer(
   const auth = await getOAuth2ClientForUser(channelId);
 
   // Fetch moderation settings from database
-  const moderation = await prisma.moderation.findFirst({
+  const moderation = await prisma.moderation.findUnique({
     where: {
       userId: channelId,
     },
@@ -74,9 +74,9 @@ async function addStreamer(
 
   // Initialize streamer with moderation settings
   activeStreamers[channelId] = {
-    liveChatId,
-    nextPage: "",
     broadcastId,
+    nextPage: "",
+    liveChatId,
     oauthClient: auth,
     moderationSettings: {
       spamConfig:
@@ -140,7 +140,7 @@ function removeStreamer(channelId: string): void {
  */
 async function findActiveChat(
   channelId: string,
-): Promise<{ broadcastId: string | null; liveChatId: string | null }> {
+): Promise<{ liveChatId: string | null; broadcastId: string | null }> {
   let liveChatId = null;
   let broadcastId = null;
   try {
@@ -157,11 +157,11 @@ async function findActiveChat(
 
     const latestChat = items[0];
 
-    if (latestChat?.snippet?.liveChatId) {
+    if (latestChat?.snippet?.broadcastId && latestChat.snippet.liveChatId) {
       console.log("Chat ID Found:", latestChat.snippet.liveChatId);
       await saveStream(
         channelId,
-        latestChat.snippet.liveChatId,
+        latestChat.snippet.broadcastId,
         latestChat.snippet.scheduledStartTime,
         latestChat.snippet.title,
         latestChat.contentDetails.monitorStream,
@@ -171,10 +171,10 @@ async function findActiveChat(
       broadcastId = latestChat.id;
       liveChatId = latestChat.snippet.liveChatId;
     }
-    return { broadcastId, liveChatId };
+    return { liveChatId, broadcastId };
   } catch (error) {
     console.error("Error fetching active chat:", error);
-    return { broadcastId, liveChatId };
+    return { liveChatId, broadcastId };
   }
 }
 
@@ -191,11 +191,11 @@ async function pollLiveChats(): Promise<void> {
         pageToken: userDetails.nextPage,
       });
       const items: typeof response.data.items = response.data.items;
-      console.log("polling", channelId, userDetails.liveChatId);
+      console.log("polling", channelId, userDetails.broadcastId);
       if (items) {
         items.forEach(async (message: any) => {
           if (message.snippet.type === "textMessageEvent") {
-            await processMessage(channelId, message, userDetails.liveChatId);
+            await processMessage(channelId, message, userDetails.broadcastId);
             console.log("processing", message.id);
           } else {
             console.log("skipping message", message.snippet.type);
@@ -214,45 +214,6 @@ async function pollLiveChats(): Promise<void> {
   }
 }
 
-async function pollLiveChatsTest(): Promise<void> {
-  // Map streamers to API requests
-  const requests = Object.entries(activeStreamers).map(
-    async ([channelId, userDetails], index) => {
-      try {
-        // Stagger requests slightly to avoid simultaneous API calls
-        await new Promise((resolve) => setTimeout(resolve, index * 500));
-
-        const response = await youtube.liveChatMessages.list({
-          auth: userDetails.oauthClient,
-          part: ["snippet", "authorDetails"],
-          liveChatId: userDetails.liveChatId,
-          pageToken: userDetails.nextPage,
-        });
-        console.log("polling", channelId, userDetails.liveChatId);
-
-        const items = response.data.items;
-        if (items) {
-          items.forEach((message: any) => {
-            if (message.snippet.type === "textMessageEvent") {
-              processMessage(channelId, message, userDetails.liveChatId);
-            } else {
-              console.log("skipping message", message.snippet.type);
-            }
-          });
-        }
-
-        // Store next page token
-        if (response.data.nextPageToken) {
-          activeStreamers[channelId].nextPage = response.data.nextPageToken;
-        }
-      } catch (error) {
-        console.error(`Error polling chat for ${channelId}:`, error);
-      }
-    },
-  );
-  // Wait for all requests to complete
-  await Promise.allSettled(requests);
-}
 /**
  * Trigger Text-to-Speech functionality
  */
@@ -296,10 +257,10 @@ async function sendChatMessage(
   try {
     if (
       !activeStreamers[channelId]?.oauthClient ||
-      !activeStreamers[channelId]?.liveChatId
+      !activeStreamers[channelId]?.broadcastId
     ) {
       console.error(
-        `Cannot send message: missing OAuth client or liveChatId for channel ${channelId}`,
+        `Cannot send message: missing OAuth client or broadcastId for channel ${channelId}`,
       );
       return;
     }
@@ -309,7 +270,7 @@ async function sendChatMessage(
       part: ["snippet"],
       requestBody: {
         snippet: {
-          liveChatId: activeStreamers[channelId].liveChatId,
+          broadcastId: activeStreamers[channelId].broadcastId,
           type: "textMessageEvent",
           textMessageDetails: {
             messageText: message,
@@ -332,7 +293,7 @@ async function sendChatMessage(
 async function processMessage(
   channelId: string,
   message: any,
-  liveChatId: string,
+  broadcastId: string,
 ): Promise<void> {
   // Early return for empty messages
   if (!message?.snippet?.displayMessage) {
@@ -343,7 +304,17 @@ async function processMessage(
   const { id } = message;
   const { displayName } = message.authorDetails;
   console.log(authorChannelId);
-  await saveChatMessages(channelId, displayMessage, liveChatId, authorChannelId, type, displayName, id, activeStreamers[channelId].broadcastId, message.snippet.publishedAt);
+  await saveChatMessages(
+    channelId,
+    displayMessage,
+    broadcastId,
+    authorChannelId,
+    type,
+    displayName,
+    id,
+    activeStreamers[channelId].broadcastId,
+    message.snippet.publishedAt,
+  );
   // Fast path: Check if user is in timeout (in-memory check, no DB)
   if (isUserTimedOut(channelId, authorChannelId)) {
     console.log(`Skipping message from timed out user ${displayName}`);

@@ -1,5 +1,5 @@
 import { SpamConfig } from "./types";
-import { timeoutUser } from './timeout-utils';
+import { timeoutUser } from "./timeout-utils";
 
 // Track repeated messages from users
 const userMessageHistory: Record<
@@ -16,7 +16,7 @@ export const defaultSpamConfig: SpamConfig = {
     timeoutEnabled: true,
     timeoutDurationSeconds: 300, // 5 minutes
     timeoutMessage: "You've been timed out for spamming.",
-  }
+  },
 };
 
 // Reference to active streamers for config access
@@ -117,22 +117,21 @@ export function clearSpamDetection(channelId: string): void {
 // Initialize cleanup interval
 export const cleanupInterval = setInterval(() => {
   const now = Date.now();
-  
+
   // Clean up all user message histories
   for (const key in userMessageHistory) {
     if (
       now - userMessageHistory[key].lastCleanup >
       defaultSpamConfig.cleanupIntervalSeconds * 1000
     ) {
-      userMessageHistory[key].messages = userMessageHistory[key].messages.filter(
-        (msg) => {
-          const msgData = JSON.parse(msg);
-          return (
-            now - msgData.timestamp <
-            defaultSpamConfig.timeWindowSeconds * 1000
-          );
-        },
-      );
+      userMessageHistory[key].messages = userMessageHistory[
+        key
+      ].messages.filter((msg) => {
+        const msgData = JSON.parse(msg);
+        return (
+          now - msgData.timestamp < defaultSpamConfig.timeWindowSeconds * 1000
+        );
+      });
       userMessageHistory[key].lastCleanup = now;
     }
   }

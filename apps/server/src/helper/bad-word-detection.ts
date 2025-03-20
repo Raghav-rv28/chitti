@@ -1,6 +1,11 @@
 import { BadWordConfig } from "./types";
 import { prisma } from "@repo/database";
-import { timeoutUser, isUserTimedOut, removeUserTimeout, cleanupTimeouts } from './timeout-utils';
+import {
+  timeoutUser,
+  isUserTimedOut,
+  removeUserTimeout,
+  cleanupTimeouts,
+} from "./timeout-utils";
 
 // Default bad word configuration
 export const defaultBadWordConfig: BadWordConfig = {
@@ -12,13 +17,19 @@ export const defaultBadWordConfig: BadWordConfig = {
     timeoutDurationSeconds: 300, // 5 minutes
     timeoutMessage:
       "Your message contained inappropriate content. You've been timed out.",
-  }
+  },
 };
 
 // Reference to active streamers (will be populated from chat-polling.ts)
 let activeStreamersRef: Record<
   string,
-  { liveChatId: string; nextPage: string; oauthClient: any; moderationSettings?: any }
+  {
+    liveChatId: string;
+    broadcastId: string;
+    nextPage: string;
+    oauthClient: any;
+    moderationSettings?: any;
+  }
 > = {};
 
 /**
@@ -27,7 +38,13 @@ let activeStreamersRef: Record<
 export function setActiveStreamersReference(
   streamers: Record<
     string,
-    { liveChatId: string; nextPage: string; oauthClient: any; moderationSettings?: any }
+    {
+      liveChatId: string;
+      broadcastId: string;
+      nextPage: string;
+      oauthClient: any;
+      moderationSettings?: any;
+    }
   >,
 ) {
   activeStreamersRef = streamers;
@@ -45,7 +62,8 @@ export async function getBadWordConfig(
     });
 
     return (
-      (moderation?.blacklist as unknown as BadWordConfig) || defaultBadWordConfig
+      (moderation?.blacklist as unknown as BadWordConfig) ||
+      defaultBadWordConfig
     );
   } catch (error) {
     console.error("Error fetching bad word config:", error);
@@ -77,7 +95,7 @@ export async function checkForBadWords(
   }
 
   const normalizedMessage = message.toLowerCase();
-  
+
   // Check for bad words
   for (const word of config.words) {
     if (

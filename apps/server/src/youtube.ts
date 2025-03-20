@@ -20,9 +20,9 @@
 //   "/start-stream/:channelId",
 //   async (req: Request, res: Response) => {
 //     const { channelId } = req.params;
-//     const liveChatId = await findActiveChat(channelId);
-//     if (liveChatId !== null) {
-//       await addStreamer(channelId, liveChatId);
+//     const broadcastId = await findActiveChat(channelId);
+//     if (broadcastId !== null) {
+//       await addStreamer(channelId, broadcastId);
 //       interval.ref();
 //     } else {
 //       res.sendStatus(500);

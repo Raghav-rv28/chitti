@@ -1,4 +1,4 @@
-import { prisma } from "@repo/database";
+import { prisma, StreamChat } from "@repo/database";
 
 // Get total users count
 export const getUserCount = async () => {
@@ -22,22 +22,6 @@ export const getUserTokens = async (userId: string) => {
   return await prisma.userSecurity.findUnique({ where: { userId } });
 };
 
-// Create a new user
-export const createStreamer = async (
-  name: string,
-  email: string,
-): Promise<{
-  id: string;
-  email: string | null;
-  createdAt: Date;
-  settings: any;
-  username: string | null;
-}> => {
-  return await prisma.user.create({
-    data: { id: "someid", username: name, email },
-  });
-};
-
 //update tokens
 export const updateTokens = async (
   accessToken: string,
@@ -47,13 +31,6 @@ export const updateTokens = async (
   const updatedAt = new Date();
 
   return await prisma.$transaction([
-    // Ensure user exists
-    prisma.user.upsert({
-      where: { id: userId },
-      update: {}, // No updates needed
-      create: { id: userId }, // Creates the user if missing
-    }),
-
     // Now perform upsert on UserSecurity
     prisma.userSecurity.upsert({
       where: { userId },
@@ -68,8 +45,11 @@ export const updateTokens = async (
   ]);
 };
 
-export const getStream = async (id: string) => {
-  return await prisma.streamChat.findUnique({ where: { id } });
+export const getStream = async (
+  id: string,
+  userId: string,
+): Promise<StreamChat | null> => {
+  return await prisma.streamChat.findFirst({ where: { id, userId } });
 };
 
 export const saveStream = async (
@@ -82,7 +62,7 @@ export const saveStream = async (
   },
   broadcastId: string,
   description?: string,
-) => {
+): Promise<StreamChat> => {
   return await prisma.streamChat.upsert({
     where: { id: broadcastId },
     update: { description, contentDetails, title },
@@ -118,19 +98,29 @@ export const saveChatMessages = async (
 ) => {
   return await prisma.$transaction(async (tx) => {
     const chat = await tx.chat.findUnique({
-      where: { id: messageId, userId: channelId, broadcastId },
+      where: { id: messageId },
     });
     if (chat) {
       console.log("message already saved");
       return;
     }
-//create a viewer if not exists
-const viewer = await tx.viewer.findUnique({
-  where: { id: userId, userChannelId: channelId },
-});
-if (!viewer) {
+    //create a viewer if not exists
+    const viewer = await tx.viewer.findFirst({
+      where: {
+        username,
+        streamChatId: broadcastId,
+        userChannelId: channelId,
+        externalId: userId,
+      },
+    });
+    if (!viewer) {
       await tx.viewer.create({
-        data: { id: userId, userChannelId: channelId, username, streamChatId: broadcastId },
+        data: {
+          externalId: userId,
+          userChannelId: channelId,
+          username,
+          streamChatId: broadcastId,
+        },
       });
     }
     await tx.chat.create({

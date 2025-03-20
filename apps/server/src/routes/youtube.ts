@@ -90,11 +90,10 @@ router.get("/callback", async (req: Request, res: Response) => {
 
 router.post("/start-stream/", async (req: Request, res: Response) => {
   const { channelId } = req.query;
-  const { broadcastId, liveChatId } = await findActiveChat(channelId as string);
-  console.log(broadcastId, liveChatId);
+  const { liveChatId, broadcastId } = await findActiveChat(channelId as string);
   if (liveChatId !== null && broadcastId !== null) {
     await addStreamer(channelId as string, liveChatId, broadcastId);
-    interval.ref();
+    interval.ref(); // FIX:this will cause bugs when hit by multiple users.
   } else {
     res.sendStatus(500);
   }
@@ -105,12 +104,12 @@ router.post("/start-stream/", async (req: Request, res: Response) => {
 router.post(
   "/update-stream-description",
   async (req: Request, res: Response) => {
-    const { channelId, broadcastId, description } = req.body;
-    const stream = await getStream(broadcastId);
+    const { channelId, broadcastId: broadcastId, description } = req.body;
+    const stream = await getStream(broadcastId, channelId);
     if (!stream) {
       return res.status(404).send("Stream not found"); // Handle missing stream
     }
-
+    console.log(broadcastId, channelId);
     const oauth2Client: any = await getOAuth2ClientForUser(channelId as string);
     try {
       const response = await youtube.liveBroadcasts.update({
@@ -124,14 +123,13 @@ router.post(
           },
         },
       });
-      console.log("response", response);
+      console.log(response.status);
       if (response) {
         res.sendStatus(200);
       } else {
         res.sendStatus(404);
       }
     } catch (error) {
-      console.error("error", error);
       res.status(500).send("Internal Server Error"); // Send error response
     }
   },

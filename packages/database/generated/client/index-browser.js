@@ -117,71 +117,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.StreamLogsScalarFieldEnum = {
-  id: 'id',
-  messageDetails: 'messageDetails',
-  broadcastId: 'broadcastId',
-  channelId: 'channelId',
-  eventType: 'eventType',
-  messageId: 'messageId',
-  eventDetails: 'eventDetails',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.ChatScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  viewerId: 'viewerId',
-  chatType: 'chatType',
-  message: 'message',
-  timestamp: 'timestamp',
-  broadcastId: 'broadcastId',
-  username: 'username'
-};
-
-exports.Prisma.CustomCommandScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  trigger: 'trigger',
-  response: 'response',
-  description: 'description',
-  enabled: 'enabled',
-  createdAt: 'createdAt',
-  cooldown: 'cooldown',
-  requiredUserLevel: 'requiredUserLevel'
-};
-
-exports.Prisma.StreamChatScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  title: 'title',
-  streamUrl: 'streamUrl',
-  liveChatId: 'liveChatId',
-  contentDetails: 'contentDetails',
-  description: 'description',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  duration: 'duration',
-  totalDonations: 'totalDonations',
-  totalViews: 'totalViews'
-};
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  username: 'username',
   createdAt: 'createdAt',
   settings: 'settings',
-  statistics: 'statistics',
-  username: 'username'
-};
-
-exports.Prisma.ModerationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  general: 'general',
-  spamConfig: 'spamConfig',
-  links: 'links',
-  blacklist: 'blacklist'
+  statistics: 'statistics'
 };
 
 exports.Prisma.UserSecurityScalarFieldEnum = {
@@ -193,19 +135,77 @@ exports.Prisma.UserSecurityScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
-exports.Prisma.ViewerScalarFieldEnum = {
+exports.Prisma.StreamChatScalarFieldEnum = {
   id: 'id',
-  viewerId: 'viewerId',
-  userChannelId: 'userChannelId',
+  title: 'title',
+  streamUrl: 'streamUrl',
+  liveChatId: 'liveChatId',
+  contentDetails: 'contentDetails',
+  description: 'description',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  duration: 'duration',
+  totalDonations: 'totalDonations',
+  totalViews: 'totalViews',
+  userId: 'userId'
+};
+
+exports.Prisma.ChatScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  timestamp: 'timestamp',
+  chatType: 'chatType',
   username: 'username',
-  hoursWatched: 'hoursWatched',
+  userId: 'userId',
+  broadcastId: 'broadcastId',
+  viewerId: 'viewerId'
+};
+
+exports.Prisma.ViewerScalarFieldEnum = {
+  viewerId: 'viewerId',
+  username: 'username',
   points: 'points',
+  hoursWatched: 'hoursWatched',
   banned: 'banned',
   bannedTimePeriod: 'bannedTimePeriod',
   createdAt: 'createdAt',
   streakDays: 'streakDays',
-  streamChatId: 'streamChatId',
-  totalMessages: 'totalMessages'
+  totalMessages: 'totalMessages',
+  externalId: 'externalId',
+  userChannelId: 'userChannelId',
+  streamChatId: 'streamChatId'
+};
+
+exports.Prisma.StreamLogsScalarFieldEnum = {
+  id: 'id',
+  eventType: 'eventType',
+  messageDetails: 'messageDetails',
+  eventDetails: 'eventDetails',
+  createdAt: 'createdAt',
+  broadcastId: 'broadcastId',
+  channelId: 'channelId',
+  messageId: 'messageId'
+};
+
+exports.Prisma.CustomCommandScalarFieldEnum = {
+  id: 'id',
+  trigger: 'trigger',
+  response: 'response',
+  description: 'description',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  cooldown: 'cooldown',
+  requiredUserLevel: 'requiredUserLevel',
+  userId: 'userId'
+};
+
+exports.Prisma.ModerationScalarFieldEnum = {
+  id: 'id',
+  general: 'general',
+  spamConfig: 'spamConfig',
+  links: 'links',
+  blacklist: 'blacklist',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -213,12 +213,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -249,14 +249,14 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Prisma.ModelName = {
-  StreamLogs: 'StreamLogs',
-  Chat: 'Chat',
-  CustomCommand: 'CustomCommand',
-  StreamChat: 'StreamChat',
   User: 'User',
-  Moderation: 'Moderation',
   UserSecurity: 'UserSecurity',
-  Viewer: 'Viewer'
+  StreamChat: 'StreamChat',
+  Chat: 'Chat',
+  Viewer: 'Viewer',
+  StreamLogs: 'StreamLogs',
+  CustomCommand: 'CustomCommand',
+  Moderation: 'Moderation'
 };
 
 /**

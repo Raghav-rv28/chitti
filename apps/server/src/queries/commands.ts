@@ -1,4 +1,4 @@
-import { prisma } from "@repo/database";
+import { prisma, StreamLogs } from "@repo/database";
 //TODO: change static values cooldown and requiredUserLevel
 export const createCommand = async (
   userId: string,
@@ -20,15 +20,15 @@ export const createCommand = async (
   });
 };
 
-export const getCommands = async (userId: string, command: string) => {
-  return await prisma.customCommand.findUnique({
+export const getCommand = async (userId: string, command: string) => {
+  return await prisma.customCommand.findFirst({
     where: { trigger: `!${command}`, userId },
   });
 };
 
 export const deleteCommand = async (userId: string, trigger: string) => {
-  const command = await prisma.customCommand.findUnique({
-    where: { trigger: trigger.toLowerCase() },
+  const command = await prisma.customCommand.findFirst({
+    where: { trigger: trigger.toLowerCase(), userId },
   });
 
   if (!command) {
@@ -40,7 +40,7 @@ export const deleteCommand = async (userId: string, trigger: string) => {
   }
 
   await prisma.customCommand.delete({
-    where: { trigger: trigger.toLowerCase(), userId },
+    where: { trigger: trigger.toLowerCase(), userId, id: command.id },
   });
 
   return "Command deleted successfully.";
@@ -51,8 +51,8 @@ export const updateCommand = async (
   trigger: string,
   newResponse: string,
 ) => {
-  const command = await prisma.customCommand.findUnique({
-    where: { trigger: trigger.toLowerCase() },
+  const command = await prisma.customCommand.findFirst({
+    where: { trigger: trigger.toLowerCase(), userId },
   });
 
   if (!command) {
@@ -64,7 +64,7 @@ export const updateCommand = async (
   }
 
   await prisma.customCommand.update({
-    where: { trigger: trigger.toLowerCase(), userId },
+    where: { trigger: trigger.toLowerCase(), userId, id: command.id },
     data: { response: newResponse },
   });
 
@@ -107,7 +107,7 @@ export async function getStreamLogs(
   messageId: string,
   channelId: string,
   broadcastId: string,
-) {
+): Promise<StreamLogs[]> {
   return await prisma.streamLogs.findMany({
     where: {
       messageId,

@@ -30,7 +30,7 @@ describe('Commands Module', () => {
   // Mock active streamers data
   const mockActiveStreamers = {
     'channel-123': {
-      liveChatId: 'live-chat-123',
+      broadcastId: 'live-chat-123',
       oauthClient: { credentials: { access_token: 'mock-token' } },
       nextPage: '',
       moderationSettings: {}
@@ -90,7 +90,7 @@ describe('Commands Module', () => {
       // Verify API was called with correct parameters
       expect(mockLiveChatModeratorsList).toHaveBeenCalledWith({
         auth: expect.anything(),
-        liveChatId: 'live-chat-123',
+        broadcastId: 'live-chat-123',
         part: ['snippet']
       });
       

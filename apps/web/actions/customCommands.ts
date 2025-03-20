@@ -22,7 +22,7 @@ export const createCustomCommand = async (
 };
 
 export const getCustomCommands = async (userId: string, command: string) => {
-  return await prisma.customCommand.findUnique({
+  return await prisma.customCommand.findFirst({
     where: { trigger: `!${command}`, userId },
   });
 };
@@ -32,8 +32,8 @@ export const getCommands = async (userId: string) => {
 };
 
 export const deleteCustomCommand = async (userId: string, trigger: string) => {
-  const command = await prisma.customCommand.findUnique({
-    where: { trigger: trigger.toLowerCase() },
+  const command = await prisma.customCommand.findFirst({
+    where: { trigger: trigger.toLowerCase(), userId },
   });
 
   if (!command) {
@@ -45,7 +45,7 @@ export const deleteCustomCommand = async (userId: string, trigger: string) => {
   }
 
   await prisma.customCommand.delete({
-    where: { trigger: trigger.toLowerCase(), userId },
+    where: { trigger: trigger.toLowerCase(), userId, id: command.id },
   });
 
   return "Command deleted successfully.";
@@ -56,7 +56,7 @@ export const updateCustomCommand = async (
   trigger: string,
   newResponse: string,
 ) => {
-  const command = await prisma.customCommand.findUnique({
+  const command = await prisma.customCommand.findFirst({
     where: { trigger: trigger.toLowerCase() },
   });
 
@@ -69,14 +69,17 @@ export const updateCustomCommand = async (
   }
 
   await prisma.customCommand.update({
-    where: { trigger: trigger.toLowerCase(), userId },
+    where: { trigger: trigger.toLowerCase(), userId, id: command.id },
     data: { response: newResponse },
   });
 
   return "Command updated successfully.";
 };
 
-export const saveNewCommand = async (command: CommandReturned, userId: string) => {
+export const saveNewCommand = async (
+  command: CommandReturned,
+  userId: string,
+) => {
   return await prisma.customCommand.create({
     data: {
       trigger: command.trigger,

@@ -8,98 +8,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model StreamLogs {
-  id             String     @id @default(uuid())
-  messageDetails Json       @default("{}")
-  broadcastId    String
-  channelId      String
-  eventType      ChatEvents
-  messageId      String
-  eventDetails   Json?      @default("{}")
-  createdAt      DateTime   @default(now())
-  StreamChat     StreamChat @relation(fields: [broadcastId], references: [id])
-  User           User       @relation(fields: [channelId], references: [id])
-  Chat           Chat       @relation(fields: [messageId], references: [id])
-}
-
-enum ChatEvents {
-  command
-  timeout
-}
-
-model Chat {
-  id          String       @id
-  userId      String
-  viewerId    String?
-  chatType    String
-  message     String
-  timestamp   DateTime     @default(now())
-  broadcastId String       @default("")
-  username    String
-  StreamChat  StreamChat   @relation(fields: [broadcastId], references: [id])
-  User        User         @relation(fields: [userId], references: [id])
-  Viewer      Viewer?      @relation(fields: [viewerId], references: [viewerId])
-  StreamLogs  StreamLogs[]
-}
-
-model CustomCommand {
-  id                String   @id @default(uuid())
-  userId            String
-  trigger           String   @unique
-  response          String
-  description       String   @default("some description")
-  enabled           Boolean  @default(true)
-  createdAt         DateTime @default(now())
-  cooldown          Int      @default(0)
-  requiredUserLevel Role
-  User              User     @relation(fields: [userId], references: [id])
-}
-
-model StreamChat {
-  id             String       @id
-  userId         String
-  title          String?
-  streamUrl      String?
-  liveChatId     String       @default("")
-  contentDetails Json         @default("{}")
-  description    String       @default("")
-  startTime      DateTime
-  endTime        DateTime?
-  duration       Int?
-  totalDonations Float?       @default(0)
-  totalViews     Int?         @default(0)
-  Chat           Chat[]
-  User           User         @relation(fields: [userId], references: [id])
-  Viewer         Viewer[]
-  StreamLogs     StreamLogs[]
-}
-
+// User represents a streamer/channel owner
 model User {
-  id            String          @id @unique
-  email         String?         @unique
-  createdAt     DateTime        @default(now())
-  settings      Json?
-  statistics    Json            @default("{}")
-  username      String?         @unique
-  Chat          Chat[]
-  CustomCommand CustomCommand[]
-  StreamChat    StreamChat[]
-  UserSecurity  UserSecurity?
-  Viewer        Viewer[]
-  Moderation    Moderation[]
-  StreamLogs    StreamLogs[]
+  id         String   @id @unique
+  email      String?  @unique
+  username   String?  @unique
+  createdAt  DateTime @default(now())
+  settings   Json?
+  statistics Json     @default("{}")
+
+  // Relations
+  security       UserSecurity?
+  streams        StreamChat[]
+  chats          Chat[] // Messages sent by this user
+  commands       CustomCommand[]
+  moderation     Moderation?
+  viewerProfiles Viewer[] // Viewer profiles in other channels
+  streamLogs     StreamLogs[] // Logs where this user is the channel owner
 }
 
-model Moderation {
-  id         String @id @default(uuid())
-  userId     String
-  general    Json?
-  spamConfig Json?
-  links      Json?
-  blacklist  Json?
-  User       User   @relation(fields: [userId], references: [id])
-}
-
+// Auth and security information for a user
 model UserSecurity {
   userId       String    @id @unique
   accessToken  String?
@@ -107,27 +35,145 @@ model UserSecurity {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime?
   expiresAt    DateTime?
-  User         User      @relation(fields: [userId], references: [id])
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
 }
 
-model Viewer {
-  id               String
-  viewerId         String     @id @default(uuid())
-  userChannelId    String
-  username         String
-  hoursWatched     Float?
-  points           Int        @default(0)
-  banned           Boolean    @default(false)
-  bannedTimePeriod Int        @default(0)
-  createdAt        DateTime   @default(now())
-  streakDays       Int        @default(0)
-  streamChatId     String
-  totalMessages    Int        @default(0)
-  Chat             Chat[]
-  StreamChat       StreamChat @relation(fields: [streamChatId], references: [id])
-  User             User       @relation(fields: [userChannelId], references: [id])
+// A stream session
+model StreamChat {
+  id             String    @id
+  title          String?
+  streamUrl      String?
+  liveChatId     String    @default("")
+  contentDetails Json      @default("{}")
+  description    String    @default("")
+  startTime      DateTime
+  endTime        DateTime?
+  duration       Int?
+  totalDonations Float?    @default(0)
+  totalViews     Int?      @default(0)
 
-  @@unique([id, viewerId, userChannelId, streamChatId])
+  // Relations - Which user owns this stream
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Stream related data
+  messages   Chat[]
+  viewers    Viewer[]
+  streamLogs StreamLogs[]
+}
+
+// Chat message in a stream
+model Chat {
+  id        String   @id
+  message   String
+  timestamp DateTime @default(now())
+  chatType  String
+  username  String // Cached username for display purposes
+
+  // Relations - Who sent this message
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Which stream this message belongs to
+  broadcastId String
+  streamChat  StreamChat @relation(fields: [broadcastId], references: [id])
+
+  // If sent by a viewer, link to their viewer profile
+  viewerId String?
+  viewer   Viewer? @relation(fields: [viewerId], references: [viewerId])
+
+  // Logs referencing this message
+  streamLogs StreamLogs[]
+}
+
+// Viewer profile for a specific user in a specific channel
+model Viewer {
+  viewerId         String   @id @default(uuid())
+  username         String // The display name in this channel
+  points           Int      @default(0)
+  hoursWatched     Float?   @default(0)
+  banned           Boolean  @default(false)
+  bannedTimePeriod Int      @default(0)
+  createdAt        DateTime @default(now())
+  streakDays       Int      @default(0)
+  totalMessages    Int      @default(0)
+
+  // An external ID if needed (could be from a third-party platform)
+  externalId String?
+
+  // Relations
+  // The channel this viewer profile belongs to
+  userChannelId String
+  channelOwner  User   @relation(fields: [userChannelId], references: [id])
+
+  // The stream this viewer is participating in
+  streamChatId String
+  streamChat   StreamChat @relation(fields: [streamChatId], references: [id])
+
+  // Messages sent by this viewer
+  messages Chat[]
+
+  // A viewer is unique per channel and stream
+  @@unique([userChannelId, streamChatId, username])
+}
+
+// Log entries for chat events
+model StreamLogs {
+  id             String     @id @default(uuid())
+  eventType      ChatEvents
+  messageDetails Json       @default("{}")
+  eventDetails   Json?      @default("{}")
+  createdAt      DateTime   @default(now())
+
+  // Relations - Which stream this log belongs to
+  broadcastId String
+  streamChat  StreamChat @relation(fields: [broadcastId], references: [id])
+
+  // Which channel/user owns this log
+  channelId    String
+  channelOwner User   @relation(fields: [channelId], references: [id])
+
+  // Which message this log refers to
+  messageId String
+  message   Chat   @relation(fields: [messageId], references: [id])
+}
+
+// Custom commands for a channel
+model CustomCommand {
+  id                String   @id @default(uuid())
+  trigger           String
+  response          String
+  description       String   @default("some description")
+  enabled           Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  cooldown          Int      @default(0)
+  requiredUserLevel Role
+
+  // Relations - Which user/channel owns this command
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, trigger])
+}
+
+// Moderation settings for a channel
+model Moderation {
+  id         String @id @default(uuid())
+  general    Json?
+  spamConfig Json?
+  links      Json?
+  blacklist  Json?
+
+  // Relations - Which user/channel these settings belong to
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+enum ChatEvents {
+  command
+  timeout
 }
 
 enum Role {

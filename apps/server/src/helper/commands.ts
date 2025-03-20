@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { getCommands, logCommandDetails } from "../queries/commands";
+import { getCommand, logCommandDetails } from "../queries/commands";
 import { timeoutUser, removeUserTimeout } from "./timeout-utils";
 import { Timeout } from "./types";
 import { getViewerByUsername } from "../queries/viewer";
@@ -9,6 +9,7 @@ const youtube = google.youtube("v3");
 
 /**
  * Check if a user is a moderator or owner of the channel
+ * TODO: add a local cache of moderation data so we dont hit youtube api so much.
  */
 export async function isModeratorOrOwner(
   channelId: string,
@@ -27,7 +28,7 @@ export async function isModeratorOrOwner(
       !activeStreamers[channelId]?.liveChatId
     ) {
       console.error(
-        "Missing OAuth client or liveChatId for channel",
+        "Missing OAuth client or broadcastId for channel",
         channelId,
       );
       return false;
@@ -129,7 +130,7 @@ export async function executeActionCommand(
         return "Please specify a username.";
       }
       const bannedUserId = (await getViewerByUsername(commandTargetUsername))
-        ?.id;
+        ?.externalId;
       if (!bannedUserId) {
         return "User not found.";
       }
@@ -163,7 +164,10 @@ export async function executeActionCommand(
       const description = args.slice().join(" ");
 
       try {
-        const stream = await getStream(activeStreamers[channelId].broadcastId);
+        const stream = await getStream(
+          activeStreamers[channelId].broadcastId,
+          channelId,
+        );
         const updatedDescription = `${stream?.description || ""}\n\n${description}`;
         await saveStream(
           channelId,
@@ -246,7 +250,7 @@ export async function handleCommands(
     }
 
     // Check user-defined commands in DB
-    const commandData = await getCommands(channelId, command);
+    const commandData = await getCommand(channelId, command);
     if (commandData?.response) {
       logCommandDetails(
         channelId,
