@@ -11,14 +11,15 @@ datasource db {
 model StreamLogs {
   id             String     @id @default(uuid())
   messageDetails Json       @default("{}")
-  viewerId       String
   broadcastId    String
   channelId      String
   eventType      ChatEvents
-  eventDetails   Json       @default("{}")
+  messageId      String
+  eventDetails   Json?      @default("{}")
+  createdAt      DateTime   @default(now())
   StreamChat     StreamChat @relation(fields: [broadcastId], references: [id])
   User           User       @relation(fields: [channelId], references: [id])
-  Viewer         Viewer     @relation(fields: [viewerId], references: [id])
+  Chat           Chat       @relation(fields: [messageId], references: [id])
 }
 
 enum ChatEvents {
@@ -27,17 +28,18 @@ enum ChatEvents {
 }
 
 model Chat {
-  id          String     @id
+  id          String       @id
   userId      String
+  viewerId    String?
   chatType    String
   message     String
-  timestamp   DateTime   @default(now())
-  broadcastId String     @default("")
-  viewerId    String?
+  timestamp   DateTime     @default(now())
+  broadcastId String       @default("")
   username    String
-  StreamChat  StreamChat @relation(fields: [broadcastId], references: [id])
-  User        User       @relation(fields: [userId], references: [id])
-  Viewer      Viewer?    @relation(fields: [viewerId], references: [id])
+  StreamChat  StreamChat   @relation(fields: [broadcastId], references: [id])
+  User        User         @relation(fields: [userId], references: [id])
+  Viewer      Viewer?      @relation(fields: [viewerId], references: [viewerId])
+  StreamLogs  StreamLogs[]
 }
 
 model CustomCommand {
@@ -109,24 +111,23 @@ model UserSecurity {
 }
 
 model Viewer {
-  id               String       @id
-  viewerId         String       @default("")
+  id               String
+  viewerId         String     @id @default(uuid())
   userChannelId    String
   username         String
   hoursWatched     Float?
-  points           Int          @default(0)
-  banned           Boolean      @default(false)
-  bannedTimePeriod Int          @default(0)
-  createdAt        DateTime     @default(now())
-  streakDays       Int          @default(0)
+  points           Int        @default(0)
+  banned           Boolean    @default(false)
+  bannedTimePeriod Int        @default(0)
+  createdAt        DateTime   @default(now())
+  streakDays       Int        @default(0)
   streamChatId     String
-  totalMessages    Int          @default(0)
+  totalMessages    Int        @default(0)
   Chat             Chat[]
-  StreamChat       StreamChat   @relation(fields: [streamChatId], references: [id])
-  User             User         @relation(fields: [userChannelId], references: [id])
-  StreamLogs       StreamLogs[]
+  StreamChat       StreamChat @relation(fields: [streamChatId], references: [id])
+  User             User       @relation(fields: [userChannelId], references: [id])
 
-  @@unique([viewerId, userChannelId, streamChatId])
+  @@unique([id, viewerId, userChannelId, streamChatId])
 }
 
 enum Role {

@@ -80,13 +80,15 @@ export async function logCommandDetails(
   hasPermission: boolean,
   args: string[],
   messageDetails: any,
+  messageId: string,
   timeoutDetails?: { durationSeconds: number; message: string } | null,
 ) {
+  console.log(messageId);
   await prisma.streamLogs.create({
     data: {
       channelId,
-      viewerId: `${viewerId}-${broadcastId}`,
       broadcastId,
+      messageId,
       messageDetails,
       eventType: "command", // Assuming you have an enum for event types
       eventDetails: {
@@ -97,6 +99,20 @@ export async function logCommandDetails(
         args,
         timeoutDetails,
       },
+    },
+  });
+}
+
+export async function getStreamLogs(
+  messageId: string,
+  channelId: string,
+  broadcastId: string,
+) {
+  return await prisma.streamLogs.findMany({
+    where: {
+      messageId,
+      channelId,
+      broadcastId,
     },
   });
 }

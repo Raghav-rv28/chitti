@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import { getOAuth2ClientForUser } from "../providers/youtube/auth";
-import { saveMessageAndPoints } from "../queries/points";
-import { saveStream, saveChatMessages } from "../queries/queries";
+import { awardPoints } from "../queries/points";
+import { saveChatMessages, saveStream } from "../queries/queries";
 import { prisma } from "@repo/database";
 import { SpamConfig, BadWordConfig, LinkConfig } from "./types";
 
@@ -193,9 +193,10 @@ async function pollLiveChats(): Promise<void> {
       const items: typeof response.data.items = response.data.items;
       console.log("polling", channelId, userDetails.liveChatId);
       if (items) {
-        items.forEach((message: any) => {
+        items.forEach(async (message: any) => {
           if (message.snippet.type === "textMessageEvent") {
-            processMessage(channelId, message, userDetails.liveChatId);
+            await processMessage(channelId, message, userDetails.liveChatId);
+            console.log("processing", message.id);
           } else {
             console.log("skipping message", message.snippet.type);
           }
@@ -341,20 +342,12 @@ async function processMessage(
   const { authorChannelId, displayMessage, type } = message.snippet;
   const { id } = message;
   const { displayName } = message.authorDetails;
-
+  console.log(authorChannelId);
+  await saveChatMessages(channelId, displayMessage, liveChatId, authorChannelId, type, displayName, id, activeStreamers[channelId].broadcastId, message.snippet.publishedAt);
   // Fast path: Check if user is in timeout (in-memory check, no DB)
   if (isUserTimedOut(channelId, authorChannelId)) {
     console.log(`Skipping message from timed out user ${displayName}`);
     deleteMessage(channelId, id);
-    saveMessageAndPoints(
-      channelId,
-      displayMessage,
-      authorChannelId,
-      type,
-      displayName,
-      id,
-      activeStreamers[channelId].broadcastId,
-    );
     return;
   }
 
@@ -372,11 +365,12 @@ async function processMessage(
         authorChannelId,
         displayName,
         displayMessage,
+        id,
         activeStreamers,
       );
 
       if (validCommand) {
-        saveMessageAndPoints(
+        awardPoints(
           channelId,
           displayMessage,
           authorChannelId,
@@ -429,7 +423,7 @@ async function processMessage(
   }
 
   // if all moderation test pass. save it
-  saveMessageAndPoints(
+  awardPoints(
     channelId,
     displayMessage,
     authorChannelId,

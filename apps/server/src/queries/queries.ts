@@ -97,7 +97,14 @@ export const saveStream = async (
   });
 };
 
-// userId: viewerId
+export const getTopViewers = async (userId: string, limit = 10) => {
+  return await prisma.viewer.findMany({
+    where: { userChannelId: userId },
+    orderBy: { points: "desc" },
+    take: limit,
+  });
+};
+
 export const saveChatMessages = async (
   channelId: string,
   message: string,
@@ -107,6 +114,7 @@ export const saveChatMessages = async (
   username: string,
   messageId: string,
   broadcastId: string,
+  timestamp: Date,
 ) => {
   return await prisma.$transaction(async (tx) => {
     const chat = await tx.chat.findUnique({
@@ -116,31 +124,25 @@ export const saveChatMessages = async (
       console.log("message already saved");
       return;
     }
-    await tx.viewer.upsert({
-      where: { id: userId, userChannelId: channelId },
-      create: {
-        id: userId,
-        userChannelId: channelId,
+//create a viewer if not exists
+const viewer = await tx.viewer.findUnique({
+  where: { id: userId, userChannelId: channelId },
+});
+if (!viewer) {
+      await tx.viewer.create({
+        data: { id: userId, userChannelId: channelId, username, streamChatId: broadcastId },
+      });
+    }
+    await tx.chat.create({
+      data: {
+        id: messageId,
+        userId: channelId,
+        broadcastId,
         username,
-        streamChatId: broadcastId,
-        totalMessages: 1,
-        points: 2,
-        streakDays: 0,
-        createdAt: new Date(),
-      },
-      update: {
-        points: { increment: 2 },
-        totalMessages: { increment: 1 },
-        streamChatId: broadcastId,
+        chatType,
+        message,
+        timestamp,
       },
     });
-  });
-};
-
-export const getTopViewers = async (userId: string, limit = 10) => {
-  return await prisma.viewer.findMany({
-    where: { userChannelId: userId },
-    orderBy: { points: "desc" },
-    take: limit,
   });
 };

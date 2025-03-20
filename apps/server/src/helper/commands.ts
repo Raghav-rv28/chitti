@@ -194,6 +194,7 @@ export async function handleCommands(
   viewerId: string,
   messagerName: string,
   displayMessage: string,
+  messageId: string,
   activeStreamers: Record<string, any>,
 ): Promise<boolean> {
   const response = false;
@@ -229,7 +230,7 @@ export async function handleCommands(
     // Log command details
 
     if (actionResponse) {
-      await logCommandDetails(
+      logCommandDetails(
         channelId,
         viewerId,
         activeStreamers[channelId].broadcastId,
@@ -238,6 +239,7 @@ export async function handleCommands(
         hasPermission,
         args,
         { messagerName },
+        messageId,
       );
       sendChatMessage(channelId, actionResponse);
       return true;
@@ -246,7 +248,7 @@ export async function handleCommands(
     // Check user-defined commands in DB
     const commandData = await getCommands(channelId, command);
     if (commandData?.response) {
-      await logCommandDetails(
+      logCommandDetails(
         channelId,
         viewerId,
         activeStreamers[channelId].broadcastId,
@@ -255,6 +257,7 @@ export async function handleCommands(
         hasPermission,
         args,
         { messagerName },
+        messageId,
       );
       sendChatMessage(channelId, commandData.response);
       return true;

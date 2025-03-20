@@ -13,7 +13,7 @@ const recentMessages = new Map<string, { timestamp: number; count: number }>();
  * @param authorId viewer Id
  * @param awardPoints boolean flag to determine if points should be awarded
  */
-export const saveMessageAndPoints = async (
+export const awardPoints = async (
   userId: string,
   message: string,
   authorId: string,
@@ -81,58 +81,17 @@ export const saveMessageAndPoints = async (
       }
     }
 
-    // Check if the viewer exists before upserting
-    const existingViewer = await tx.viewer.findUnique({
+    await tx.viewer.update({
       where: {
-        id: `${authorId}-${broadcastId}`,
+        id: authorId,
         userChannelId: userId,
-        viewerId: authorId,
         streamChatId: broadcastId,
       },
-    });
-
-    if (existingViewer) {
-      // Update existing viewer
-      await tx.viewer.update({
-        where: {
-          id: `${authorId}-${broadcastId}`,
-          viewerId: authorId,
-          userChannelId: userId,
-          streamChatId: broadcastId,
-        },
-        data: {
-          totalMessages: { increment: 1 },
-          points: { increment: totalPoints },
-          username,
-          streamChatId: broadcastId,
-        },
-      });
-    } else {
-      // Create new viewer
-      await tx.viewer.create({
-        data: {
-          id: `${authorId}-${broadcastId}`,
-          viewerId: authorId,
-          userChannelId: userId,
-          username,
-          streamChatId: broadcastId,
-          totalMessages: 1,
-          points: totalPoints,
-          streakDays: 0,
-          createdAt: new Date(),
-        },
-      });
-    }
-
-    await tx.chat.create({
       data: {
-        id: messageId,
-        userId: userId,
-        viewerId: `${authorId}-${broadcastId}`,
-        message,
-        broadcastId,
+        totalMessages: { increment: 1 },
+        points: { increment: totalPoints },
         username,
-        chatType,
+        streamChatId: broadcastId,
       },
     });
   });

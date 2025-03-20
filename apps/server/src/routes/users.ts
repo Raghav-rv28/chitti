@@ -163,26 +163,23 @@ router.get("/get-summary/:channelId", async (req: Request, res: Response) => {
   }
 });
 
-router.get(
-  "/top-commands/:channelId",
-  async (req: Request, res: Response) => {
-    const { channelId } = req.params;
-    try{
-      const data = await getUserTopCommands(channelId);
-      res.status(200).json({
-        success: true,
-        data: data,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        success: false,
-        message: "Failed to load top commands",
-        error: error instanceof Error ? error.message : "Unknown error",
-      });
-    }
-  },
-);
+router.get("/top-commands/:channelId", async (req: Request, res: Response) => {
+  const { channelId } = req.params;
+  try {
+    const data = await getUserTopCommands(channelId);
+    res.status(200).json({
+      success: true,
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to load top commands",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
 
 router.get("/top-viewers/:channelId", async (req: Request, res: Response) => {
   const { channelId } = req.params;

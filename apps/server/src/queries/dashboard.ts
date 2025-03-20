@@ -40,6 +40,6 @@ export const getTopViewers = async (userId: string) => {
     }
     return acc;
   }, {});
-  
+
   return viewerCount;
 };

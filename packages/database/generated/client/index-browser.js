@@ -120,21 +120,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.StreamLogsScalarFieldEnum = {
   id: 'id',
   messageDetails: 'messageDetails',
-  viewerId: 'viewerId',
   broadcastId: 'broadcastId',
   channelId: 'channelId',
   eventType: 'eventType',
-  eventDetails: 'eventDetails'
+  messageId: 'messageId',
+  eventDetails: 'eventDetails',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ChatScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  viewerId: 'viewerId',
   chatType: 'chatType',
   message: 'message',
   timestamp: 'timestamp',
   broadcastId: 'broadcastId',
-  viewerId: 'viewerId',
   username: 'username'
 };
 
